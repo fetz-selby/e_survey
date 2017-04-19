@@ -3,9 +3,13 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     multer = require('multer'),
     session = require('express-session'),
-    port = process.env.PORT || 8000;
+    port = process.env.PORT || 8001;
 
-var app = express();
+var app = express(),
+
+    //Define Mongo Instance
+    pool = {};
+
 //var smsDispatcher = require('./service/sms_gateway');
 
 //Instantiating all routes
