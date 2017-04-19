@@ -1,0 +1,20 @@
+{
+  "name": "eSurvey Web",
+  "authors": [
+    "fetz-selby <fetz.selby@gmail.com>"
+  ],
+  "description": "Household stats frontend",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.9.1"
+  }
+}
