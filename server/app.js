@@ -51,39 +51,13 @@ app.use(function (req, res, next) {
     next()
 });
 
-//Middleware to check for user validity
-// app.use('/eghana/esurvey/api/*', function(req, res, next){
-    
-//     if(req.query.email && req.query.password){
-        
-//     sql().query('select id,level from users where email=? and password=?',
-//               [req.query.email, require('./service/utils').getHash(req.query.email+req.query.password)], 
-//               function (error, results) {
-//                 if (error) {
-//                     console.error('error connecting: ' + err.stack);
-//                     return;
-//                 }
 
-//                 if(results.length === 1 && results[0].id > 0){
-//                         req.query.level = results[0].level;
-//                         req.query.userId = results[0].id;
-//                         next();  
-//                     }else{
-//                         res.status(200).json([]);
-//                 }
-//     });
-        
-        
-//     }else{
-//         res.status(400).send('Please provide correct email and password');
-//     }
-// })
 
-app.use('/eghana/esurvey/api/agents/', agentsRoute.router);
-app.use('/eghana/esurvey/api/regions/', regionsRoute.router);
-app.use('/eghana/esurvey/api/districts/', districtsRoute.router);
-app.use('/eghana/esurvey/api/users/', usersRoute.router);
-app.use('/eghana/esurvey/api/people/', peopleRoute.router);
+app.use('/eghana/esurvey/api/agents', agentsRoute.router);
+app.use('/eghana/esurvey/api/regions', regionsRoute.router);
+app.use('/eghana/esurvey/api/districts', districtsRoute.router);
+app.use('/eghana/esurvey/api/users', usersRoute.router);
+app.use('/eghana/esurvey/api/people', peopleRoute.router);
 
 //app.use('/api/esoko/sessions', sessionRoute.router);
 
