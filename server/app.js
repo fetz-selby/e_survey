@@ -3,14 +3,27 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     multer = require('multer'),
     session = require('express-session'),
-    port = process.env.PORT || 8001;
+    port = process.env.PORT || 8001,
+    mongoose = require('mongoose'),
+    modelInitializer = require('./services/model_service'),
+    dbConfig = require('./config');
+
+
 
 var app = express(),
 
     //Define Mongo Instance
     pool = {};
 
-//var smsDispatcher = require('./service/sms_gateway');
+
+
+//Init DB instance
+mongoose.connect('mongodb://'+dbConfig.config.db_instance);
+
+//Init Schema Models
+modelInitializer.initModels();
+
+
 
 //Instantiating all routes
 var agentsRoute = require('./routes/agents_router')(pool),
