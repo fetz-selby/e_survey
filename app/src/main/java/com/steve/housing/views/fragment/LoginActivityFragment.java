@@ -1,4 +1,4 @@
-package com.steve.housing.views.activities;
+package com.steve.housing.views.fragment;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,14 +11,14 @@ import com.steve.housing.R;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class SignupActivityFragment extends Fragment {
+public class LoginActivityFragment extends Fragment {
 
-    public SignupActivityFragment() {
+    public LoginActivityFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_signup, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
 }
