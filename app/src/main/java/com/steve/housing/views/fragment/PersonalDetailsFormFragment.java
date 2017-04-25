@@ -13,31 +13,28 @@ import com.steve.housing.R;
 
 
 public class PersonalDetailsFormFragment extends Fragment {
-    // Store instance variables
-    private String title;
-    private int page;
+
     private OnFragmentInteractionListener mListener;
 
     public PersonalDetailsFormFragment() {
         // Required empty public constructor
     }
 
+    public static final String ARG_PAGE = "ARG_PAGE";
 
-    public static PersonalDetailsFormFragment newInstance(String title, int page) {
-        PersonalDetailsFormFragment fragment = new PersonalDetailsFormFragment();
+    private int mPage;
+
+    public static PersonalDetailsFormFragment newInstance(int page) {
         Bundle args = new Bundle();
-        args.putInt("someInt", page);
-        args.putString("someTitle", title);
+        args.putInt(ARG_PAGE, page);
+        PersonalDetailsFormFragment fragment = new PersonalDetailsFormFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        page = getArguments().getInt("someInt", 0);
-        title = getArguments().getString("someTitle");
-
+        mPage = getArguments().getInt(ARG_PAGE);
 
     }
 
@@ -47,22 +44,22 @@ public class PersonalDetailsFormFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_personal_details_form, container, false);
         TextView tvLabel = (TextView) view.findViewById(R.id.title);
-        tvLabel.setText(page + " -- " + title);
+        tvLabel.setText("Fragment #" + mPage);
         return view;
 
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+////        if (context instanceof OnFragmentInteractionListener) {
+////            mListener = (OnFragmentInteractionListener) context;
+////        } else {
+////            throw new RuntimeException(context.toString()
+////                    + " must implement OnFragmentInteractionListener");
+////        }
+//    }
 
     @Override
     public void onDetach() {
