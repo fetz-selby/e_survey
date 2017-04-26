@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.steve.housing.views.fragment.IdentificationCardFragment;
 import com.steve.housing.views.fragment.PersonalDetailsFormFragment;
 
 /**
@@ -21,12 +22,26 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return PAGE_COUNT;
+        return tabTitles.length;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return PersonalDetailsFormFragment.newInstance(position + 1);
+        switch (position) {
+            case 0:
+                return new PersonalDetailsFormFragment();
+            case 1:
+                return new IdentificationCardFragment();
+            case 2:
+                return new PersonalDetailsFormFragment();
+            case 3:
+                return new PersonalDetailsFormFragment();
+            case 4:
+                return new PersonalDetailsFormFragment();
+
+        }
+        return null;
+//        return PersonalDetailsFormFragment.newInstance(position + 1);
     }
 
     @Override
