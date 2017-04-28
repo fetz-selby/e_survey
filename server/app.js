@@ -6,6 +6,9 @@ var express = require('express'),
     port = process.env.PORT || 8001,
     mongoose = require('mongoose'),
     modelInitializer = require('./services/model_service'),
+    districtService = require('./services/district_service'),
+    logger = require('morgan'),
+    expressValidator = require('express-validator'),
     dbConfig = require('./config');
 
 
@@ -14,23 +17,23 @@ var app = express(),
 
     //Define Mongo Instance
     pool = {};
-
-
-
+mongoose.Promise = global.Promise;
 //Init DB instance
 mongoose.connect('mongodb://'+dbConfig.config.db_instance);
 
 //Init Schema Models
 modelInitializer.initModels();
 
-
+//uncomment to reload district to db
+// districtService.loadDistricts();
 
 //Instantiating all routes
-var agentsRoute = require('./routes/agents_router')(pool),
-    regionsRoute = require('./routes/regions_router')(pool),
-    districtsRoute = require('./routes/districts_router')(pool),
-    usersRoute = require('./routes/users_router')(pool),
-    peopleRoute = require('./routes/people_router')(pool);
+var agentsRoute     = require('./routes/agents_router')(pool),
+    regionsRoute    = require('./routes/regions_router')(pool),
+    districtsRoute  = require('./routes/districts_router')(pool),
+    usersRoute      = require('./routes/users_router')(pool),
+    peopleRoute     = require('./routes/people_router')(pool);
+    authRoute       = require('./routes/auth_router')(pool);
 
   
 
@@ -40,6 +43,7 @@ var agentsRoute = require('./routes/agents_router')(pool),
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
+app.use(expressValidator([]));
 app.use(session({resave:true, saveUninitialized: true, 
                 secret: 'thequickbrownfoxjumpedoverthelazydogs',
                 cookieName: 'session',
@@ -56,23 +60,25 @@ app.use(function(req, res, next) {
   next();
 });
 
+//logging
+app.use(logger('dev'));
+
 //Disable cache
 app.use(function (req, res, next) {
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     res.header('Expires', '-1');
     res.header('Pragma', 'no-cache');
-    next()
+    next();
 });
 
 
 
+app.use('/eghana/esurvey/api/auth', authRoute.router);
 app.use('/eghana/esurvey/api/agents', agentsRoute.router);
 app.use('/eghana/esurvey/api/regions', regionsRoute.router);
 app.use('/eghana/esurvey/api/districts', districtsRoute.router);
 app.use('/eghana/esurvey/api/users', usersRoute.router);
 app.use('/eghana/esurvey/api/people', peopleRoute.router);
-
-//app.use('/api/esoko/sessions', sessionRoute.router);
 
 app.get('/eghana', function(req, res){
     res.status(200).send('Please check API documentation');
