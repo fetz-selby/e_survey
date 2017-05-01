@@ -150,4 +150,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="other_name_hint">Other name</string>
+    <string name="dob_hint">Date of birth</string>
+    <string name="picture_title">Owner Photo</string>
+    <string name="choose">Choose</string>
+    <string name="phone_number">Phone number</string>
+    <string name="postal_address_hint">Postal address</string>
+    <string name="district_hint">District</string>
+
+    <string name="what3word_api_key">INYQYMPC</string>
 </resources>

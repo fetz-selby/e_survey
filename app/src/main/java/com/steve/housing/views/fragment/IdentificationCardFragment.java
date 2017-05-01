@@ -3,35 +3,23 @@ package com.steve.housing.views.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.frosquivel.magicalcamera.MagicalCamera;
 import com.frosquivel.magicalcamera.MagicalPermissions;
-import com.frosquivel.magicalcamera.Utilities.ConvertSimpleImage;
-import com.frosquivel.magicalcamera.Utilities.Utils;
-import com.github.clans.fab.FloatingActionMenu;
-import com.google.android.gms.vision.face.Landmark;
 import com.steve.housing.R;
 import com.steve.housing.utils.CameraUtils;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,11 +44,11 @@ public class IdentificationCardFragment extends Fragment {
     //button for go to fragment
 //    private Button btnGoTo;
 //    private TextView texttitle;
-    private Spinner idTypeSpinner ;
+    private Spinner idTypeSpinner;
 
 //    private FloatingActionMenu floatingBtnMenu;
 
-//    private FrameLayout frame;
+    //    private FrameLayout frame;
     private View principalLayout;
 
 //    //button for realized the facial recognition of your picture
@@ -397,7 +385,7 @@ public class IdentificationCardFragment extends Fragment {
         saveImage.setVisibility(View.GONE);
 //        btnGoTo.setText(getString(R.string.go_to_activity));
 //        texttitle.setText(getString(R.string.title_fragment));
-        idTypeSpinner = (Spinner)rootView.findViewById(R.id.spinnerIdType);
+        idTypeSpinner = (Spinner) rootView.findViewById(R.id.spinnerIdType);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.id_type, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears

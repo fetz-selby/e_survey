@@ -12,6 +12,8 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.steve.housing.R;
 import com.steve.housing.views.adapters.CustomFragmentPagerAdapter;
 
+import static com.steve.housing.R.styleable.View;
+
 public class ViewPagerActivity extends AppCompatActivity {
 
 
@@ -39,6 +41,22 @@ public class ViewPagerActivity extends AppCompatActivity {
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(viewPager);
+        tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
 
     }

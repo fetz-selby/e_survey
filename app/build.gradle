@@ -32,6 +32,7 @@ dependencies {
         transitive = false;
     }
 
+
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.1'
@@ -41,7 +42,12 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
     compile 'com.afollestad.material-dialogs:commons:0.8.6.1'
     compile 'com.github.clans:fab:1.6.4'
-    compile 'com.google.android.gms:play-services-vision:9.4.0+'
-
+    compile 'com.google.android.gms:play-services-vision:10.2.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile ('com.lamudi.phonefield:phone-field:0.1.3@aar') {
+        transitive = true
+    }
+    compile 'com.github.mukeshsolanki:country-picker-android:1.1.9'
+    compile 'net.rimoto:intlphoneinput:1.0.1'
     testCompile 'junit:junit:4.12'
 }

@@ -8,13 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.steve.housing.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class PersonalDetailsFormFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private CircleImageView imageProfile;
 
     public PersonalDetailsFormFragment() {
         // Required empty public constructor
@@ -43,8 +48,32 @@ public class PersonalDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_personal_details_form, container, false);
-        TextView tvLabel = (TextView) view.findViewById(R.id.title);
-        tvLabel.setText("Fragment #" + mPage);
+//        TextView tvLabel = (TextView) view.findViewById(R.id.title);
+//        tvLabel.setText("Fragment #" + mPage);
+        imageProfile = (CircleImageView) view.findViewById(R.id.profile_image_owner) ;
+        imageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(getContext())
+                        .title(R.string.picture_title)
+                        .items(R.array.items_picture_menu)
+                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                /**
+                                 * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
+                                 * returning false here won't allow the newly selected radio button to actually be selected.
+                                 **/
+
+                                Toast.makeText(getContext()," "+ which,Toast.LENGTH_LONG).show();
+                                return true;
+                            }
+                        })
+
+                        .show();
+
+            }
+        });
         return view;
 
     }

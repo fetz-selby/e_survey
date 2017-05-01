@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.steve.housing.views.fragment.ContactDetailsFormFragment;
 import com.steve.housing.views.fragment.IdentificationCardFragment;
 import com.steve.housing.views.fragment.PersonalDetailsFormFragment;
 
@@ -13,7 +14,7 @@ import com.steve.housing.views.fragment.PersonalDetailsFormFragment;
 
 public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 5;
-    private String tabTitles[] = new String[] { "Personal", "Citizenship", "Contact", "Property",
+    private String tabTitles[] = new String[] { "Personal", "Identification", "Contact", "Property",
             "Property Pictures"};
 
     public CustomFragmentPagerAdapter(FragmentManager fm) {
@@ -33,7 +34,7 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new IdentificationCardFragment();
             case 2:
-                return new PersonalDetailsFormFragment();
+                return new ContactDetailsFormFragment();
             case 3:
                 return new PersonalDetailsFormFragment();
             case 4:
