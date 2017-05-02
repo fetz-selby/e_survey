@@ -57,7 +57,8 @@ var peopleSchema = new Schema({
 	people 			: { type: }
 	createdBy 		: String,
 	createdDate 	: { type: Date, default: Date.now },
-	modifiedDate	: { type: Date, default: Date.now }
+	modifiedDate	: { type: Date, default: Date.now },
+	status 			: String
 });
 
 module.exports = mongoose.model('People', peopleSchema);

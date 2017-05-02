@@ -1,7 +1,11 @@
 var express = require('express'),
     event = require('events').EventEmitter;
 
-var routes = function(sql){
+var routes = function(model){
+
+    //Region Model Instance
+    var regions = model.region();
+
     var regionsRouter = express.Router(),
         EventEmitter = new event();
 
@@ -9,6 +13,10 @@ var routes = function(sql){
     regionsRouter.route('/')
                 .get(function(req, res){  
                   //Return all regions
+                   regions.find(function (err, regions) {
+                      if (err) return console.error(err);
+                        res.status(200).json(regions);
+                    })
 
                 });   
 

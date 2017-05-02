@@ -22,7 +22,8 @@ var userSchema = new Schema({
     	picture		: String
     }],
     createdDate		: { type: Date, default: Date.now },
-    modifiedDate	: { type: Date, default: Date.now }
+    modifiedDate	: { type: Date, default: Date.now },
+    status          : String
 });
 
 // methods ======================

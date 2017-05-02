@@ -1,7 +1,12 @@
 var express = require('express'),
     event = require('events').EventEmitter;
 
-var routes = function(sql){
+var routes = function(model){
+
+    //District Model Instance
+    var districts = model.district();
+
+
     var districtsRouter = express.Router(),
         EventEmitter = new event();
 
@@ -9,6 +14,10 @@ var routes = function(sql){
     districtsRouter.route('/')
                 .get(function(req, res){  
                   //Return all districts
+                    districts.find(function (err, districts) {
+                      if (err) return console.error(err);
+                        res.status(200).json(districts);
+                    })
 
                 });   
 

@@ -13,4 +13,4 @@ var agentSchema = new Schema({
   status : String
 });
 
-module.exports = {model : agentSchema};
+module.exports = mongoose.model('Agent', agentSchema);

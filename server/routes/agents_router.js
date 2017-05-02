@@ -1,8 +1,12 @@
 var express = require('express'),
-    event = require('events').EventEmitter,
-    User = require('../models/user');
+    event = require('events').EventEmitter;
+    
+    var routes = function(model) {
 
-    var routes = function() {
+        //Agent Model Instance
+        var agents = model.agent();
+
+
         var agentsRouter = express.Router(),
             EventEmitter = new event();
 
@@ -10,36 +14,33 @@ var express = require('express'),
         agentsRouter.route('/')
             .get(function(req, res) {
                 //Return all Agents
-                User.find({ type: 'agent' })
-                    .then(function(agents) {
-                        res.json({agents: agents});
-                    })
-                    .catch(function (err) {
-                        res.send(err)
-                    })
+                agents.find(function (err, agents) {
+                    if (err) return console.error(err);
+                        res.status(200).json(agents);
+                })
             });
 
         agentsRouter.route('/:id')
             .get(function(req, res) {
                 //Return a specific agent
-                User.findOne({_id: req.params.id})
+                agents.findOne({_id: req.params.id})
                     .then(function(agent) {
-                        res.json({agent: agent});
+                        res.status(200).json({agent: agent});
                     })
                     .catch(function (err) {
-                       res.send(err)
+                       res.status(400).send(err)
                     })
             });
 
         agentsRouter.route('/email/:email')
             .get(function(req, res) {
                 var email = req.params.email;
-                User.findOne({email: req.email})
+                agents.findOne({email: req.email})
                     .then(function(agent) {
-                        res.json({agent: agent});
+                        res.status(200).json({agent: agent});
                     })
                     .catch(function (err) {
-                       res.send(err)
+                       res.status(400).send(err)
                     })
             });
 

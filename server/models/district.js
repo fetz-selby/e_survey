@@ -7,7 +7,7 @@ var districtSchema = new Schema({
     type: String,
     createdDate: { type: Date, default: Date.now },
     modifiedDate: { type: Date, default: Date.now },
-
+    status : String
 });
 
 
