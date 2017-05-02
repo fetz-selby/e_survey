@@ -1,25 +1,53 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'com.android.application'
 
-buildscript {
-    repositories {
-        jcenter()
-
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.steve.housing"
+        minSdkVersion 17
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
-        maven { url "https://jitpack.io" }
-    }
-}
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+//dependencies
+
+
+    compile('com.frosquivel:magicalcamera:5.0.5@aar') {
+        transitive = false;
+    }
+
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.afollestad.material-dialogs:core:0.9.4.4'
+    compile 'com.afollestad.material-dialogs:commons:0.8.6.1'
+    compile 'com.github.clans:fab:1.6.4'
+    compile 'com.google.android.gms:play-services-vision:10.2.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile ('com.lamudi.phonefield:phone-field:0.1.3@aar') {
+        transitive = true
+    }
+    compile 'com.github.mukeshsolanki:country-picker-android:1.1.9'
+    compile 'net.rimoto:intlphoneinput:1.0.1'
+    testCompile 'junit:junit:4.12'
 }
