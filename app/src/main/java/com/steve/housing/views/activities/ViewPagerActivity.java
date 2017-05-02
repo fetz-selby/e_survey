@@ -9,8 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.Crashlytics;
 import com.steve.housing.R;
 import com.steve.housing.views.adapters.CustomFragmentPagerAdapter;
+
+import io.fabric.sdk.android.Fabric;
 
 import static com.steve.housing.R.styleable.View;
 
@@ -20,6 +24,7 @@ public class ViewPagerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_view_pager);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
