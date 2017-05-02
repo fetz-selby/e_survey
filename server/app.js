@@ -15,8 +15,8 @@ var express = require('express'),
 
 var app = express(),
 
-    //Define Mongo Instance
-    pool = {};
+//Define Mongo Instance
+pool = {};
 mongoose.Promise = global.Promise;
 //Init DB instance
 mongoose.connect('mongodb://'+dbConfig.config.db_instance);
@@ -32,7 +32,7 @@ var agentsRoute     = require('./routes/agents_router')(pool),
     regionsRoute    = require('./routes/regions_router')(pool),
     districtsRoute  = require('./routes/districts_router')(pool),
     usersRoute      = require('./routes/users_router')(pool),
-    peopleRoute     = require('./routes/people_router')(pool);
+    peopleRoute     = require('./routes/people_router')(pool),
     authRoute       = require('./routes/auth_router')(pool);
 
   

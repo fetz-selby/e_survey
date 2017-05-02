@@ -2,15 +2,22 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var agentSchema = new Schema({
-  f_name:  String,
-  l_name: String,
-  email:   String,
-  password : String,
-  msisdn : String,
-  created_by : String,
-  created_date : { type: Date},
-  modified_date: { type: Date, default: Date.now },
-  status : String
+    firstname       : String,
+    surname         : String,
+    othernames      : String,
+    phone           : String,
+    email           : String,
+    password        : String,
+    district        : { type: Schema.Types.ObjectId, ref: 'District' },
+    identification  : [{
+        type	    : String,
+        number 		: String,
+        picture		: String
+    }],
+    createdBy       : { type: Schema.Types.ObjectId, ref: 'User' },
+    createdDate     : { type: Date, default: Date.now },
+    modifiedDate    : { type: Date, default: Date.now },
+    status          : String
 });
 
-module.exports = {model : agentSchema};
+module.exports = mongoose.model('Agent', agentSchema);

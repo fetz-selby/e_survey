@@ -7,26 +7,34 @@ var routes = function(sql){
 
 
     regionsRouter.route('/')
-                .get(function(req, res){  
-                  //Return all regions
-
-                });   
+        .get(function(req, res){  
+          //Return all regions
+            Region.find({}, 'name')
+            .then(function(regions){
+                var district = doc ? doc.districts[0]: null;
+                res.json({regions: regions});
+            })
+        });   
 
     regionsRouter.route('/:id')
-                .get(function(req, res){
-                   //Return a specific region
-                             
-                });  
+        .get(function(req, res){
+           //Return a specific region
+            Region.findOne({'districts._id': req.params.id}, 'districts.$')
+            .then(function(doc){
+                var district = doc ? doc.districts[0]: null;
+                res.json({district: district});
+            })
+        });  
 
     regionsRouter.route('/')
-                .post(function(req, res){
-                             
-                }); 
+        .post(function(req, res){
+
+        }); 
 
     regionsRouter.route('/:id')
-                .delete(function(req, res){
-                             
-                }); 
+        .delete(function(req, res){
+
+        }); 
 
     
     return {router: regionsRouter, event: EventEmitter};

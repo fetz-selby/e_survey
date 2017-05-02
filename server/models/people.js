@@ -25,7 +25,7 @@ var peopleSchema = new Schema({
 	},
 	region 			: String,
 	districtType 	: String,
-	gps				:{
+	gps				: {
 		work		: {
 			lat		: String,
 			lng		: String
@@ -53,8 +53,7 @@ var peopleSchema = new Schema({
 		number		: String,
 		picture		: String
 	},
-
-	people 			: { type: }
+	
 	createdBy 		: String,
 	createdDate 	: { type: Date, default: Date.now },
 	modifiedDate	: { type: Date, default: Date.now }

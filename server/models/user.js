@@ -13,9 +13,7 @@ var userSchema = new Schema({
     phone		    : { type: String, unique: true },
     address 		: String,
     picture 		: String,
-    district 		: String,
     status			: String,
-    type 			: String, //admin | agent
     identification 	: [{
     	type		: String,
     	number 		: String,

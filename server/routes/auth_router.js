@@ -44,37 +44,7 @@ var routes = function(){
 
 	authRouter.route('/signup')
         .post(function(req, res){
-        	// validation
-        	req.checkBody('firstname', 'firstname field is required').notEmpty();
-        	req.checkBody('surname', 'surname field is required').notEmpty();
-        	req.checkBody('email', 'email field is required').notEmpty();
-			req.checkBody('phone', 'phone field is required').notEmpty();
-			req.checkBody('password', 'password field is required').notEmpty();
-			req.checkBody('district', 'district field is required').notEmpty();
-
-		    var errors = req.validationErrors();
-			if (errors) return res.status(422).json({success: false, errors: errors});
-            
-			//check if phone or email exist
-            User.findOne({$or: [{phone: req.body.phone},{email: req.body.email}]} )
-            .then(function(user){
-            	if(user) return res.json({success: false, message: 'signup failed. User already registered'});
-
-            	var newUser = new User;
-	            newUser.firstname = req.body.firstname;
-	            newUser.lastname = req.body.lastname;
-	            newUser.othernames = req.body.othernames;
-	            newUser.email = req.body.email;
-	            newUser.phone = req.body.phone;
-	            newUser.district = req.body.district;
-	            newUser.password = newUser.generateHash(req.body.password);
-	            newUser.role = 'agent';
-	            
-	            newUser.save(function(err){
-	            	if(err) return res.json({success: false, message: 'Error signing up. try again'});
-	            	return res.json({success: true, message: 'signup successful', user: newUser})
-	            });
-	        });
+        	
         });
 
     return { router: authRouter };

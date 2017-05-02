@@ -57,7 +57,7 @@ var propertySchema = new Schema({
 		city 		: String,
 		phone 		: String
 	}],
-    owner 			: [{ type: mongoose.Schema.Types.ObjectId, ref: 'People' }],
+    owners 			: [{ type: Schema.Types.ObjectId, ref: 'People' }],
 
     createdDate		: { type: Date, default: Date.now },
     modifiedDate	: { type: Date, default: Date.now }

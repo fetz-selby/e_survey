@@ -1,32 +1,35 @@
 var	fs = require('fs'),
 	JSONStream = require('JSONStream'),
 	es = require('event-stream'),
-	District = require('../models/district');
+	Region = require('../models/region');
 
 
 exports.loadDistricts = function () {
 	var file 	= __dirname+'/../data/districts.json',
 	 	stream 	= fs.createReadStream(file, {encoding: 'utf8'}),
     	parser 	= JSONStream.parse('*');
+    
+    return new Promise(function(resolve, reject){
+        stream.pipe(parser)
+        .pipe(es.mapSync(function(data) {
+            Region.findOneAndUpdate(
+                {name: data.Region},
+                {
+                    name: data.Region,
+                    '$addToSet': { 
+                        districts: {
+                            name: data.District,
+                            type: data.Type
+                        }
 
-    stream.pipe(parser)
-	.pipe(es.mapSync(function(data) {
-		//clear collection
-		// District.remove({})
-
-		District.findOne({name: data.District})
-		.then(function (district) {
-			if(!district){
-				var newDistrict = new District;
-				newDistrict.name = data.District;
-				newDistrict.region = data.Region;
-				newDistrict.type = data.Type;
-
-				newDistrict.save();
-			}
-		})
-		.catch(function (err) {
-			console.log(err)
-		})
-	}))
+                    }
+                },
+                {upsert: true},
+                function(err, result){
+                    if(err) return reject();
+                    resolve();
+                }
+            )       
+	   }))
+    });
 }
