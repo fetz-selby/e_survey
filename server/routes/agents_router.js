@@ -2,33 +2,33 @@ var express = require('express'),
     event = require('events').EventEmitter,
     Agent = require('../models/agent');
 
-    var routes = function() {
         var agentsRouter = express.Router(),
             EventEmitter = new event();
 
-
+    var routes = function(){
         agentsRouter.route('/')
             .get(function(req, res) {
                 //Return all Agents
+
                 Agent.find({})
-                    .then(function(agents) {
-                        res.json({agents: agents});
-                    })
-                    .catch(function (err) {
-                        res.send(err)
-                    })
+                .then(function(agents) {
+                    res.json({agents: agents});
+                })
+                .catch(function (err) {
+                    res.send(err)
+                })
             });
 
         agentsRouter.route('/:id')
             .get(function(req, res) {
                 //Return a specific agent
                 Agent.findOne({_id: req.params.id})
-                    .then(function(agent) {
-                        res.json({agent: agent});
-                    })
-                    .catch(function (err) {
-                       res.send(err)
-                    })
+                .then(function(agent) {
+                    res.status(200).json({agent: agent});
+                })
+                .catch(function (err) {
+                   res.status(400).send(err)
+                })
             });
 
         agentsRouter.route('/email/:email')
@@ -36,10 +36,10 @@ var express = require('express'),
                 var email = req.params.email;
                 Agent.findOne({email: email})
                     .then(function(agent) {
-                        res.json({agent: agent});
+                        res.status(200).json({agent: agent});
                     })
                     .catch(function (err) {
-                       res.send(err)
+                       res.status(400).send(err)
                     })
             });
 
@@ -103,6 +103,6 @@ var express = require('express'),
             });
 
         return { router: agentsRouter, event: EventEmitter };
-    };
+    }
 
 module.exports = routes;

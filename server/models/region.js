@@ -10,5 +10,4 @@ var regionSchema = new Schema({
 
 });
 
-
 module.exports = mongoose.model('Region', regionSchema);

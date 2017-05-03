@@ -1,20 +1,23 @@
 var express = require('express'),
     event = require('events').EventEmitter;
 
-var routes = function(sql){
+var routes = function(){
     var regionsRouter = express.Router(),
         EventEmitter = new event();
 
 
     regionsRouter.route('/')
+
         .get(function(req, res){  
           //Return all regions
             Region.find({}, 'name')
             .then(function(regions){
-                var district = doc ? doc.districts[0]: null;
                 res.json({regions: regions});
             })
         });   
+
+              
+
 
     regionsRouter.route('/:id')
         .get(function(req, res){

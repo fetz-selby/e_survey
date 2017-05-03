@@ -1,7 +1,12 @@
 var express = require('express'),
-    event = require('events').EventEmitter;
+    event = require('events').EventEmitter,
+    User = require('../models/user');
 
-var routes = function(sql){
+var routes = function(model){
+
+
+
+
     var usersRouter = express.Router(),
         EventEmitter = new event();
 
@@ -9,7 +14,10 @@ var routes = function(sql){
     usersRouter.route('/')
         .get(function(req, res){  
           //Return all users
-
+           users.find(function (err, users) {
+              if (err) return console.error(err);
+                res.status(200).json(users);
+            })
         });   
 
     usersRouter.route('/:id')

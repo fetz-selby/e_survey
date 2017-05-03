@@ -1,7 +1,12 @@
 var express = require('express'),
     event = require('events').EventEmitter;
 
-var routes = function(sql){
+var routes = function(model){
+
+
+    //People Model Instance
+    var people = model.people;
+
     var peoplesRouter = express.Router(),
         EventEmitter = new event();
 

@@ -60,7 +60,8 @@ var propertySchema = new Schema({
     owners 			: [{ type: Schema.Types.ObjectId, ref: 'People' }],
 
     createdDate		: { type: Date, default: Date.now },
-    modifiedDate	: { type: Date, default: Date.now }
+    modifiedDate	: { type: Date, default: Date.now },
+    status			: String
 });
 
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="items_picture_menu">
+        <item>Image</item>
+        <item>Take Picture</item>
+    </string-array>
+</resources>

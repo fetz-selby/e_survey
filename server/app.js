@@ -11,18 +11,17 @@ var express = require('express'),
     expressValidator = require('express-validator'),
     dbConfig = require('./config');
 
-
-
 var app = express(),
 
 //Define Mongo Instance
 pool = {};
 mongoose.Promise = global.Promise;
+
 //Init DB instance
 mongoose.connect('mongodb://'+dbConfig.config.db_instance);
 
 //Init Schema Models
-modelInitializer.initModels();
+var models = require('./services/model_service');
 
 //uncomment to reload district to db
 // districtService.loadDistricts();
@@ -35,7 +34,6 @@ var agentsRoute     = require('./routes/agents_router')(pool),
     peopleRoute     = require('./routes/people_router')(pool),
     authRoute       = require('./routes/auth_router')(pool);
 
-  
 
 //Set middlewares
 //app.use(bodyParser.urlencoded({extended: true}));
@@ -70,8 +68,6 @@ app.use(function (req, res, next) {
     res.header('Pragma', 'no-cache');
     next();
 });
-
-
 
 app.use('/eghana/esurvey/api/auth', authRoute.router);
 app.use('/eghana/esurvey/api/agents', agentsRoute.router);

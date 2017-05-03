@@ -4,6 +4,7 @@ var express = require('express'),
 	districtService = require('../services/district_service');
 	flatten = require('../services/helper_service').flatten;
 
+
 var routes = function(){
     var districtsRouter = express.Router(),
         EventEmitter = new event();
@@ -23,10 +24,10 @@ var routes = function(){
                 for(var doc of docs){
                     districts.push(doc._id);
                 }
-                res.send(districts)
+                res.json({districts: districts})
             })
             
-        });   
+        }); 
 
     districtsRouter.route('/:id')
         .get(function(req, res){
