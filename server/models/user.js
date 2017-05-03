@@ -5,20 +5,11 @@ var mongoose = require('mongoose'),
 // user & agent
 var userSchema = new Schema({
 	firstname       : { type: String, trim: true },
-    surname        	: { type: String, trim: true },
-    othernames      : { type: String, trim: true },
+    lastname        : { type: String, trim: true },
     email           : { type: String, unique: true },
-    dob 			: Date,
     password 		: String,
     phone		    : { type: String, unique: true },
-    address 		: String,
     picture 		: String,
-    status			: String,
-    identification 	: [{
-    	type		: String,
-    	number 		: String,
-    	picture		: String
-    }],
     createdDate		: { type: Date, default: Date.now },
     modifiedDate	: { type: Date, default: Date.now },
     status          : String
