@@ -106,6 +106,12 @@
         <item>Instagram</item>
     </string-array>
 
+    <string-array name="item_business_ownership_type">
+        <item>Partnership</item>
+        <item>Limited Liability Company</item>
+        <item>Corporation</item>
+        <item>Other</item>
+    </string-array>
 
 </resources>
 

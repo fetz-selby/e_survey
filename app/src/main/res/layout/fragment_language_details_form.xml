@@ -1,0 +1,37 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.steve.housing.views.fragment.LanguageDetailsFormFragment">
+
+
+    <EditText
+        android:id="@+id/editTextLanguageSpoken"
+        android:layout_width="322dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint = "Language spoken"
+        android:inputType="textMultiLine"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="48dp" />
+
+    <EditText
+        android:id="@+id/editTextLanguageWritten"
+        android:layout_width="322dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint= "Language written"
+        android:inputType="textMultiLine"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLanguageSpoken"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.503" />
+</android.support.constraint.ConstraintLayout>
