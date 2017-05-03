@@ -4,4 +4,109 @@
         <item>Image</item>
         <item>Take Picture</item>
     </string-array>
+
+    <string-array name="items_citizenship">
+        <item>By Birth</item>
+        <item>By Naturalization</item>
+        <item>Dual citizenship</item>
+    </string-array>
+
+    <string-array name="items_id_type">
+        <item>Voters ID</item>
+        <item>Driver’s License No.</item>
+        <item>SSNIT No.</item>
+        <item>NHIS No.</item>
+        <item>National ID</item>
+        <item>Passport No.</item>
+    </string-array>
+
+    <string-array name="items_employment_status">
+        <item>Employee</item>
+        <item>Self employed, without employees</item>
+        <item>Self employed, with employees</item>
+        <item>Casual worker</item>
+        <item>Apprentice</item>
+        <item>Domestic employee</item>
+        <item>Student</item>
+        <item>Unemployed</item>
+    </string-array>
+
+
+    <string-array name="items_employment_sector">
+        <item>Employment Sector</item>
+        <item>Public</item>
+        <item>Private</item>
+        <item>Private Informal</item>
+        <item>NGO</item>
+        <item>International Organisation</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="items_disabilities">
+        <item>None</item>
+        <item>Sight</item>
+        <item>Hearing</item>
+        <item>Speech</item>
+        <item>Physical body</item>
+        <item>Emotional</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="items_type_of_propperty">
+        <item>Land</item>
+        <item>House</item>
+        <item>Kiosk</item>
+        <item>Container</item>
+        <item>Separate House unit</item>
+        <item>Semi-detached</item>
+        <item>Flat/Apartment</item>
+        <item>Compound</item>
+        <item>Huts</item>
+        <item>Tent</item>
+        <item>Improvised</item>
+        <item>Living quarters attached to office</item>
+        <item>Uncompleted building</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="items_property_classification">
+        <item>Residential</item>
+        <item>Commercial</item>
+    </string-array>
+
+    <string-array name="items_source_of_electricity">
+        <item>Main</item>
+        <item>Private generator</item>
+        <item>None</item>
+    </string-array>
+
+    <string-array name="items_yes_or_no">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="item_marital_status">
+        <item>Single</item>
+        <item>Married</item>
+        <item>Divorced</item>
+        <item>Widow</item>
+        <item>Widower</item>
+    </string-array>
+
+    <string-array name="item_gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="item_social_media">
+        <item>Facebook</item>
+        <item>Whatsapp</item>
+        <item>Twitter</item>
+        <item>Linkedin</item>
+        <item>Instagram</item>
+    </string-array>
+
+
 </resources>
+
+

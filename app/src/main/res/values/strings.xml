@@ -138,14 +138,7 @@
         <item>New Ideas</item>
     </string-array>
 
-    <string-array name="id_type">
-        <item>Voters ID</item>
-        <item>Driver’s License No.</item>
-        <item>SSNIT No.</item>
-        <item>NHIS No.</item>
-        <item>National ID</item>
-        <item>Passport No.</item>
-    </string-array>
+
     <string name="title_activity_permissions">PermissionsActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -159,4 +152,5 @@
     <string name="district_hint">District</string>
 
     <string name="what3word_api_key">INYQYMPC</string>
+    <string name="error_incorrect_password">wrong password</string>
 </resources>
