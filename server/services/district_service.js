@@ -5,7 +5,7 @@ var	fs = require('fs'),
 
 
 exports.loadDistricts = function () {
-	var file 	= __dirname+'/../data/districts.json',
+	var file 	= __dirname+'/../data/districts2.json',
 	 	stream 	= fs.createReadStream(file, {encoding: 'utf8'}),
     	parser 	= JSONStream.parse('*');
     
