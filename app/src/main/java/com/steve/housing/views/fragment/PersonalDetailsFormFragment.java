@@ -1,13 +1,13 @@
 package com.steve.housing.views.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -20,6 +20,7 @@ public class PersonalDetailsFormFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private CircleImageView imageProfile;
+    private ImageButton btnAdd;
 
     public PersonalDetailsFormFragment() {
         // Required empty public constructor
@@ -36,6 +37,7 @@ public class PersonalDetailsFormFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +49,12 @@ public class PersonalDetailsFormFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_personal_details_form, container, false);
-//        TextView tvLabel = (TextView) view.findViewById(R.id.title);
-//        tvLabel.setText("Fragment #" + mPage);
-        imageProfile = (CircleImageView) view.findViewById(R.id.profile_image_owner) ;
+        final View view = inflater.inflate(R.layout.fragment_personal_details_form, container, false);
+//        final LinearLayout linearLayoutForm = (LinearLayout) view.findViewById(R.id.linearLayoutLanguage);
+//        btnAdd = (ImageButton) view.findViewById(R.id.buttonAddLanguageSpoken);
+//        addMoreLanguage(linearLayoutForm);
+
+        imageProfile = (CircleImageView) view.findViewById(R.id.profile_image_owner);
         imageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +69,7 @@ public class PersonalDetailsFormFragment extends Fragment {
                                  * returning false here won't allow the newly selected radio button to actually be selected.
                                  **/
 
-                                Toast.makeText(getContext()," "+ which,Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), " " + which, Toast.LENGTH_LONG).show();
                                 return true;
                             }
                         })
@@ -74,8 +78,30 @@ public class PersonalDetailsFormFragment extends Fragment {
 
             }
         });
+
+
         return view;
 
+    }
+
+    private void addMoreLanguage(final LinearLayout linearLayoutForm) {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final LinearLayout newView = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.row_detail, null);
+                newView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
+                btnRemove.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        linearLayoutForm.removeView(newView);
+                    }
+                });
+                linearLayoutForm.addView(newView);
+            }
+        });
     }
 
 
@@ -110,4 +136,6 @@ public class PersonalDetailsFormFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

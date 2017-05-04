@@ -155,4 +155,8 @@
     <string name="error_incorrect_password">wrong password</string>
     <string name="country_hint">Enter Country</string>
     <string name="place_of_birth_hint">Place of Birth</string>
+    <string name="language_spoken_hint">Language spoken</string>
+    <string name="language_written_hint">Language written</string>
+    <string name="btnRemove">remove</string>
+    <string name="btnAdd">Add</string>
 </resources>

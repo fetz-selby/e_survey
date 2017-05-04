@@ -75,22 +75,22 @@ public class CitizenshipDetailsFormFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_citizenship_details_form, container, false);
 
 //        get list of countries
-        Locale[] locales = Locale.getAvailableLocales();
-        ArrayList<String> countries = new ArrayList<String>();
-        for (Locale locale : locales) {
-            String country = locale.getDisplayCountry();
-            if (country.trim().length() > 0 && !countries.contains(country)) {
-                countries.add(country);
-            }
-        }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, countries);
-        // set the view for the Drop down list
-        dataAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // set the ArrayAdapter to the spinner
-        country.setAdapter(dataAdapter);
-        country.setSelection(37);
+//        Locale[] locales = Locale.getAvailableLocales();
+//        ArrayList<String> countries = new ArrayList<String>();
+//        for (Locale locale : locales) {
+//            String country = locale.getDisplayCountry();
+//            if (country.trim().length() > 0 && !countries.contains(country)) {
+//                countries.add(country);
+//            }
+//        }
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(),
+//                android.R.layout.simple_spinner_item, countries);
+//        // set the view for the Drop down list
+//        dataAdapter
+//                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        // set the ArrayAdapter to the spinner
+//        country.setAdapter(dataAdapter);
+//        country.setSelection(37);
         return view;
     }
 
@@ -100,17 +100,17 @@ public class CitizenshipDetailsFormFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+//
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
+//    }
 
     @Override
     public void onDetach() {

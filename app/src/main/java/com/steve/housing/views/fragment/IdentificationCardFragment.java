@@ -387,7 +387,7 @@ public class IdentificationCardFragment extends Fragment {
 //        texttitle.setText(getString(R.string.title_fragment));
         idTypeSpinner = (Spinner) rootView.findViewById(R.id.spinnerIdType);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.id_type, android.R.layout.simple_spinner_item);
+                R.array.items_id_type, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner

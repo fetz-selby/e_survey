@@ -1,5 +1,6 @@
 package com.steve.housing.views.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.crashlytics.android.Crashlytics;
@@ -39,7 +41,7 @@ public class ViewPagerActivity extends AppCompatActivity {
         });
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new CustomFragmentPagerAdapter(getSupportFragmentManager()));
 
         // Give the PagerSlidingTabStrip the ViewPager
@@ -59,6 +61,16 @@ public class ViewPagerActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
+                if (state == ViewPager.SCROLL_STATE_IDLE)
+                {
+                    if (viewPager.getCurrentItem() == 0)
+                    {
+                        // Hide the keyboard.
+                        ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE))
+                                .hideSoftInputFromWindow(viewPager.getWindowToken(), 0);
+                    }
+                }
 
             }
         });

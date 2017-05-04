@@ -4,8 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.steve.housing.views.fragment.CitizenshipDetailsFormFragment;
 import com.steve.housing.views.fragment.ContactDetailsFormFragment;
 import com.steve.housing.views.fragment.IdentificationCardFragment;
+import com.steve.housing.views.fragment.LanguageDetailsFormFragment;
 import com.steve.housing.views.fragment.PersonalDetailsFormFragment;
 
 /**
@@ -36,9 +38,9 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
             case 2:
                 return new ContactDetailsFormFragment();
             case 3:
-                return new PersonalDetailsFormFragment();
+                return new LanguageDetailsFormFragment();
             case 4:
-                return new PersonalDetailsFormFragment();
+                return new CitizenshipDetailsFormFragment();
 
         }
         return null;

@@ -34,7 +34,7 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="match_parent"
+            android:layout_width="333dp"
             android:layout_height="212dp"
             android:layout_gravity="center"
             android:foregroundGravity="center"
@@ -79,23 +79,21 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="353dp"
-        android:layout_height="42dp"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Enter ID "
         app:layout_constraintLeft_toLeftOf="@+id/spinnerIdType"
         app:layout_constraintRight_toRightOf="@+id/spinnerIdType"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="69dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintHorizontal_bias="0.625"
-        tools:layout_editor_absoluteY="105dp"
-        tools:layout_editor_absoluteX="20dp" />
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <Spinner
         android:id="@+id/spinnerIdType"
-        android:layout_width="352dp"
-        android:layout_height="41dp"
+        android:layout_width="324dp"
+        android:layout_height="27dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintTop_toTopOf="parent"
@@ -103,10 +101,11 @@
         android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="8dp"
-        app:layout_constraintVertical_bias="0.541"
+        app:layout_constraintVertical_bias="0.538"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="1.0" />
+        app:layout_constraintHorizontal_bias="1.0"
+        tools:layout_editor_absoluteX="52dp" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
