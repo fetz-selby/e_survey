@@ -6,8 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
 import com.steve.housing.R;
 
@@ -20,8 +24,11 @@ import com.steve.housing.R;
  * create an instance of this fragment.
  */
 public class LanguageDetailsFormFragment extends Fragment {
-    private ImageButton btnAdd;
-
+    private ImageButton btnAddLanguage;
+    private Spinner spinnerPrimaryLanguage;
+    private Spinner spinnerSecondaryLanguage;
+    private EditText editTextPrimaryLanguage;
+    private ArrayAdapter<CharSequence> adapter;
     private OnFragmentInteractionListener mListener;
     public static final String ARG_PAGE = "ARG_PAGE";
     private int mPage;
@@ -52,10 +59,16 @@ public class LanguageDetailsFormFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_language_details_form, container, false);
         // Inflate the layout for this fragment
-        final LinearLayout linearLayoutForm = (LinearLayout) view.findViewById(R.id.linearLayoutLanguage);
-        btnAdd = (ImageButton) view.findViewById(R.id.buttonAddLanguageSpoken);
-        addMoreLanguage(linearLayoutForm);
-
+        adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.items_languages, android.R.layout.simple_spinner_dropdown_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editTextPrimaryLanguage = (EditText) view.findViewById(R.id.editTextPrimaryLanguage);
+        spinnerPrimaryLanguage = (Spinner) view.findViewById(R.id.spinnerPrimaryLanguage);
+        spinnerPrimaryLanguage.setAdapter(adapter);
+        final LinearLayout linearLayoutFormLanguage = (LinearLayout) view.findViewById(R.id.linearLayoutLanguage);
+        btnAddLanguage = (ImageButton) view.findViewById(R.id.buttonAddLanguage);
+        addMoreLanguage(linearLayoutFormLanguage, btnAddLanguage);
 
         return view;
     }
@@ -99,13 +112,21 @@ public class LanguageDetailsFormFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void addMoreLanguage(final LinearLayout linearLayoutForm) {
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+    private void addMoreLanguage(final LinearLayout linearLayoutForm, ImageButton imageButton) {
+        imageButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                final LinearLayout newView = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.row_detail, null);
-                newView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                final RelativeLayout newView = (RelativeLayout) getActivity().getLayoutInflater()
+                        .inflate(R.layout.row_detail, null);
+                newView.setLayoutParams(new LinearLayout.
+                        LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                        , ViewGroup.LayoutParams.WRAP_CONTENT));
+                spinnerSecondaryLanguage = (Spinner) newView.findViewById(R.id.spinnerLanguage);
+
+                // Apply the adapter to the spinner
+                spinnerSecondaryLanguage.setAdapter(adapter);
+
                 ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
                 btnRemove.setOnClickListener(new View.OnClickListener() {
 

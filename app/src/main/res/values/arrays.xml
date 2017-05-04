@@ -85,7 +85,7 @@
         <item>No</item>
     </string-array>
 
-    <string-array name="item_marital_status">
+    <string-array name="items_marital_status">
         <item>Single</item>
         <item>Married</item>
         <item>Divorced</item>
@@ -93,12 +93,12 @@
         <item>Widower</item>
     </string-array>
 
-    <string-array name="item_gender">
+    <string-array name="items_gender">
         <item>Male</item>
         <item>Female</item>
     </string-array>
 
-    <string-array name="item_social_media">
+    <string-array name="items_social_media">
         <item>Facebook</item>
         <item>Whatsapp</item>
         <item>Twitter</item>
@@ -106,11 +106,17 @@
         <item>Instagram</item>
     </string-array>
 
-    <string-array name="item_business_ownership_type">
+    <string-array name="items_business_ownership_type">
         <item>Partnership</item>
         <item>Limited Liability Company</item>
         <item>Corporation</item>
         <item>Other</item>
+    </string-array>
+
+    <string-array name="items_languages">
+        <item>Spoken</item>
+        <item>Written</item>
+        <item>Written and Spoken</item>
     </string-array>
 
 </resources>
