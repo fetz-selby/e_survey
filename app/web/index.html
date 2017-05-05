@@ -1,7 +1,5 @@
 <!doctype html>
 <html lang="en">
-
-
 <head>
     <meta charset="utf-8" >
     <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon.png" >
@@ -13,29 +11,42 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport' >
     <meta name="viewport" content="width=device-width" >
     
-   
+    <link href="http://fast.fonts.net/cssapi/175a63a1-3f26-476a-ab32-4e21cbdb8be2.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
     <!-- Custom CSS -->
     <link href="css/custom.css" rel="stylesheet">
 
 
     <!-- Load Webcomponents -->
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
     <link href="bower_components/polymer/polymer.html" rel="import">
 
 
     <link href="elements/elements.html" rel="import">
 
+
 	<!--  Load configuration-->
     <script src="config.js"></script>
+
+    <!-- Load plugins -->
+    <script src="js/underscore.js"></script>
 
 
 </head>
 
 <body>
 
-    <div class="wrapper">
-	
-
-    </div>
+    <div class="auth-wrapper">
+        <login-element></login-element>
+    
+<!--         <welcome-page-element></welcome-page-element>
+ -->    </div>
 <!--   Core JS Files   -->
 
 </body>

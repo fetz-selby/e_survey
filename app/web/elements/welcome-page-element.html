@@ -1,0 +1,87 @@
+<link rel="import"  href="../bower_components/polymer/polymer.html">
+
+<link rel="import"  href="elements.html">
+
+<dom-module id="welcome-page-element">
+
+<link href="../css/custom.css" rel="stylesheet">
+
+
+  <template>
+    <style>
+      .heading{width: 100%; height: 70px; background: #000000; box-shadow: 0 0 5px 0; opacity: 0.9;}
+      .heading .img-style{float: right; width: 79px; height: 59px; padding: 8px 5px 0 0;}
+      .heading .logo-style{float: left; width: 100px; height: 35px; padding: 2px 0 0 0;}
+
+      .heading .title{float: left; width: 400px;}
+      .heading .title .jomboron{font-size: 30px; font-weight: 400;}
+      .heading .title .desc{font-size: 12px;}
+
+      .display{background: #006064; width: 100%; height: 50px; margin: 160px 0 0 0; padding: 5px; color: #ECECEC;}
+      .display .district-style{font-size: 15px;}
+      .display .region-style{font-size: 11px;}
+
+      .clearfix{height: 0; clear: both;}
+      footer{width: 100%; height: 50px; background: #006064;}
+      footer .reg{float: right; margin: 14px; color: #ECECEC;}
+    </style>      
+    <div class="heading">
+      <img class="img-style" src="../img/coa.png">
+      <img class="logo-style" src="../img/f.png">
+      <div class="title">
+        <div class="jomboron">aDIS</div>
+        <div class="clearfix"></div>
+        <div class="desc">advance district integration system</div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        
+        <div class="col-md-8">
+          <map-element on-tapreq="_onTabReq" on-hoverreq="_onHoverReq"></map-element>
+        </div>
+        <div class="col-md-4">
+          <div class="display">
+            <div class="district-style">{{district}}</div>
+            <div class="region-style">{{region}}</div>
+          </div>
+        </div>
+      </div>
+
+       
+    </div>
+    <footer>
+      <div class="reg">2017 | aDIS</div>
+    </footer>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'welcome-page-element',
+      ready : function(){
+        this.district = '......';
+        this.region = '...';
+      },
+      properties: {
+        // declare the owner property
+       
+      },
+      _onPassOn : function(e){
+
+      },
+      _onTabReq : function(e){
+        console.log(e.detail.event);
+        this.set('district', e.detail.event.NAME1__);
+        this.set('region', e.detail.event.NAME2__);
+      },
+      _onHoverReq : function(e){
+        console.log(e.detail.event);
+        this.set('district', e.detail.event.NAME1__);
+        this.set('region', e.detail.event.NAME2__);
+      }
+    
+    });
+  </script>
+
+</dom-module>
