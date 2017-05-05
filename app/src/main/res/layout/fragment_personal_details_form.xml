@@ -17,7 +17,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="16dp"
         android:adjustViewBounds="false"
         android:background="@android:color/transparent"
         android:contentDescription="owner picture"
@@ -29,10 +29,10 @@
 
     <EditText
         android:id="@+id/editTextFname"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editTextLname"
         android:layout_below="@+id/profile_image_owner"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="17dp"
         android:ems="10"
         android:hint="@string/first_name_hint"
@@ -40,26 +40,42 @@
 
     <EditText
         android:id="@+id/editTextLname"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editTextFname"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/last_name_hint"
         android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editTextOname"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/editTextLname"
         android:layout_below="@+id/editTextLname"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/other_name_hint"
         android:inputType="textPersonName" />
 
+    <Spinner
+        android:id="@+id/spinnerMaritalStatus"
+        android:prompt="@string/marital_status_prompt"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/editTextOname"
+        android:layout_below="@+id/editTextOname"
+        android:layout_marginTop="16dp" />
+
+    <Spinner
+        android:id="@+id/spinnerDisabilities"
+        android:prompt="@string/disabilities_status_prompt"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/spinnerMaritalStatus"
+        android:layout_alignEnd="@+id/editTextOname" />
 
 
 </RelativeLayout>

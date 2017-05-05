@@ -16,8 +16,8 @@ import com.steve.housing.views.fragment.PersonalDetailsFormFragment;
 
 public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 5;
-    private String tabTitles[] = new String[] { "Personal", "Identification", "Contact", "Property",
-            "Property Pictures"};
+    private String tabTitles[] = new String[] { "Personal", "Identification", "Contact", "Language",
+            "Citizenship"};
 
     public CustomFragmentPagerAdapter(FragmentManager fm) {
         super(fm);

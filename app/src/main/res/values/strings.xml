@@ -17,6 +17,8 @@
     <string name="information_photo">Photo/Image Information</string>
     <string name="full_image">View Full Photo/Image</string>
     <string name="rotate_picture">Rotate Photo/Image 90º</string>
+    <string name="marital_status_prompt">Marital status</string>
+    <string name="disabilities_status_prompt">Disabilities</string>
 
     <!-- titles and generals -->
     <string name="go_to_fragment">Next to fragment</string>

@@ -11,4 +11,9 @@ import com.frosquivel.magicalcamera.MagicalCamera;
 public class  Constants {
 
 
+    public static String loadingDialogMsg;
+    public static String serverAddress;
+    public static int noNetworkMsg;
+    public static final String EMPTY_STRING = "";
+    public static final String VOLLEY_GET_TAG = "VOLLEY_GET_TAG";
 }

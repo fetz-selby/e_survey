@@ -1,19 +1,20 @@
 package com.steve.housing.views.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 
 import com.steve.housing.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
 
 /**
@@ -25,15 +26,13 @@ import java.util.Locale;
  * create an instance of this fragment.
  */
 public class CitizenshipDetailsFormFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    private Spinner country;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+    public static final String ARG_PAGE = "ARG_PAGE";
+    private Spinner spinnerTypeOfCitizenship;
+    private AutoCompleteTextView autoCompleteTextViewFirstCountry;
+    private AutoCompleteTextView autoCompleteTextViewSecondCountry;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -41,20 +40,11 @@ public class CitizenshipDetailsFormFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CitizenshipDetailsFormFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CitizenshipDetailsFormFragment newInstance(String param1, String param2) {
+
+    public static CitizenshipDetailsFormFragment newInstance(int page) {
         CitizenshipDetailsFormFragment fragment = new CitizenshipDetailsFormFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PAGE, page);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,10 +52,7 @@ public class CitizenshipDetailsFormFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -73,25 +60,59 @@ public class CitizenshipDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_citizenship_details_form, container, false);
+        autoCompleteTextViewFirstCountry = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextViewFirstCountry);
+        autoCompleteTextViewSecondCountry = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextViewSecondCountry);
+        spinnerTypeOfCitizenship = (Spinner) view.findViewById(R.id.spinnerCitizenshipType);
+        ArrayList<String> countries = getCountries();
+        ArrayAdapter<String> firstCountryAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_list_item_1, countries);
+        ArrayAdapter<String> seconcCountryAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_list_item_1, countries);
+        autoCompleteTextViewFirstCountry.setAdapter(firstCountryAdapter);
+        autoCompleteTextViewFirstCountry.setThreshold(1);
+        autoCompleteTextViewSecondCountry.setAdapter(seconcCountryAdapter);
+        autoCompleteTextViewSecondCountry.setThreshold(1);
+        autoCompleteTextViewSecondCountry.setEnabled(false);
+        autoCompleteTextViewSecondCountry.setFocusable(false);
 
-//        get list of countries
-//        Locale[] locales = Locale.getAvailableLocales();
-//        ArrayList<String> countries = new ArrayList<String>();
-//        for (Locale locale : locales) {
-//            String country = locale.getDisplayCountry();
-//            if (country.trim().length() > 0 && !countries.contains(country)) {
-//                countries.add(country);
+
+
+        ArrayAdapter<CharSequence> adapterCitizenship = ArrayAdapter.createFromResource(getActivity(),
+                R.array.items_citizenship, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapterCitizenship.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinnerTypeOfCitizenship.setAdapter(adapterCitizenship);
+        String typeOfCitizenship = (String) spinnerTypeOfCitizenship.getSelectedItem();
+
+//        spinnerTypeOfCitizenship.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
 //            }
-//        }
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(),
-//                android.R.layout.simple_spinner_item, countries);
-//        // set the view for the Drop down list
-//        dataAdapter
-//                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        // set the ArrayAdapter to the spinner
-//        country.setAdapter(dataAdapter);
-//        country.setSelection(37);
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+
+
         return view;
+    }
+
+    @NonNull
+    private ArrayList<String> getCountries() {
+        //        get list of countries
+        Locale[] locales = Locale.getAvailableLocales();
+        ArrayList<String> countries = new ArrayList<String>();
+        for (Locale locale : locales) {
+            String country = locale.getDisplayCountry();
+            if (country.trim().length() > 0 && !countries.contains(country)) {
+                countries.add(country);
+            }
+        }
+        return countries;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -20,7 +22,8 @@ public class PersonalDetailsFormFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private CircleImageView imageProfile;
-    private ImageButton btnAdd;
+    private Spinner spinnerMaritalStatus;
+    private Spinner spinnerTypeOfDisabilities;
 
     public PersonalDetailsFormFragment() {
         // Required empty public constructor
@@ -50,9 +53,22 @@ public class PersonalDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_personal_details_form, container, false);
-//        final LinearLayout linearLayoutForm = (LinearLayout) view.findViewById(R.id.linearLayoutLanguage);
-//        btnAdd = (ImageButton) view.findViewById(R.id.buttonAddLanguageSpoken);
-//        addMoreLanguage(linearLayoutForm);
+        spinnerMaritalStatus = (Spinner) view.findViewById(R.id.spinnerMaritalStatus);
+        spinnerTypeOfDisabilities = (Spinner)view.findViewById(R.id.spinnerDisabilities);
+
+        ArrayAdapter<CharSequence> adapterMaritalStatus = ArrayAdapter.createFromResource(getActivity(),
+                R.array.items_marital_status, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapterMaritalStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinnerMaritalStatus.setAdapter(adapterMaritalStatus);
+
+        ArrayAdapter<CharSequence> adapterDisabilities = ArrayAdapter.createFromResource(getActivity(),
+                R.array.items_disabilities, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapterDisabilities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinnerTypeOfDisabilities.setAdapter(adapterDisabilities);
 
         imageProfile = (CircleImageView) view.findViewById(R.id.profile_image_owner);
         imageProfile.setOnClickListener(new View.OnClickListener() {
@@ -83,38 +99,6 @@ public class PersonalDetailsFormFragment extends Fragment {
         return view;
 
     }
-
-    private void addMoreLanguage(final LinearLayout linearLayoutForm) {
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                final LinearLayout newView = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.row_detail, null);
-                newView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
-                btnRemove.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        linearLayoutForm.removeView(newView);
-                    }
-                });
-                linearLayoutForm.addView(newView);
-            }
-        });
-    }
-
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-////        if (context instanceof OnFragmentInteractionListener) {
-////            mListener = (OnFragmentInteractionListener) context;
-////        } else {
-////            throw new RuntimeException(context.toString()
-////                    + " must implement OnFragmentInteractionListener");
-////        }
-//    }
 
     @Override
     public void onDetach() {
