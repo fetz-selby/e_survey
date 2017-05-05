@@ -13,9 +13,9 @@ var propertySchema = new Schema({
 	},
 	location		: {
 		gps 		: { lat: Number, lng: Number },
-		region 		: String,
+		region 		: { type: Schema.Types.ObjectId, ref: 'Region' },
 		town 		: String,
-		district	: String,
+		district	: { type: Schema.Types.ObjectId },
 		what3words	: String
 	},
 	address 		: String,

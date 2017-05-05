@@ -11,6 +11,7 @@ var express = require('express'),
                 //Return all Agents
 
                 Agent.find({})
+                .fill('region').exec()
                 .then(function(agents) {
                     res.json({agents: agents});
                 })
@@ -23,6 +24,7 @@ var express = require('express'),
             .get(function(req, res) {
                 //Return a specific agent
                 Agent.findOne({_id: req.params.id})
+                .fill('region').exec()
                 .then(function(agent) {
                     res.status(200).json({agent: agent});
                 })
@@ -35,6 +37,7 @@ var express = require('express'),
             .get(function(req, res) {
                 var email = req.params.email;
                 Agent.findOne({email: email})
+                    .fill('region').exec()
                     .then(function(agent) {
                         res.status(200).json({agent: agent});
                     })
@@ -48,11 +51,19 @@ var express = require('express'),
             .put(function(req, res) {
                 Agent.findOneAndUpdate(
                     {_id: req.params.id},
-                    { },
-                    {safe: true}
-                
+                    { $set : {
+                        firstname: req.body.firstname,
+                        surname: req.body.surname,
+                        othernames: req.body.othernames,
+                        email : req.body.email,
+                        phone: req.body.phone,
+                        district: req.body.district,
+                        modifiedDate: new Date
+                    }},
+                    {safe: true}                
                 , function(err, agent){
-                    if(!err) return res.json({success: true, message: 'Update successful'});
+                    if(err) return res.status(500).json({success: false, error: err});
+                    return res.json({success: true, message: 'Update successful'});
                 })
 
             });
@@ -61,10 +72,13 @@ var express = require('express'),
         agentsRouter.route('/:id')
             .delete(function(req, res) {
                 Agent.remove({_id: req.params.id})
-                .then(function(){
-                    res.json({success: true, message: 'Agent removed successfully'});
+                .then(function(resp){
+                    if(resp.n > 0) return res.json({success: true, message: 'Agent removed successfully'});
+                    return res.json({success: false, message: 'Agent not removed'});
                 })
-
+                .catch(function(err){
+                    res.send({error: err});
+                })
             });
 
         //save agent

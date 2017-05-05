@@ -99,7 +99,11 @@ app.listen(port, function(){
     initAllEvents();
 });
 
-
+process.on("unhandledRejection", function(reason, p){
+    console.log("Unhandled", p); // log all your errors, "unsuppressing" them.
+//    throw(reason);
+    
+}); 
 
 var initAllEvents = function(){
     

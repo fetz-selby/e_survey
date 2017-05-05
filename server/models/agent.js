@@ -1,5 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose-fill'),
+    Schema = mongoose.Schema,
+	bcrypt   = require('bcrypt-nodejs'),
+    Region  = require('./region');
 
 var agentSchema = new Schema({
     firstname       : String,
@@ -8,7 +10,7 @@ var agentSchema = new Schema({
     phone           : String,
     email           : String,
     password        : String,
-    district        : { type: Schema.Types.ObjectId, ref: 'District' },
+    district        : { type: Schema.Types.ObjectId },
     identification  : [{
         type	    : String,
         number 		: String,
@@ -18,6 +20,40 @@ var agentSchema = new Schema({
     createdDate     : { type: Date, default: Date.now },
     modifiedDate    : { type: Date, default: Date.now },
     status          : String
+}, {
+    toObject: {
+        virtuals: true
+    },
+    toJSON: {
+        virtuals: true 
+    }
 });
+
+agentSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+// checking if password is valid
+agentSchema.methods.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+};
+agentSchema.methods.getRegion = function(cb){
+     Region.findOne({'districts._id': this.district})
+    .then(function(reg){
+        cb('ads');
+    })
+}
+//agentSchema.virtual('region')
+//.get(function () {
+//   this.getRegion(function(region){
+////       return region;
+//   })
+//});
+
+agentSchema.fill('region', function(callback){
+    this.db.model('Region')
+        .findOne({'districts._id': this.district}, 'districts.$')
+        .exec(callback)
+})
 
 module.exports = mongoose.model('Agent', agentSchema);

@@ -61,7 +61,7 @@ var routes = function(){
                 }},
                 {safe: true},
                 function(err, user){
-                    if(err) return res.status(500).send(err);
+                    if(err) return res.status(500).json({success: false, error: err});
                     return res.json({success: true, message: 'user details updated'});
                 }
             );
