@@ -162,4 +162,8 @@
     <string name="language_written_hint">Language written</string>
     <string name="btnRemove">remove</string>
     <string name="btnAdd">Add</string>
+    <string name="your_facebook_username_hint">Your facebook username</string>
+    <string name="whatsapp_hint">Your whatsapp number</string>
+    <string name="your_twitter_username_hint">Your twitter username</string>
+    <string name="your_instagram_account_hint">Your instagram account</string>
 </resources>
