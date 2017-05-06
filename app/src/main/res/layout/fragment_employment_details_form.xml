@@ -1,13 +1,79 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.steve.housing.views.fragment.EmploymentDetailsFormFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <Spinner
+        android:id="@+id/spinnerEmploymentStatus"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp" />
+
+    <Spinner
+        android:id="@+id/spinnerEmploymentSector"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/spinnerEmploymentStatus"
+        android:layout_below="@+id/spinnerEmploymentStatus"
+        android:layout_marginTop="23dp" />
+
+    <EditText
+        android:id="@+id/editTextWorkplace"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/spinnerEmploymentSector"
+        android:layout_below="@+id/spinnerEmploymentSector"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/workplace_hint"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editTextOccupation"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextWorkplace"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/your_profession_hint"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editTextEployeePosition"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextOccupation"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/your_position_hint"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editTextEmployerAddress"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextEployeePosition"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:ems="10"
+        android:hint="@string/location_of_workplace_hint"
+        android:inputType="textPostalAddress" />
+
+    <EditText
+        android:id="@+id/editTextJobStartDate"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextEmployerAddress"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+</RelativeLayout>

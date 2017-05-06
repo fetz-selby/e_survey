@@ -119,6 +119,13 @@
         <item>Written and Spoken</item>
     </string-array>
 
+    <string-array name="items_internet_usage_source">
+        <item>Home</item>
+        <item>Cafe</item>
+        <item>Phone</item>
+        <item>other devices</item>
+    </string-array>
+
 </resources>
 
 
