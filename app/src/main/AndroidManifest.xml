@@ -44,15 +44,15 @@
             android:name="io.fabric.ApiKey"
             android:value="3f13baaac00ca19733de3d0cd16fa337e19d0f5d" />
 
-        <receiver
-            android:name=".Broadcast.SendDataReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter >
-                <action android:name="android.net.wifi.STATE_CHANGE" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver-->
+            <!--android:name=".Broadcast.SendDataReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter >-->
+                <!--<action android:name="android.net.wifi.STATE_CHANGE" />-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 
 </manifest>

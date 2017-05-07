@@ -9,22 +9,23 @@
         android:id="@+id/btnRemove"
         android:layout_width="wrap_content"
         android:layout_height="42dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="14dp"
         android:background="@color/colorWhite"
         android:contentDescription="@string/btnRemove"
-        android:src="@android:drawable/ic_delete"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:src="@android:drawable/ic_delete" />
 
     <EditText
         android:id="@+id/editRowContent"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/btnRemove"
         android:layout_weight="0.40"
         android:ems="10"
-        android:inputType="text"
-        android:layout_alignTop="@+id/btnRemove"
-        android:layout_alignParentStart="true">
+        android:hint = "@string/add_extra_language_hint"
+        android:inputType="text">
 
         <requestFocus />
     </EditText>

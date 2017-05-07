@@ -2,13 +2,14 @@ package com.steve.housing.views.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class PersonalDetailsFormFragment extends Fragment {
     private CircleImageView imageProfile;
     private Spinner spinnerMaritalStatus;
     private Spinner spinnerTypeOfDisabilities;
+    private boolean isSpinnerTouched = false;
 
     public PersonalDetailsFormFragment() {
         // Required empty public constructor
@@ -49,12 +51,12 @@ public class PersonalDetailsFormFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_personal_details_form, container, false);
         spinnerMaritalStatus = (Spinner) view.findViewById(R.id.spinnerMaritalStatus);
-        spinnerTypeOfDisabilities = (Spinner)view.findViewById(R.id.spinnerDisabilities);
+        spinnerTypeOfDisabilities = (Spinner) view.findViewById(R.id.spinnerDisabilities);
 
         ArrayAdapter<CharSequence> adapterMaritalStatus = ArrayAdapter.createFromResource(getActivity(),
                 R.array.items_marital_status, android.R.layout.simple_spinner_item);
@@ -63,12 +65,58 @@ public class PersonalDetailsFormFragment extends Fragment {
 // Apply the adapter to the spinner
         spinnerMaritalStatus.setAdapter(adapterMaritalStatus);
 
-        ArrayAdapter<CharSequence> adapterDisabilities = ArrayAdapter.createFromResource(getActivity(),
+        final ArrayAdapter<CharSequence> adapterDisabilities = ArrayAdapter.createFromResource(getActivity(),
                 R.array.items_disabilities, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
         adapterDisabilities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         spinnerTypeOfDisabilities.setAdapter(adapterDisabilities);
+        spinnerMaritalStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerTypeOfDisabilities.post(new Runnable() {
+            @Override
+            public void run() {
+                spinnerTypeOfDisabilities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        if (adapterDisabilities.getItem(position).toString().equals(getString(R.string.string_others))) {
+                            Toast.makeText(getContext(), "Yeah", Toast.LENGTH_LONG).show();
+                            new MaterialDialog.Builder(getActivity())
+                                    .title(R.string.string_other_disability)
+                                    .inputType(InputType.TYPE_CLASS_TEXT)
+                                    .input(R.string.other_disabilty_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
+                                        @Override
+                                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                            if (input.toString().isEmpty())
+                                                Toast.makeText(getContext(), "" + input.toString(), Toast.LENGTH_LONG).show();
+                                        }
+                                    }).show();
+                        }
+                        isSpinnerTouched = true;
+
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+
+            }
+        });
 
         imageProfile = (CircleImageView) view.findViewById(R.id.profile_image_owner);
         imageProfile.setOnClickListener(new View.OnClickListener() {

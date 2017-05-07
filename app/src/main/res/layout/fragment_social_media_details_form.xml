@@ -7,45 +7,53 @@
 
     <EditText
         android:id="@+id/editTextFacebook"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/your_facebook_username_hint"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="37dp" />
+        android:layout_marginTop="37dp"
+        android:ems="10"
+        android:hint="@string/your_facebook_username_hint"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editTextWhatsapp"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/editTextFacebook"
-        android:layout_below="@+id/editTextFacebook"
-        android:layout_marginTop="16dp"
-        android:hint="@string/whatsapp_hint"
+        android:layout_marginTop="17dp"
         android:ems="10"
-        android:inputType="phone" />
+        android:hint="@string/whatsapp_hint"
+        android:inputType="phone"
+        android:layout_below="@+id/editTextFacebook"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/editTextTwitter"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/editTextWhatsapp"
+        android:layout_below="@+id/editTextWhatsapp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="@string/your_twitter_username_hint"
-        android:layout_below="@+id/editTextWhatsapp"
-        android:layout_alignStart="@+id/editTextWhatsapp" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editTextInstagram"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/editTextTwitter"
         android:layout_below="@+id/editTextTwitter"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/your_instagram_account_hint" />
+        android:hint="@string/your_instagram_account_hint"
+        android:inputType="textPersonName" />
+
+    <Spinner
+        android:id="@+id/spinnerPhoneFeature"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/editTextInstagram"
+        android:layout_alignStart="@+id/editTextInstagram" />
 </RelativeLayout>

@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.steve.housing.R;
 
@@ -19,14 +21,13 @@ import com.steve.housing.R;
  * create an instance of this fragment.
  */
 public class EmploymentDetailsFormFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+    public static final String ARG_PAGE = "ARG_PAGE";
+
+    private int mPage;
+    private Spinner spinnerEmploymentStatus;
+    private Spinner spinnerEmploymentSector;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,20 +35,11 @@ public class EmploymentDetailsFormFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EmploymentDetailsFormFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EmploymentDetailsFormFragment newInstance(String param1, String param2) {
+
+    public static EmploymentDetailsFormFragment newInstance(int page) {
         EmploymentDetailsFormFragment fragment = new EmploymentDetailsFormFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PAGE, page);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,17 +47,31 @@ public class EmploymentDetailsFormFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_employment_details_form, container, false);
+        View view = inflater.inflate(R.layout.fragment_employment_details_form, container, false);
+        spinnerEmploymentStatus = (Spinner) view.findViewById(R.id.spinnerEmploymentStatus);
+        spinnerEmploymentSector = (Spinner) view.findViewById(R.id.spinnerEmploymentSector);
+        ArrayAdapter<CharSequence> adapterEmployementStatus = ArrayAdapter.createFromResource(getActivity(),
+                R.array.items_employment_status, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapterEmployementStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinnerEmploymentStatus.setAdapter(adapterEmployementStatus);
+
+        ArrayAdapter<CharSequence> adapterEmployementSector = ArrayAdapter.createFromResource(getActivity(),
+                R.array.items_employment_sector, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapterEmployementSector.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinnerEmploymentSector.setAdapter(adapterEmployementSector);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -78,12 +84,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
     }
 
     @Override

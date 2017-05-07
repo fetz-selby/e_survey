@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.steve.housing.R;
 
@@ -15,6 +19,7 @@ public class SocialMediaDetailsFormFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     public static final String ARG_PAGE = "ARG_PAGE";
+    private Spinner spinnerSmartPhoneFeature;
 
     private int mPage;
 
@@ -43,6 +48,26 @@ public class SocialMediaDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_social_media_details_form, container, false);
+        spinnerSmartPhoneFeature = (Spinner) view.findViewById(R.id.spinnerPhoneFeature);
+        final ArrayAdapter<CharSequence> adapterSmartPhoneFeature = ArrayAdapter.createFromResource(getActivity(),
+                R.array.items_yes_or_no, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapterSmartPhoneFeature.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinnerSmartPhoneFeature.setAdapter(adapterSmartPhoneFeature);
+
+        spinnerSmartPhoneFeature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(),"" +adapterSmartPhoneFeature.getItem(position), Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         return view;
     }

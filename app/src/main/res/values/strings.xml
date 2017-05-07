@@ -170,4 +170,10 @@
     <string name="your_profession_hint">Profession</string>
     <string name="your_position_hint"> position</string>
     <string name="location_of_workplace_hint">location of workplace</string>
+    <string name="string_others">Others</string>
+    <string name="other_disabilty_hint">enter disability</string>
+    <string name="input_prefill"> </string>
+    <string name="string_other_disability">Other disability</string>
+    <string name="add_extra_language_hint">add extra language</string>
+    <string name="enter_language_hint">Enter Language</string>
 </resources>
