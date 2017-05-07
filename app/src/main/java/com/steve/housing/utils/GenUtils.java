@@ -11,6 +11,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -306,18 +308,6 @@ public class GenUtils {
         return trimmedString;
     }
 
-//    public static void createAlert(Context context, String message, String title, String buttonMsg) {
-//        new AlertDialogWrapper.Builder(context)
-//                .setTitle(title)
-//                .setMessage(message)
-//                .setNegativeButton(buttonMsg, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                }).show();
-//    }
-
     public static void CheckIfNullValue(String modelField, TextView textView) {
         if (modelField.equals("null")) {
             textView.setText(Constants.EMPTY_STRING);
@@ -326,10 +316,12 @@ public class GenUtils {
         }
     }
 
-    public static double formatingCost(double data) {
-        DecimalFormat df = new DecimalFormat("#.##");
-
-        return Double.valueOf(df.format(data));
+    private void hideKeyboard(Activity activity) {
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            ((InputMethodManager)  activity.getSystemService(Context.INPUT_METHOD_SERVICE)).
+                    hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
 }

@@ -176,4 +176,9 @@
     <string name="string_other_disability">Other disability</string>
     <string name="add_extra_language_hint">add extra language</string>
     <string name="enter_language_hint">Enter Language</string>
+    <string name="fullname_hint">Fullname</string>
+    <string name="phone_hint">Phone</string>
+    <string name="city_hint">city</string>
+    <string name="address_hint">Address</string>
+    <string name="license_number_hint">license number</string>
 </resources>
