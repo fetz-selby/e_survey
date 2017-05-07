@@ -71,17 +71,23 @@ public class PersonalDetailsFormFragment extends Fragment {
         adapterDisabilities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         spinnerTypeOfDisabilities.setAdapter(adapterDisabilities);
-        spinnerMaritalStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerMaritalStatus.post(new Runnable() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void run() {
+                spinnerMaritalStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            }
+                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
 
+                    }
+                });
             }
         });
+
 
         spinnerTypeOfDisabilities.post(new Runnable() {
             @Override
@@ -103,8 +109,6 @@ public class PersonalDetailsFormFragment extends Fragment {
                                         }
                                     }).show();
                         }
-                        isSpinnerTouched = true;
-
 
                     }
 

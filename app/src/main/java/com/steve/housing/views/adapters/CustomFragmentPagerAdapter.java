@@ -10,7 +10,6 @@ import com.steve.housing.views.fragment.EmploymentDetailsFormFragment;
 import com.steve.housing.views.fragment.IdentificationCardFragment;
 import com.steve.housing.views.fragment.LanguageDetailsFormFragment;
 import com.steve.housing.views.fragment.PersonalDetailsFormFragment;
-import com.steve.housing.views.fragment.SocialMediaDetailsFormFragment;
 
 /**
  * Created by SOVAVY on 4/25/2017.
@@ -19,7 +18,7 @@ import com.steve.housing.views.fragment.SocialMediaDetailsFormFragment;
 public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private String tabTitles[] = new String[]{"Personal", "Identification", "Contact", "Language",
-            "Citizenship", "Employment", "Social Media"};
+            "Citizenship", "Employment"};
 
     public CustomFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -45,8 +44,7 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
                 return new CitizenshipDetailsFormFragment();
             case 5:
                 return new EmploymentDetailsFormFragment();
-            case 6:
-                return new SocialMediaDetailsFormFragment();
+
 
         }
         return null;
