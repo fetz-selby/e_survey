@@ -162,12 +162,12 @@
     <string name="language_written_hint">Language written</string>
     <string name="btnRemove">remove</string>
     <string name="btnAdd">Add</string>
-    <string name="your_facebook_username_hint">Your facebook username</string>
-    <string name="whatsapp_hint">Your whatsapp number</string>
-    <string name="your_twitter_username_hint">Your twitter username</string>
-    <string name="your_instagram_account_hint">Your instagram account</string>
+    <string name="your_facebook_username_hint">facebook username</string>
+    <string name="whatsapp_hint">whatsapp number</string>
+    <string name="your_twitter_username_hint"> twitter username</string>
+    <string name="your_instagram_account_hint"> instagram account</string>
     <string name="workplace_hint">Workplace or Employer\' name</string>
-    <string name="your_profession_hint">Your Profession</string>
-    <string name="your_position_hint">Your position</string>
+    <string name="your_profession_hint">Profession</string>
+    <string name="your_position_hint"> position</string>
     <string name="location_of_workplace_hint">location of workplace</string>
 </resources>

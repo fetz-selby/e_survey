@@ -15,28 +15,27 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".views.activities.MainActivity"
-            android:screenOrientation="portrait"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.activities.SignupActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_signup"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".views.activities.LoginActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.activities.ViewPagerActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_view_pager"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,6 +44,10 @@
             android:name="io.fabric.ApiKey"
             android:value="3f13baaac00ca19733de3d0cd16fa337e19d0f5d" />
 
+        <receiver
+            android:name=".Broadcast.SendDataReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>
