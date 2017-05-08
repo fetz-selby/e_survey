@@ -23,7 +23,7 @@ var routes = function(){
 
 
 
-			User.findOne({{email: email})
+			User.findOne({email: email})
 			.then(function(user){
 		        // if no user is found, return the message
 		        if (!user)
@@ -56,6 +56,7 @@ var routes = function(){
 
 
 			Agent.findOne({$or: [{phone: email},{email: email}]} )
+            .fill()
 			.then(function(agent){
 		        // if no user is found, return the message
 		        if (!user)
