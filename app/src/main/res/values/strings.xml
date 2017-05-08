@@ -181,4 +181,14 @@
     <string name="city_hint">city</string>
     <string name="address_hint">Address</string>
     <string name="license_number_hint">license number</string>
+    <string name="property_type_hint">Property Type</string>
+    <string name="property_classification_hint">Classification</string>
+    <string name="property_identification_numbers_hint">Property Identification Number</string>
+    <string name="ownership_status_hint">Ownership Status</string>
+    <string name="registered_hint">Registered?</string>
+    <string name="title_registration_number_hint">Title Registration Number</string>
+    <string name="electricity_source_hint">Electricity Source</string>
+    <string name="identure_number_hint">Identure Number</string>
+    <string name="yes_choice">Yes</string>
+    <string name="no_choice">No</string>
 </resources>

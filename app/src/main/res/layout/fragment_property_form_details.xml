@@ -1,0 +1,143 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.steve.housing.views.fragment.PropertyFormDetailsFragment">
+
+
+    <Spinner
+        android:id="@+id/spinnerPropertyType"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="18dp" />
+
+    <TextView
+        android:id="@+id/textViewPropertyType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/property_type_hint"
+        android:layout_alignBottom="@+id/spinnerPropertyType"
+        android:layout_alignStart="@+id/textViewPropertyClassification" />
+
+    <Spinner
+        android:id="@+id/spinnerPropertyClassification"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/spinnerPropertyType"
+        android:layout_alignStart="@+id/spinnerPropertyType" />
+
+    <TextView
+        android:id="@+id/textViewPropertyClassification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/property_classification_hint"
+        android:layout_alignBottom="@+id/spinnerPropertyClassification"
+        android:layout_alignStart="@+id/textViewOwnershipStatus" />
+
+    <EditText
+        android:id="@+id/editTextPin"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/property_identification_numbers_hint"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/spinnerElectricitySource" />
+
+    <Spinner
+        android:id="@+id/spinnerOwnershipStatus"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/spinnerPropertyClassification"
+        android:layout_alignStart="@+id/spinnerPropertyClassification" />
+
+    <TextView
+        android:id="@+id/textViewOwnershipStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/spinnerOwnershipStatus"
+        android:layout_alignStart="@+id/editTextPin"
+        android:text="@string/ownership_status_hint" />
+
+    <TextView
+        android:id="@+id/textViewRegistrationStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registered_hint"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/textViewOwnershipStatus"
+        android:layout_alignStart="@+id/textViewElectricitySource" />
+
+    <TextView
+        android:id="@+id/textViewElectricitySource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/electricity_source_hint"
+        android:layout_alignBottom="@+id/spinnerElectricitySource"
+        android:layout_alignEnd="@+id/textViewOwnershipStatus" />
+
+    <Spinner
+        android:id="@+id/spinnerElectricitySource"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewRegistrationStatus"
+        android:layout_alignStart="@+id/spinnerOwnershipStatus"
+        android:layout_marginTop="15dp" />
+
+    <EditText
+        android:id="@+id/editTextTitleRegistrationNumber"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/title_registration_number_hint"
+        android:layout_below="@+id/editTextPin"
+        android:layout_alignStart="@+id/editTextPin"
+        android:layout_marginTop="15dp" />
+
+    <EditText
+        android:id="@+id/editTextIdentureNumber"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/identure_number_hint"
+        android:layout_below="@+id/editTextTitleRegistrationNumber"
+        android:layout_alignStart="@+id/editTextTitleRegistrationNumber" />
+
+    <RadioButton
+        android:id="@+id/radioButtonYes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/yes_choice"
+        android:layout_alignBaseline="@+id/textViewRegistrationStatus"
+        android:layout_alignBottom="@+id/textViewRegistrationStatus"
+        android:layout_alignStart="@+id/spinnerElectricitySource" />
+
+    <RadioButton
+        android:id="@+id/radioButtonNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_choice"
+        android:layout_alignBaseline="@+id/radioButtonYes"
+        android:layout_alignBottom="@+id/radioButtonYes"
+        android:layout_toEndOf="@+id/radioButtonYes"
+        android:layout_marginStart="28dp" />
+
+    <EditText
+        android:id="@+id/editTextTaxIdentationNumber"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textViewElectricitySource"
+        android:layout_below="@+id/editTextIdentureNumber"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Tax Identation Number" />
+</RelativeLayout>

@@ -52,7 +52,7 @@
         <item>Others</item>
     </string-array>
 
-    <string-array name="items_type_of_propperty">
+    <string-array name="items_type_of_property">
         <item>Land</item>
         <item>House</item>
         <item>Kiosk</item>
@@ -74,6 +74,10 @@
         <item>Commercial</item>
     </string-array>
 
+    <string-array name="items_ownership_status">
+        <item>Legal</item>
+        <item>Illegal</item>
+    </string-array>
     <string-array name="items_source_of_electricity">
         <item>Main</item>
         <item>Private generator</item>
@@ -119,12 +123,6 @@
         <item>Written and Spoken</item>
     </string-array>
 
-    <string-array name="items_internet_usage_source">
-        <item>Home</item>
-        <item>Cafe</item>
-        <item>Phone</item>
-        <item>other devices</item>
-    </string-array>
 
 </resources>
 
