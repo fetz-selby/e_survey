@@ -11,6 +11,8 @@ import com.steve.housing.views.fragment.IdentificationCardFragment;
 import com.steve.housing.views.fragment.LanguageDetailsFormFragment;
 import com.steve.housing.views.fragment.PersonalDetailsFormFragment;
 
+import java.util.List;
+
 /**
  * Created by SOVAVY on 4/25/2017.
  */
@@ -55,5 +57,28 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         // Generate title based on item position
         return tabTitles[position];
+    }
+
+    //in PagerAdapter:
+    private List<Fragment> fragmentList;
+
+//    http://stackoverflow.com/questions/38760052/how-to-save-edittext-value-in-shared-preferences-when-user-swipe-fragment-in-vie
+//    http://stackoverflow.com/questions/35476874/android-saving-form-data-on-a-swipe-rather-than-from-a-button
+//    http://stackoverflow.com/questions/40745636/how-to-save-viewpager-form-data-onswipe-to-next-pager-android
+
+
+//    public CustomFragmentPagerAdapter(FragmentManager fm) {
+//        super(fm);
+//        fragmentsA = fragments;
+//        fragmentList = new ArrayList<Fragment>();
+//
+//        for(int i = 0; i < 3; i++){
+//            fragmentList.add(Fragment.instantiate(getApplicationContext(), fragmentsA.get(i)););
+//        }
+//    }
+
+    public Fragment getFragment(int position){
+
+        return fragmentList.get(position);
     }
 }
