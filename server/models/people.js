@@ -25,22 +25,15 @@ var peopleSchema = new Schema({
 	},
 	region 			: String,
 	districtType 	: String,
-	gps				: {
-		work		: {
-			lat		: String,
-			lng		: String
-		},
-		home		: {
-			lat		: String,
-			lng		: String
-		}
+	homeGps			: {
+        lat		: String,
+        lng		: String		
 	},
 	what3words 		: {
 		home		: String,
 		work 		: String
 	},
 	photo 			: String,
-	employer 		: String,
 	employmentStatus: String,
 	employer 		: String,
 	occupation 		: String,
@@ -49,12 +42,12 @@ var peopleSchema = new Schema({
 	employmentSector: String,
 	disability		: [String],
 	identification	: {
-		type  		: String,
-		number		: String,
-		picture		: String
+		type  		: { type: String, default:'' },
+		number		: { type: String, default:'' },
+		picture		: { type: String, default:'' }
 	},
 	
-	createdBy 		: String,
+	createdBy 		: { type: Schema.Types.ObjectId, ref: 'Agent' },
 	createdDate 	: { type: Date, default: Date.now },
 	modifiedDate	: { type: Date, default: Date.now },
 	status 			: String

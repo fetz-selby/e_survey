@@ -28,11 +28,12 @@ var models = require('./services/model_service');
 
 //Instantiating all routes
 var agentsRoute     = require('./routes/agents_router')(pool),
-    regionsRoute    = require('./routes/regions_router')(pool),
+    authRoute       = require('./routes/auth_router')(pool),
     districtsRoute  = require('./routes/districts_router')(pool),
-    usersRoute      = require('./routes/users_router')(pool),
     peopleRoute     = require('./routes/people_router')(pool),
-    authRoute       = require('./routes/auth_router')(pool);
+    propertyRoute   = require('./routes/property_router')(pool),
+    regionsRoute    = require('./routes/regions_router')(pool),
+    usersRoute      = require('./routes/users_router')(pool);
 
 
 //Set middlewares
@@ -75,6 +76,7 @@ app.use('/eghana/esurvey/api/regions', regionsRoute.router);
 app.use('/eghana/esurvey/api/districts', districtsRoute.router);
 app.use('/eghana/esurvey/api/users', usersRoute.router);
 app.use('/eghana/esurvey/api/people', peopleRoute.router);
+app.use('/eghana/esurvey/api/property', propertyRoute.router);
 
 app.get('/eghana', function(req, res){
     res.status(200).send('Please check API documentation');

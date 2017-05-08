@@ -9,8 +9,8 @@ var express = require('express'),
         agentsRouter.route('/')
             .get(function(req, res) {
                 //Return all Agents
-
-                Agent.find({})
+                
+                Agent.find({}, '-password')
                 .fill('region').exec()
                 .then(function(agents) {
                     res.json({agents: agents});

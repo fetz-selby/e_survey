@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var propertySchema = new Schema({
-	pin 			: String,
+	pins 			: String,
 	propertyType	: String,
 	classification 	: String,
 	ownershipType 	: {
@@ -19,7 +19,7 @@ var propertySchema = new Schema({
 		what3words	: String
 	},
 	address 		: String,
-	familyUnitsNumber: String,
+	familyUnits     : Number,
 	electricitySource: String,
 	partnership		:[{
 		name 		: String,
@@ -31,21 +31,21 @@ var propertySchema = new Schema({
 		name 		: String,
 		address		: String,
 		city		: String,
-		phones		: String,
+		phone		: String,
 		email		: String
 	},
-	authorizedAgent : {
+	agent           : {
 		name 		: String,
 		address		: String,
 		city		: String,
-		phones		: String,
+		phone		: String,
 		email		: String
 	},
 	propertyManager	: {
 		name 		: String,
 		address		: String,
 		city		: String,
-		phones		: [String],
+		phone		: String,
 		email		: String,
 		licenseNumber: String
 	},
