@@ -56,20 +56,20 @@ var routes = function(){
 
 
 			Agent.findOne({$or: [{phone: email},{email: email}]} )
-            .fill()
+//            .fill()
 			.then(function(agent){
 		        // if no user is found, return the message
-		        if (!user)
+		        if (!agent)
 		            return res.status(422).json({success: false, message:'Invalid username/password.'});
 
 		        // if the user is found but the password is wrong
-		        if (!user.validPassword(password))
-		            return res.status(422).json({success: false, message:'Invalid username/password.'});
+		        if (!agent.validPassword(password))
+		            return res.status(400).json({success: false, message:'Invalid username/password.'});
 
 
 		        // login successful
-		        user = user.toObject();
-		        delete user.password;
+		        agent = agent.toObject();
+		        delete agent.password;
 		        return res.json({ success: true, message:'Login successful', agent: agent });
 		    });
 
