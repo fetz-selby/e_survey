@@ -196,4 +196,6 @@
     <string name="id_hint">ID number</string>
     <string name="login_btn">Login</string>
     <string name="password">Enter password</string>
+    <string name="extra_phone_number_hint">Additional phone number</string>
+    <string name="house_address_hint">House Address</string>
 </resources>

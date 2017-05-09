@@ -29,4 +29,22 @@ public class  Constants {
     public static final boolean prefBooleanDefault = false;
 
     public static final String prefsLogin = "prefslogin";
+
+    public static final String PdataPreferences = "Pdatareferences" ;
+    public static final String OwnerContactDataPreferences = "OwnerContactDataPreferences";
+    public static final String IdDataPreferences = "IdDataPreferences";
+    public static final String firstNameKey = "FirstNameKey";
+    public static final String lastNameKey = "lastNameKey";
+    public static final String otherNameKey = "otherNameKey";
+    public static final String maritalStatusKey = "maritalStatusKey";
+    public static final String disabilityKey = "disabilityKey";
+    public static final String profileImageKey = "profileImageKey";
+    public static final String idImageKey = "idImageKey";
+    public static final String idTextKey = "idTextKey";
+    public static final String idTypeKey = "idTypeKey";
+    public static final String ownerPhoneKey = "ownerPhoneKey";
+    public static final String ownerExtraPhoneKey = "ownerExtraPhoneKey";
+    public static final String ownerEmailKey = "ownerEmailKey";
+    public static final String ownerAddressKey = "ownerAddressKey";
+    public static final String ownerDistrictKey = "ownerDistrictKey";
 }

@@ -1,69 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:descendantFocusability="beforeDescendants"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="com.steve.housing.views.fragment.ContactDetailsFormFragment">
 
 
-    <EditText
-        android:id="@+id/editTextOwnerPhoneNumber"
-        android:layout_width="300dp"
-        android:layout_height="44dp"
-        android:ems="10"
-        android:inputType="phone"
-        android:hint = "@string/phone_number"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="42dp"
-        app:layout_constraintHorizontal_bias="0.527"
-        tools:layout_editor_absoluteY="41dp" />
-
-    <EditText
-        android:id="@+id/editTextOwnerEmail"
-        android:layout_width="300dp"
-        android:layout_height="44dp"
-        android:ems="10"
-        android:hint="@string/email_hint"
-        android:inputType="textEmailAddress"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/editTextOwnerPhoneNumber" />
-
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="300dp"
-        android:layout_height="44dp"
-        android:ems="10"
-        android:hint="@string/postal_address_hint"
-        android:inputType="textPostalAddress"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/editTextOwnerEmail" />
-
-    <EditText
-        android:id="@+id/editTextOwnerDistrict"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/district_hint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="21dp"
-        app:layout_constraintTop_toBottomOf="@+id/editText4"
-        app:layout_constraintHorizontal_bias="0.503" />
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:id="@+id/textInputLayoutPhoneNumber">
+
+        <EditText
+            android:id="@+id/editTextPhoneNumber"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/phone_number_hint"
+            android:inputType="phone" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPhoneNumber"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutPhoneNumber"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutPhoneNumber"
+        android:id="@+id/textInputLayoutExtraPhoneNumber">
+
+        <EditText
+            android:id="@+id/editTextExtraPhoneNumber"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/extra_phone_number_hint"
+            android:inputType="phone" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutExtraPhoneNumber"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutExtraPhoneNumber"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutExtraPhoneNumber"
+        android:id="@+id/textInputLayoutEmail">
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email_hint"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutEmail"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutEmail"
+        android:id="@+id/textInputLayoutAddress">
+
+        <EditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/house_address_hint"
+            android:inputType="textPostalAddress"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutDistrict"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutAddress"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutAddress"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAddress">
+
+        <EditText
+            android:id="@+id/editTextDistrict"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/district_hint"
+            android:inputType="text" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButtonContact"
+        android:layout_width="71dp"
+        android:layout_height="55dp"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutDistrict"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 </android.support.constraint.ConstraintLayout>
 
 

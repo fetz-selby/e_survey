@@ -1,114 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_identification_card"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:padding="10dp"
     android:descendantFocusability="beforeDescendants"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.steve.housing.views.fragment.IdentificationCardFragment">
+    tools:context="com.steve.housing.views.fragment.IdentificationCardFragment"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
 
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="286dp"
-        android:layout_height="329dp"
+    <ImageView
+        android:id="@+id/imageId"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/camera"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.153"
-        android:id="@+id/constraintLayout">
+        android:layout_marginTop="31dp" />
 
-        <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/imageId"
-            android:layout_width="109dp"
-            android:layout_height="109dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:adjustViewBounds="false"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/app_name"
-            android:cropToPadding="false"
-            android:src="@drawable/camera"
-            android:visibility="visible"
-            app:srcCompat="@drawable/camera"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/idTIL"
-            android:layout_width="241dp"
-            android:layout_height="13dp"
-            android:layout_below="@+id/imageId"
-            android:layout_centerHorizontal="true"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageId"
-            tools:layout_editor_absoluteY="134dp"
-            tools:layout_editor_absoluteX="-38dp">
-
-        </android.support.design.widget.TextInputLayout>
-
-
-
-        <Spinner
-            android:id="@+id/spinnerIdCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:prompt="@string/marital_status_prompt"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/idTIL"
-            app:layout_constraintVertical_bias="0.194" />
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/idET"
-            android:layout_width="238dp"
-            android:layout_height="39dp"
-            android:ems="10"
-            android:hint="@string/id_hint"
-            android:inputType="text"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerIdCard"
-            app:layout_constraintHorizontal_bias="0.545"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp" />
-
-
-    </android.support.constraint.ConstraintLayout>
+    <Spinner
+        android:id="@+id/spinnerIdCard"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/imageId"
+        app:layout_constraintRight_toRightOf="@+id/imageId"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageId" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
+        android:id="@+id/floatingActionButtonIdPick"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:clickable="true"
+        app:fabSize="mini"
         app:srcCompat="@drawable/check"
-        android:layout_marginTop="13dp"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintRight_toRightOf="@+id/idTIL"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="62dp"
+        app:layout_constraintLeft_toLeftOf="@+id/idTIL" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/idTIL"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        app:layout_constraintLeft_toLeftOf="@+id/spinnerIdCard"
+        app:layout_constraintRight_toRightOf="@+id/spinnerIdCard"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerIdCard"
         android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="0.19"
-        android:layout_marginEnd="7dp"
-        android:layout_marginRight="26dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="1.0" />
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonIdPick"
+        app:layout_constraintVertical_bias="0.236">
+
+        <EditText
+            android:id="@+id/idET"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:hint="@string/id_hint" />
+    </android.support.design.widget.TextInputLayout>
 
 </android.support.constraint.ConstraintLayout>

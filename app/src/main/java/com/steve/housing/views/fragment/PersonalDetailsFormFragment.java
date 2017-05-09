@@ -29,7 +29,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.steve.housing.R;
-import com.steve.housing.models.PersonMDL;
 import com.steve.housing.utils.GenUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -37,16 +36,21 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
+
+import static com.steve.housing.utils.Constants.PdataPreferences;
+import static com.steve.housing.utils.Constants.disabilityKey;
+import static com.steve.housing.utils.Constants.firstNameKey;
+import static com.steve.housing.utils.Constants.lastNameKey;
+import static com.steve.housing.utils.Constants.maritalStatusKey;
+import static com.steve.housing.utils.Constants.otherNameKey;
+import static com.steve.housing.utils.Constants.profileImageKey;
 
 
 public class PersonalDetailsFormFragment extends Fragment {
 
     private static final String TAG = PersonalDetailsFormFragment.class.getSimpleName();
-   OnPersonalDetailsDataSetListener onPersonalDetailsDataSetListener;
     private ImageView imageProfile;
     private Spinner spinnerMaritalStatus;
     private Spinner spinnerTypeOfDisabilities;
@@ -61,22 +65,15 @@ public class PersonalDetailsFormFragment extends Fragment {
     private static final int REQUEST_CAMERA = 101;
     private static final int PIC_CROP = 102;
     private Uri mPhotoURI;
-    private String data ;
+    private String data;
     private String encodedImage = "";
-    public static final String PdataPreferences = "PdataPreferences" ;
-    public static final String firstNameKey = "FirstNameKey";
-    public static final String lastNameKey = "lastNameKey";
-    public static final String otherNameKey = "otherNameKey";
-    public static final String maritalStatusKey = "maritalStatusKey";
-    public static final String disabilityKey = "disabilityKey";
-
-
     SharedPreferences sharedpreferencesPersonalData;
 
 
     public PersonalDetailsFormFragment() {
         // Required empty public constructor
     }
+
     public static PersonalDetailsFormFragment newInstance(String name) {
         PersonalDetailsFormFragment fragment = new PersonalDetailsFormFragment();
         Bundle args = new Bundle();
@@ -187,10 +184,9 @@ public class PersonalDetailsFormFragment extends Fragment {
                     Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
                 } else {
 
-                    String firstNameData  =  firstnameET.getText().toString();
-                    String lastNameData  = lastnameET.getText().toString();
-                    String otherNameData  = othernameET.getText().toString();
-
+                    String firstNameData = firstnameET.getText().toString();
+                    String lastNameData = lastnameET.getText().toString();
+                    String otherNameData = othernameET.getText().toString();
 
 
                     SharedPreferences.Editor editor = sharedpreferencesPersonalData.edit();
@@ -198,10 +194,11 @@ public class PersonalDetailsFormFragment extends Fragment {
                     editor.putString(firstNameKey, firstNameData);
                     editor.putString(lastNameKey, lastNameData);
                     editor.putString(otherNameKey, otherNameData);
-                    editor.putString(maritalStatusKey,maritalStatus);
+                    editor.putString(maritalStatusKey, maritalStatus);
                     editor.putString(disabilityKey, disability);
+                    editor.putString(profileImageKey, encodedImage);
                     editor.commit();
-                    Toast.makeText(getContext(),"Thanks",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Thanks", Toast.LENGTH_LONG).show();
 
                     //Toast.makeText(getContext(), "No Error", Toast.LENGTH_LONG).show();
 //                    onPersonalDetailsDataSetListener.setName(firstnameET.getText().toString().trim());
@@ -391,18 +388,17 @@ public class PersonalDetailsFormFragment extends Fragment {
         }
     }
 
-    public interface OnPersonalDetailsDataSetListener{
-        public void setName(String name);
-
-    }
+//    public interface OnPersonalDetailsDataSetListener {
+//        public void setName(String name);
+//
+//    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            onPersonalDetailsDataSetListener = (OnPersonalDetailsDataSetListener) context;
-        }catch (Exception e ){}
-
+//        try {
+//            onPersonalDetailsDataSetListener = (OnPersonalDetailsDataSetListener) context;
+//        }catch (Exception e ){}
 
 
     }

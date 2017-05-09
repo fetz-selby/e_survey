@@ -1,7 +1,9 @@
 package com.steve.housing.views.fragment;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +11,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -36,6 +38,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.realm.Realm;
+
+import static com.steve.housing.utils.Constants.IdDataPreferences;
+import static com.steve.housing.utils.Constants.idImageKey;
+import static com.steve.housing.utils.Constants.idTextKey;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,7 +59,7 @@ public class IdentificationCardFragment extends Fragment {
     private ImageView imageId;
     private Spinner spinnerIdCard;
     private TextInputLayout idTIL;
-    private TextInputEditText idET;
+    private EditText idET;
     private String idText, idType;
     private FloatingActionButton fab;
     private boolean idErr, spinnerIdCardErr;
@@ -64,6 +70,10 @@ public class IdentificationCardFragment extends Fragment {
     private Uri mPhotoURI;
     private String encodedImage = "";
     private OnFragmentInteractionListener mListener;
+    private SharedPreferences sharedpreferencesOwnerID;
+
+
+    SharedPreferences sharedpreferencesPersonalData;
 
 
     public IdentificationCardFragment() {
@@ -151,7 +161,7 @@ public class IdentificationCardFragment extends Fragment {
             public void onClick(View v) {
 
                 idErr = GenUtils.isEmpty(idET, idTIL, "ID required");
-//                spinnerIdCardErr = (idType.contains(""));
+                spinnerIdCardErr = idText.isEmpty();
 
                 Log.d(TAG, "ID: " + idErr);
 
@@ -159,6 +169,16 @@ public class IdentificationCardFragment extends Fragment {
                 if (!(idErr)) {
                     Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
                 } else {
+
+                    String idData = idET.getText().toString();
+
+                    SharedPreferences.Editor editor = sharedpreferencesOwnerID.edit();
+
+                    editor.putString(idTextKey, idData);
+                    editor.putString(idType, idText);
+                    editor.putString(idImageKey, encodedImage);
+                    editor.commit();
+                    Toast.makeText(getContext(), "Thanks", Toast.LENGTH_LONG).show();
 
 
                     //Toast.makeText(getContext(), "No Error", Toast.LENGTH_LONG).show();
@@ -273,9 +293,9 @@ public class IdentificationCardFragment extends Fragment {
             Intent cropIntent = new Intent("com.android.camera.action.CROP");
             cropIntent.setDataAndType(picUri, "image/*");
             cropIntent.putExtra("crop", true);
-            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectX", 2);
             cropIntent.putExtra("aspectY", 1);
-            cropIntent.putExtra("outputX", 128);
+            cropIntent.putExtra("outputX", 256);
             cropIntent.putExtra("outputY", 128);
             cropIntent.putExtra("return-data", true);
             startActivityForResult(cropIntent, PIC_CROP);
@@ -291,20 +311,13 @@ public class IdentificationCardFragment extends Fragment {
 
         spinnerIdCard = (Spinner) view.findViewById(R.id.spinnerIdCard);
         imageId = (ImageView) view.findViewById(R.id.imageId);
-        idET = (TextInputEditText) view.findViewById(R.id.idET);
-
+        idET = (EditText) view.findViewById(R.id.idET);
         idTIL = (TextInputLayout) view.findViewById(R.id.idTIL);
-
-
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
-
+        fab = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonIdPick);
         idET.addTextChangedListener(new IdentificationCardFragment.MyTextWatcher(idET));
+        sharedpreferencesOwnerID = this.getActivity().getSharedPreferences(IdDataPreferences, Context.MODE_PRIVATE);
 
 
-    }
-
-    public void upateField(String name) {
-        idET.setText(name);
     }
 
 
