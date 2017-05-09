@@ -17,7 +17,9 @@ import java.util.List;
  * Created by SOVAVY on 4/25/2017.
  */
 
-public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
+public class CustomFragmentPagerAdapter extends SmartFragmentStatePagerAdapter{
+    private SmartFragmentStatePagerAdapter adapterViewPager;
+
 
     private String tabTitles[] = new String[]{"Personal", "Identification", "Contact", "Language",
             "Citizenship", "Employment"};

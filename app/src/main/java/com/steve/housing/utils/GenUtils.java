@@ -9,11 +9,13 @@ import android.database.Cursor;
 import android.location.LocationManager;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -308,6 +310,18 @@ public class GenUtils {
         return trimmedString;
     }
 
+//    public static void createAlert(Context context, String message, String title, String buttonMsg) {
+//        new AlertDialogWrapper.Builder(context)
+//                .setTitle(title)
+//                .setMessage(message)
+//                .setNegativeButton(buttonMsg, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                }).show();
+//    }
+
     public static void CheckIfNullValue(String modelField, TextView textView) {
         if (modelField.equals("null")) {
             textView.setText(Constants.EMPTY_STRING);
@@ -316,13 +330,32 @@ public class GenUtils {
         }
     }
 
-    private void hideKeyboard(Activity activity) {
-        View view = activity.getCurrentFocus();
-        if (view != null) {
-            ((InputMethodManager)  activity.getSystemService(Context.INPUT_METHOD_SERVICE)).
-                    hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    public static double formatingCost(double data) {
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        return Double.valueOf(df.format(data));
+    }
+
+    public static boolean isEmpty(EditText textView, TextInputLayout textInputLayout, String errorMessage) {
+
+        if (textView.getText().toString().trim().isEmpty()) {
+            textInputLayout.setError(errorMessage);
+            return false;
+        } else {
+            textInputLayout.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    public static void getToastMessage(Context context, String messsage) {
+        try {
+            Toast.makeText(context, messsage, Toast.LENGTH_LONG).show();
+        }catch (Exception e){
+            Log.d("Toast Message Error", e.getMessage());
         }
     }
+
+
 
 }
 

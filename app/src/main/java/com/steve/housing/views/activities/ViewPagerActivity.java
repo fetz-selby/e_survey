@@ -14,14 +14,19 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.Crashlytics;
 import com.steve.housing.R;
+import com.steve.housing.utils.CustomSpinnerUtils;
 import com.steve.housing.views.adapters.CustomFragmentPagerAdapter;
+import com.steve.housing.views.adapters.SmartFragmentStatePagerAdapter;
+import com.steve.housing.views.fragment.IdentificationCardFragment;
+import com.steve.housing.views.fragment.PersonalDetailsFormFragment;
 
 import io.fabric.sdk.android.Fabric;
 
 import static com.steve.housing.R.styleable.View;
 
-public class ViewPagerActivity extends AppCompatActivity {
-
+public class ViewPagerActivity extends AppCompatActivity  {
+    ViewPager viewPager;
+    private CustomFragmentPagerAdapter adapterViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +36,17 @@ public class ViewPagerActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new CustomFragmentPagerAdapter(getSupportFragmentManager()));
 
         // Give the PagerSlidingTabStrip the ViewPager
@@ -78,5 +83,12 @@ public class ViewPagerActivity extends AppCompatActivity {
 
     }
 
-
+//
+//    @Override
+//    public void setName(String name) {
+//        adapterViewPager = new CustomFragmentPagerAdapter(getSupportFragmentManager());
+//        IdentificationCardFragment fragment = (IdentificationCardFragment)   adapterViewPager.getRegisteredFragment(1);
+//        fragment.upateField(name);
+//
+//    }
 }

@@ -7,4 +7,8 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlackLight">#6B6B6B</color>
     <color name="black_semi_transparent">#BF000000</color>
+    <color name="textColor">#0E0F19</color>
+    <color name="textColorWhite">#FFFFFF</color>
+    <color name="btnColorLogin">#018E42</color>
+    <color name="btnColorSignUp">#11477E</color>
 </resources>

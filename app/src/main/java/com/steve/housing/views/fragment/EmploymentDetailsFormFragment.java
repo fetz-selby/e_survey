@@ -1,6 +1,7 @@
 package com.steve.housing.views.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
     private Spinner spinnerEmploymentSector;
 
     private OnFragmentInteractionListener mListener;
+    SharedPreferences sharedpreferencesPersonalData ;
 
     public EmploymentDetailsFormFragment() {
         // Required empty public constructor
@@ -47,6 +49,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedpreferencesPersonalData =getActivity().getSharedPreferences("PdataPreferences", Context.MODE_PRIVATE);
 
     }
 

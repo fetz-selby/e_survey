@@ -193,4 +193,7 @@
     <string name="no_choice">No</string>
     <string name="number_of_family_units_within_building_hint">Number of Units within Building</string>
     <string name="postal_address_int">Postal Address or landmark</string>
+    <string name="id_hint">ID number</string>
+    <string name="login_btn">Login</string>
+    <string name="password">Enter password</string>
 </resources>
