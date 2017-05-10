@@ -7,6 +7,9 @@
 <dom-module id="login-element">
 
   <template>
+
+  	<iron-ajax id='loginCall' method="GET" handle-as="json" on-response="_handleLoginResponse" debounce-duration="0" on-error="_onLoginErrorRequest"></iron-ajax>
+
     <style>
      paper-button.indigo {
 	    background-color: var(--paper-indigo-500);
@@ -54,9 +57,7 @@
 
 
 					<div class="buttons-w">
-						<paper-button raised class="indigo">Log In</paper-button>
-
-						
+						<paper-button raised class="indigo" on-tap="_onLoginTapped">Log In</paper-button>
 					</div>
 				</form>
 			</div>
@@ -74,6 +75,15 @@
       },
       attached : function(){
        
+      },
+      _handleLoginResponse : function(e){
+      	if(e.detail.response){
+
+      		this.fire('success', {user : e.detail.response});
+      	}
+      },
+      _onLoginTapped : function(){
+      	this.fire('success', {user : ''});
       }
      
     });

@@ -1,0 +1,271 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="elements.html">
+
+<dom-module id="step-2-element">
+
+<link href="../css/custom.css" rel="stylesheet">
+<script src="../config.js"></script>
+
+  <template>
+
+  <iron-ajax id='genderCall' method="GET" handle-as="json" on-response="_handleGenderResponse" debounce-duration="0" on-error="_onGenderErrorRequest"></iron-ajax>
+
+  <iron-ajax id='householdCall' method="GET" handle-as="json" on-response="_handleHouseholdResponse" debounce-duration="0" on-error="_onHouseholdErrorRequest"></iron-ajax>
+
+
+    <style>
+      .indicator-style{line-height: 2; padding-left: 30px; font-weight: 500;}
+      .district-style{float: left; font-size: 18px; font-weight: 500; padding-top: 5px;}
+      .region-style{float: left; font-size: 23px; color: #7A7A7A; padding-right: 5px;}
+      .tile{width: 100%; height: 150px; box-shadow: 2px 2px 3px #888888; padding: 10px;}
+      .question-style{color: #EEEEEE; font-size: 19px;}
+      .answer-style{color: #FFFFFF; font-size: 33px; font-weight: 500; text-align: center;}
+    </style>      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="district-style">{{district}}</div>
+          <div class="region-style">({{region}})</div>
+        </div>
+        <div class="col-md-2">
+          
+        </div>
+        <div class="col-md-2">
+          
+        </div>
+        <div class="col-md-2">
+          
+        </div>
+      </div>
+
+      <div class="row" style="padding-top: 50px;">
+        <div class="col-md-4">
+          <div class="tile" id="payments-box">
+            <div class="question-style">Number of Registered Properties?</div>
+            <div class="answer-style">{{reg_prop}}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tile" id="travelled-box">
+            <div class="question-style">Number of Agents?</div>
+            <div class="answer-style">{{agent_count}}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tile" id="wait-box">
+            <div class="question-style">Percentage of Female Registered?</div>
+            <div class="answer-style">{{reg_f}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+
+      </div>
+
+      <div class="row" style="margin-top: 40px;">
+        <div class="col-md-4">
+          <div id="chart1_container"></div>
+        </div>
+        <div class="col-md-4">
+          <div id="chart2_container"></div>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'step-2-element',
+      ready : function(){
+
+      },
+      properties: {
+        district : {
+          type : String
+        },
+        region : {
+          type : String
+        },
+        data : {
+          type : Object,
+          observer : '_onDataChanged'
+        },
+      },
+      _makeDOCall : function(id){
+        this.$.districtOfficersCall.url = config.url+config.district_officers+'/'+id;
+        this.$.districtOfficersCall.generateRequest();
+      },
+      _makeHouseholdCall : function(id){
+        this.$.householdCall.url = config.url+config.household+'/'+id;
+        this.$.householdCall.generateRequest();
+      },
+      _handleDistrictOfficersResponse : function(e){
+        if(typeof e.detail.response[0].g4b != 'undefined'){
+          
+        }else{
+          console.log('G4B ::: does not exist');
+        }
+      },
+      _colorDistanceTravelledBox : function(value){
+        if(value > 30){
+          //Shade red
+          $('#travelled-box').attr('style', 'background:red');
+        }else if(value > 10 && value < 30){
+          //Shade yellow
+          $('#travelled-box').attr('style', 'background:yellow');
+        }else if(value < 10){
+          //Shade green
+          $('#travelled-box').attr('style', 'background:green');
+        }
+
+        this.set('answer2', value+'%');
+      },
+      _colorWaitTimeBox : function(value){
+        if(value > 30){
+          //Shade red
+          $('#wait-box').attr('style', 'background:red');
+        }else if(value > 10 && value < 30){
+          //Shade yellow
+          $('#wait-box').attr('style', 'background:yellow');
+        }else if(value < 10){
+          //Shade green
+          $('#wait-box').attr('style', 'background:green');
+        }
+
+        this.set('answer3', value+'%');
+      },
+      _renderPaymentScheduleBox : function(color, message){
+        $('#payments-box').attr('style', 'background:'+color);
+        this.set('answer1', message);
+      },
+      _onDistrictOfficersErrorRequest : function(e){
+        
+      },
+      _handleHouseholdResponse : function(e){
+        if(e.detail.response){
+          var data = e.detail.response;
+
+        }
+      },
+      _onHouseholdErrorRequest : function(e){
+
+      },
+      _renderDummyCharts : function(){
+        var series_data = [10, 8, 14, 2, 11, 5, 7, 12];
+
+        this.categories = ['0-14', '15-21', '22-25', '26-30', '31-40', '41-55', '56-70', '71-'];
+
+        this.series = [{name : '', data : series_data}];
+        this.pie_serie = [{name : 'bare lands', y : 12}, {name : 'house', y : 17}, {name : 'shops', y : 10}, {name : 'kiosk', y : 8}, {name : 'others', y : 2}];
+
+        this._loadBarChart();
+        this._loadPieChart();
+      },
+      _init : function(){
+        this._renderDummyCharts();
+      },
+      _onDataChanged : function(){
+        //Grab id
+        this.district_id = this.data.d_id;
+        this._init();
+      },
+      _loadBarChart : function(){
+        var app = this;
+
+        Highcharts.chart('chart1_container', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Age Brackets'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: app.categories,
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Age Aggregates',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' millions'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 80,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    shadow: true
+                },
+                credits: {
+                    enabled: false
+                },
+                series: app.series
+            });
+      },
+      _loadPieChart : function(){
+            var app = this;
+
+            Highcharts.chart('chart2_container', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Knowing Correct Payment Amount'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Response to Knowing Payment Amount',
+                    colorByPoint: true,
+                    data: app.pie_serie
+                }]
+            });
+      }
+    
+    });
+  </script>
+
+</dom-module>
