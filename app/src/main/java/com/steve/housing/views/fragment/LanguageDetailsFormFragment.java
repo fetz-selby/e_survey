@@ -17,12 +17,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.PersonMDL;
 import com.steve.housing.utils.GenUtils;
 
+import io.realm.Realm;
+import io.realm.RealmAsyncTask;
+
 import static com.steve.housing.utils.Constants.OwenrLanguageDataPreferences;
-import static com.steve.housing.utils.Constants.ownerEmployerKey;
-import static com.steve.housing.utils.Constants.ownerEmploymentSectorKey;
-import static com.steve.housing.utils.Constants.ownerEmploymentStatusKey;
 import static com.steve.housing.utils.Constants.ownerLanguageSpokenKey;
 import static com.steve.housing.utils.Constants.ownerLanguageSpokenWrittenKey;
 import static com.steve.housing.utils.Constants.ownerLanguageWrittenKey;
@@ -50,6 +51,8 @@ public class LanguageDetailsFormFragment extends Fragment {
     private int mPage;
     SharedPreferences sharedpreferencesOwnerLanguageData;
     private boolean languageSpokenWrittenError, languageSpokenError, languageWrittenError;
+    private Realm mRealm;
+    private RealmAsyncTask realmAsyncTask;
 
 
     public LanguageDetailsFormFragment() {
@@ -77,6 +80,7 @@ public class LanguageDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_language_details_form, container, false);
+        mRealm = Realm.getDefaultInstance();
         // Inflate the layout for this fragment
 //        adapter = ArrayAdapter.createFromResource(getActivity(),
 //                R.array.items_languages, android.R.layout.simple_spinner_dropdown_item);
@@ -102,26 +106,49 @@ public class LanguageDetailsFormFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 languageSpokenError = GenUtils.isEmpty(editTextLanguageSpoken, textInputLayoutLanguageSpoken, "Language spoken required");
-                languageWrittenError = GenUtils.isEmpty(editTextLanguageWritten, textInputLayoutLanguageSpoken, "Language written required");
-                languageSpokenWrittenError = GenUtils.isEmpty(editTextLanguageSpokenWrtitten, textInputLayoutLanguageSpoken, "Language spoken and written required");
+                languageWrittenError = GenUtils.isEmpty(editTextLanguageWritten, textInputLayoutLanguageWritten, "Language written required");
+                languageSpokenWrittenError = GenUtils.isEmpty(editTextLanguageSpokenWrtitten, textInputLayoutLanguageSpokenWritten, "Language spoken and written required");
 
-                if (!(languageSpokenError && !languageWrittenError && languageSpokenWrittenError)) {
+                if (!(languageSpokenError && languageWrittenError && languageSpokenWrittenError)) {
                     Toast.makeText(getContext(), "Error check Fields", Toast.LENGTH_LONG).show();
                 } else {
-                    String languageSpokenData = editTextLanguageSpoken.getText().toString();
-                    String languageWrittenData = editTextLanguageWritten.getText().toString();
-                    String languageSpokenWrittenData = editTextLanguageSpokenWrtitten.getText().toString();
+                    final String languageSpokenData = editTextLanguageSpoken.getText().toString();
+                    final String languageWrittenData = editTextLanguageWritten.getText().toString();
+                    final String languageSpokenWrittenData = editTextLanguageSpokenWrtitten.getText().toString();
                     SharedPreferences.Editor editor = sharedpreferencesOwnerLanguageData.edit();
                     editor.putString(ownerLanguageSpokenKey, languageSpokenData);
                     editor.putString(ownerLanguageWrittenKey, languageWrittenData);
                     editor.putString(ownerLanguageSpokenWrittenKey, languageSpokenWrittenData);
                     editor.commit();
 
+
+                    realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+
+                            PersonMDL personMDL = realm.where(PersonMDL.class).findAllSorted("createdDate").last();
+                            personMDL.setLanguageSpoken(languageSpokenData);
+                            personMDL.setLanguageWritten(languageWrittenData);
+                            personMDL.setGetLanguageSpokenWritten(languageSpokenWrittenData);
+
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(getContext(), "Language details updated", Toast.LENGTH_LONG).show();
+
+                        }
+                    }, new Realm.Transaction.OnError() {
+                        @Override
+                        public void onError(Throwable error) {
+                            Toast.makeText(getContext(), "Language update failed", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
                 }
-
             }
-
         });
+
     }
 
 
@@ -240,4 +267,21 @@ public class LanguageDetailsFormFragment extends Fragment {
 //            }
 //        });
 //    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
+    }
 }

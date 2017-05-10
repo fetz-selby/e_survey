@@ -70,7 +70,8 @@
             android:id="@+id/othernameET"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:hint="@string/other_name_hint" />
+            android:hint="@string/other_name_hint"
+            android:inputType="textPersonName" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -91,7 +92,8 @@
             android:layout_height="45dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:hint="@string/last_name_hint" />
+            android:hint="@string/last_name_hint"
+            android:inputType="textPersonName" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout

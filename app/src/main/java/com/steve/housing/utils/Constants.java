@@ -52,8 +52,9 @@ public class Constants {
     public static final String ownerOfficeLocationKey = "ownerOfficeLocationKey";
     public static final String ownerDateofBirthKey = "ownerDateOfBirthKey";
     public static final String ownerCitizenshipTypeKey = "ownerCitizenshipTypeKey";
-    public static final String ownerPlaceOfBirthKey = "ownerPlaceOfBirthKey";
+    public static final String ownerBirthPlaceKey = "ownerBirthPlaceKey";
     public static final String ownerSecondCountryKey = "ownerSecondCountryKey";
+    public static final String ownerNationalityKey = "ownerNationalityKey";
     public static final String ownerEthnicityKey = "ownerEthnicityKey";
     public static final String ownerLanguageSpokenKey = "ownerLanguageSpokenKey";
     public static final String ownerLanguageWrittenKey = "ownerLanguageWrittenKey";

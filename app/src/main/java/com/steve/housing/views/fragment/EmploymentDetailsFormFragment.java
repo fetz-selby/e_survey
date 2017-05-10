@@ -19,41 +19,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.steve.housing.R;
 import com.steve.housing.models.PersonMDL;
 import com.steve.housing.utils.GenUtils;
 
-import java.util.UUID;
-
 import io.realm.Realm;
+import io.realm.RealmAsyncTask;
 
-import static com.steve.housing.utils.Constants.OwenrLanguageDataPreferences;
-import static com.steve.housing.utils.Constants.OwnerContactDataPreferences;
 import static com.steve.housing.utils.Constants.OwnerEmploymentsDataPreferences;
-import static com.steve.housing.utils.Constants.PdataPreferences;
-import static com.steve.housing.utils.Constants.disabilityKey;
-import static com.steve.housing.utils.Constants.firstNameKey;
-import static com.steve.housing.utils.Constants.idImageKey;
-import static com.steve.housing.utils.Constants.idTextKey;
-import static com.steve.housing.utils.Constants.idTypeKey;
-import static com.steve.housing.utils.Constants.lastNameKey;
-import static com.steve.housing.utils.Constants.maritalStatusKey;
-import static com.steve.housing.utils.Constants.otherNameKey;
-import static com.steve.housing.utils.Constants.ownerAddressKey;
-import static com.steve.housing.utils.Constants.ownerDistrictKey;
-import static com.steve.housing.utils.Constants.ownerEmailKey;
-import static com.steve.housing.utils.Constants.ownerEmployerKey;
-import static com.steve.housing.utils.Constants.ownerEmploymentSectorKey;
-import static com.steve.housing.utils.Constants.ownerEmploymentStatusKey;
-import static com.steve.housing.utils.Constants.ownerExtraPhoneKey;
-import static com.steve.housing.utils.Constants.ownerLanguageSpokenKey;
-import static com.steve.housing.utils.Constants.ownerLanguageSpokenWrittenKey;
-import static com.steve.housing.utils.Constants.ownerLanguageWrittenKey;
-import static com.steve.housing.utils.Constants.ownerOfficeLocationKey;
-import static com.steve.housing.utils.Constants.ownerPhoneKey;
-import static com.steve.housing.utils.Constants.ownerPositionKey;
-import static com.steve.housing.utils.Constants.ownerProfessionKey;
-import static com.steve.housing.utils.Constants.profileImageKey;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,9 +41,12 @@ public class EmploymentDetailsFormFragment extends Fragment {
 
 
     public static final String ARG_PAGE = "ARG_PAGE";
-
+    SharedPreferences sharedpreferencesOwnerEmploymentData;
+    boolean professionError, employerError;
     private int mPage;
     private Realm mRealm;
+    private RealmAsyncTask realmAsyncTask;
+
     private Spinner spinnerEmploymentStatus;
     private Spinner spinnerEmploymentSector;
     private EditText editTextEmployer, editTextProfession, editTextPosition, editTextWorkLocation;
@@ -77,9 +54,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
             textInputLayoutWorkLocation;
     private FloatingActionButton floatingActionButtonGetEmployementData;
     private OnFragmentInteractionListener mListener;
-    SharedPreferences sharedpreferencesOwnerEmploymentData;
-    private String contactStatus, employmentSector;
-    boolean professionError, employerError;
+    private String employmentStatus, employmentSector;
 
     public EmploymentDetailsFormFragment() {
         // Required empty public constructor
@@ -106,6 +81,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_employment_details_form, container, false);
+        mRealm = Realm.getDefaultInstance();
         initFields(view);
 
 
@@ -122,7 +98,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayAdapter<CharSequence> adapterEmployementStatus = ArrayAdapter.createFromResource(getActivity(),
+        final ArrayAdapter<CharSequence> adapterEmployementStatus = ArrayAdapter.createFromResource(getActivity(),
                 R.array.items_employment_status, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
         adapterEmployementStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -138,7 +114,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
         spinnerEmploymentStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                contactStatus = parent.getItemAtPosition(position).toString();
+                employmentStatus = parent.getItemAtPosition(position).toString();
 
             }
 
@@ -171,74 +147,68 @@ public class EmploymentDetailsFormFragment extends Fragment {
 
 
                     final String employerData = editTextEmployer.getText().toString();
-                    String professionData = editTextProfession.getText().toString();
-                    String positionData = editTextPosition.getText().toString();
-                    String officeLocation = editTextWorkLocation.getText().toString();
+                    final String professionData = editTextProfession.getText().toString();
+                    final String positionData = editTextPosition.getText().toString();
+                    final String officeLocation = editTextWorkLocation.getText().toString();
 
-
-                    SharedPreferences.Editor editor = sharedpreferencesOwnerEmploymentData.edit();
-
-                    editor.putString(ownerEmploymentSectorKey, employmentSector);
-                    editor.putString(ownerEmploymentStatusKey, contactStatus);
-                    editor.putString(ownerEmployerKey, employerData);
-                    editor.putString(ownerProfessionKey, professionData);
-                    editor.putString(ownerPositionKey, positionData);
-                    editor.putString(ownerOfficeLocationKey, officeLocation);
-                    editor.commit();
-                    final SharedPreferences personalData = getActivity().getSharedPreferences(PdataPreferences, Context.MODE_PRIVATE);
-                    final SharedPreferences idData = getActivity().getSharedPreferences(OwnerContactDataPreferences, Context.MODE_PRIVATE);
-                    final SharedPreferences contactData = getActivity().getSharedPreferences(OwnerContactDataPreferences, Context.MODE_PRIVATE);
-                    final SharedPreferences languageData = getActivity().getSharedPreferences(OwenrLanguageDataPreferences, Context.MODE_PRIVATE);
-                    mRealm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-
-                            String id = UUID.randomUUID().toString();
-                            PersonMDL personMDL = realm.createObject(PersonMDL.class, id);
-                            // personal data
-                            personMDL.setFirstname(personalData.getString(firstNameKey, ""));
-                            personMDL.setLastname(personalData.getString(lastNameKey, ""));
-                            personMDL.setOthername(personalData.getString(otherNameKey, ""));
-                            personMDL.setOwnerPhoto(personalData.getString(profileImageKey, ""));
-                            personMDL.setMaritalStatus(personalData.getString(maritalStatusKey, ""));
-                            personMDL.setDisability(personalData.getString(disabilityKey, ""));
-                            // id data
-                            personMDL.setIdentificationNumber(idData.getString(idTextKey, ""));
-                            personMDL.setIdentificationPicture(idData.getString(idImageKey, ""));
-                            personMDL.setIdentificationType(idData.getString(idTypeKey, ""));
-                            // contact data
-                            personMDL.setPhoneNumber(contactData.getString(ownerPhoneKey, ""));
-                            personMDL.setAdditionalPhoneNumber(contactData.getString(ownerExtraPhoneKey, ""));
-                            personMDL.setEmail(contactData.getString(ownerEmailKey, ""));
-                            personMDL.setPostalAddress(contactData.getString(ownerAddressKey, ""));
-                            personMDL.setDistrict(contactData.getString(ownerDistrictKey, ""));
-                            // citizenship data
-                            personMDL.setDob();
-                            personMDL.setDualCityzenship();
-                            personMDL.setNationality();
-                            personMDL.setEthnicity();
-                            personMDL.setNationalityType();
-                            // employmentdata
-                            personMDL.setEmployer();
-                            personMDL.setEmploymentStatus();
-                            personMDL.setEmploymentSector();
-                            personMDL.setEmployer();
-                            personMDL.setProfession();
-                            personMDL.setWorkplaceLocation();
-                            personMDL.setCommencementDate();
-                            //language data
-                            personMDL.setLanguageSpoken(languageData.getString(ownerLanguageSpokenKey,""));
-                            personMDL.setLanguageSpokenWritten(languageData.getString(ownerLanguageWrittenKey,""));
-                            personMDL.setLanguageWritten(languageData.getString(ownerLanguageSpokenWrittenKey,"");
-
-
-                            GenUtils.getToastMessage(getActivity(), "Owner data Saved Successfully");
-                        }
-                    });
+//
+//                    SharedPreferences.Editor editor = sharedpreferencesOwnerEmploymentData.edit();
+//
+//                    editor.putString(ownerEmploymentSectorKey, employmentSector);
+//                    editor.putString(ownerEmploymentStatusKey, employmentStatus);
+//                    editor.putString(ownerEmployerKey, employerData);
+//                    editor.putString(ownerProfessionKey, professionData);
+//                    editor.putString(ownerPositionKey, positionData);
+//                    editor.putString(ownerOfficeLocationKey, officeLocation);
+//                    editor.commit();
+//                    final SharedPreferences personalData = getActivity().getSharedPreferences(PdataPreferences, Context.MODE_PRIVATE);
+//                    final SharedPreferences idData = getActivity().getSharedPreferences(OwnerContactDataPreferences, Context.MODE_PRIVATE);
+//                    final SharedPreferences contactData = getActivity().getSharedPreferences(OwnerContactDataPreferences, Context.MODE_PRIVATE);
+//                    final SharedPreferences languageData = getActivity().getSharedPreferences(OwenrLanguageDataPreferences, Context.MODE_PRIVATE);
+//                    final SharedPreferences citizenshipData = getActivity().getSharedPreferences(OwnerCitizenshipDataPreferences, Context.MODE_PRIVATE);
 
 
                     Toast.makeText(getContext(), "Thanks", Toast.LENGTH_LONG).show();
 
+//                    private String employer;
+//                    private String employmentStatus;
+//                    private String employmentSector;
+//                    private String position;
+//                    private String languageSpokenWritten;
+//                    private String ResidentialAddress;
+
+                    realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+
+                            PersonMDL personMDL = realm.where(PersonMDL.class).findAllSorted("createdDate").last();
+                            personMDL.setEmployer((employerData.isEmpty()) ? "N/A" : employerData);
+                            personMDL.setEmploymentSector((employmentSector.isEmpty()) ? "N/A" : employmentSector);
+                            personMDL.setEmploymentStatus((employmentStatus.isEmpty()) ? "N/A" : employmentStatus);
+                            personMDL.setPosition((positionData.isEmpty()) ? "N/A" : positionData);
+                            personMDL.setProfession((professionData.isEmpty()) ? "N/A" : professionData);
+                            personMDL.setWorkplaceLocation((officeLocation.isEmpty()) ? "N/A" : officeLocation);
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(getContext(), "Employment  details updated", Toast.LENGTH_LONG).show();
+
+                        }
+                    }, new Realm.Transaction.OnError() {
+                        @Override
+                        public void onError(Throwable error) {
+                            Toast.makeText(getContext(), "Contact update failed", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+                    new MaterialDialog.Builder(getContext())
+                            .title("RESULT")
+                            .content(mRealm.where(PersonMDL.class).findAll().toString())
+                            .positiveText("OK")
+                            .negativeText("DISMISS")
+                            .show();
+                    Toast.makeText(getContext(), mRealm.where(PersonMDL.class).findAll().toString(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -256,21 +226,6 @@ public class EmploymentDetailsFormFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 
     public void initFields(View view) {
@@ -293,6 +248,12 @@ public class EmploymentDetailsFormFragment extends Fragment {
         sharedpreferencesOwnerEmploymentData = this.getActivity().getSharedPreferences(OwnerEmploymentsDataPreferences, Context.MODE_PRIVATE);
 
 
+    }
+
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
     private class MyTextWatcher implements TextWatcher {
@@ -328,5 +289,22 @@ public class EmploymentDetailsFormFragment extends Fragment {
 
             }
         }
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
     }
 }

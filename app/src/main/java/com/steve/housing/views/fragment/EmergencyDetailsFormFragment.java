@@ -59,16 +59,16 @@ public class EmergencyDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_emergency_detail_form, container, false);
-       emergencyContactFullNameWrapper = (TextInputLayout) view.findViewById(R.id.emergencyContactNameWrapper);
-       emergencyContactEmailWrapper = (TextInputLayout) view.findViewById(R.id.emergencyContactEmailWrapper);
-       emergencyContactPhoneWrapper = (TextInputLayout) view.findViewById(R.id.emergencyContactPhoneWrapper);
-       emergencyContactCityWrapper = (TextInputLayout) view.findViewById(R.id.emergencyContactCityWrapper);
-       emergencyContactAddressWrapper = (TextInputLayout) view.findViewById(R.id.emergencyContactAddressWrapper);
-       emergencyContactCity = (EditText) view.findViewById(R.id.editTextEmergencyContactCity);
-       emergencyContactFullName = (EditText) view.findViewById(R.id.editTextEmergencyContactName);
-       emergencyContactEmail = (EditText) view.findViewById(R.id.editTextEmergencyContactEmail);
-       emergencyContactAddress = (EditText) view.findViewById(R.id.editTextEmergencyContactAddress);
-       emergencyContactPhone = (EditText) view.findViewById(R.id.editTextEmergencyContactPhone);
+       emergencyContactFullNameWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyName);
+       emergencyContactEmailWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyEmail);
+       emergencyContactPhoneWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyPhone);
+       emergencyContactCityWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyCity);
+       emergencyContactAddressWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyAddress);
+       emergencyContactCity = (EditText) view.findViewById(R.id.editTextEmergencyCity);
+       emergencyContactFullName = (EditText) view.findViewById(R.id.editTextEmergencyName);
+       emergencyContactEmail = (EditText) view.findViewById(R.id.editTextEmergencyEmail);
+       emergencyContactAddress = (EditText) view.findViewById(R.id.editTextEmergencyAddress);
+       emergencyContactPhone = (EditText) view.findViewById(R.id.editTextEmergencyPhone);
 
         return view;
     }

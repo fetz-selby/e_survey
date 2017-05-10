@@ -115,8 +115,8 @@
         app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutWorkplaceLocation"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
-        app:layout_constraintHorizontal_bias="0.969"
-        app:layout_constraintVertical_bias="0.185" />
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintVertical_bias="0.703" />
 
 
 </android.support.constraint.ConstraintLayout>

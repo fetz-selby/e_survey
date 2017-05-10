@@ -32,7 +32,7 @@ public class AppController extends Application {
         super.onCreate();
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
-                .name("myrealm.realm")
+                .name("RealmTrial1.realm")
                 .build();
         Realm.setDefaultConfiguration(config);
         init();

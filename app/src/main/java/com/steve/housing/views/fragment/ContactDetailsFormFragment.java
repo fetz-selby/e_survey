@@ -19,7 +19,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.PersonMDL;
 import com.steve.housing.utils.GenUtils;
+
+import io.realm.Realm;
+import io.realm.RealmAsyncTask;
 
 import static com.steve.housing.utils.Constants.OwnerContactDataPreferences;
 import static com.steve.housing.utils.Constants.ownerAddressKey;
@@ -44,6 +48,8 @@ public class ContactDetailsFormFragment extends Fragment {
     private FloatingActionButton floatingActionButtonGetContact;
     private boolean phoneError, addressError, districtError;
     private SharedPreferences sharedpreferencesOwnerContact;
+    private Realm mRealm;
+    private RealmAsyncTask realmAsyncTask;
 
 
     public ContactDetailsFormFragment() {
@@ -62,6 +68,7 @@ public class ContactDetailsFormFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
 
         }
@@ -72,6 +79,7 @@ public class ContactDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contact_details_form, container, false);
+        mRealm = Realm.getDefaultInstance();
         initFields(view);
         return view;
     }
@@ -114,12 +122,12 @@ public class ContactDetailsFormFragment extends Fragment {
                     Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
                 } else {
 
-                    String phoneData = editTextPhone.getText().toString();
-                    String extraPhoneData = editTextExtraPhone.getText().toString();
-                    String emailData = editTextEmail.getText().toString();
-                    String addressData = editTextAddress.getText().toString();
-                    String districtData = editTextDistrict.getText().toString();
-                    ;
+                    final String phoneData = editTextPhone.getText().toString();
+                    final String extraPhoneData = editTextExtraPhone.getText().toString();
+                    final String emailData = editTextEmail.getText().toString();
+                    final String addressData = editTextAddress.getText().toString();
+                    final String districtData = editTextDistrict.getText().toString();
+
 
 
                     SharedPreferences.Editor editor = sharedpreferencesOwnerContact.edit();
@@ -133,25 +141,30 @@ public class ContactDetailsFormFragment extends Fragment {
                     editor.commit();
                     Toast.makeText(getContext(), "Thanks", Toast.LENGTH_LONG).show();
 
-                    //Toast.makeText(getContext(), "No Error", Toast.LENGTH_LONG).show();
-//                    onPersonalDetailsDataSetListener.setName(firstnameET.getText().toString().trim());
+                    realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
 
-//                    mRealm.executeTransaction(new Realm.Transaction() {
-//                        @Override
-//                        public void execute(Realm realm) {
-//
-//                            String id = UUID.randomUUID().toString();
-//                            PersonMDL personMDL = realm.createObject(PersonMDL.class, id);
-//                            personMDL.setFirstname(firstnameET.getText().toString().trim());
-//                            personMDL.setLastname(lastnameET.getText().toString().trim());
-//                            personMDL.setOthername(othernameET.getText().toString().trim());
-//                            personMDL.setMaritalStatus(maritalStatus);
-//                            personMDL.setDisability(disability);
-//                            personMDL.setImagedata(encodedImage);
-//
-//                            GenUtils.getToastMessage(getActivity(), "Personal Info Saved Successfully");
-//                        }
-//                    });
+                            PersonMDL personMDL = realm.where(PersonMDL.class).findAllSorted("createdDate").last();
+                            personMDL.setPhoneNumber(phoneData);
+                            personMDL.setAdditionalPhoneNumber((extraPhoneData.isEmpty()) ? "N/A" : extraPhoneData);
+                            personMDL.setEmail((emailData.isEmpty()) ? "N/A" : emailData);
+                            personMDL.setHouseAddress(addressData);
+                            personMDL.setDistrict(districtData);
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(getContext(), "Contact details updated", Toast.LENGTH_LONG).show();
+
+                        }
+                    }, new Realm.Transaction.OnError() {
+                        @Override
+                        public void onError(Throwable error) {
+                            Toast.makeText(getContext(), "Contact update failed", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
                 }
             }
         });
@@ -245,6 +258,23 @@ public class ContactDetailsFormFragment extends Fragment {
 
             }
         }
+
+
+}
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
+    }
 }

@@ -59,6 +59,19 @@ dependencies {
         transitive = true;
     }
 
+//    debugCompile('com.github.jonasrottmann.realm-browser:realm-browser:0.0.11') {
+//        exclude group: 'com.android.support';
+//    }
+//    testCompile('com.github.jonasrottmann.realm-browser:realm-browser-no-op:0.0.11') {
+//        exclude group: 'com.android.support';
+//    }
+//    releaseCompile('com.github.jonasrottmann.realm-browser:realm-browser-no-op:0.0.11')
+//            {
+//                exclude group: 'com.android.support';
+//            }
+//
+
+    compile 'com.akhgupta:android-easylocation:1.0.1'
     compile 'com.akhgupta:android-easylocation:1.0.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -74,7 +87,6 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.github.mukeshsolanki:country-picker-android:1.1.9'
     compile 'net.rimoto:intlphoneinput:1.0.1'
-    compile 'com.akhgupta:android-easylocation:1.0.1'
     compile 'com.android.volley:volley:1.0.0'
     compile 'io.realm:android-adapters:2.0.0'
     compile 'com.google.android.gms:play-services-location:10.2.4'

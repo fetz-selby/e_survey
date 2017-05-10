@@ -3,6 +3,8 @@ package com.steve.housing.views.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.steve.housing.views.fragment.AgentPropertyDetailsFormFragment;
+import com.steve.housing.views.fragment.EmergencyDetailsFormFragment;
 import com.steve.housing.views.fragment.PropertyFormDetailsFragment;
 import com.steve.housing.views.fragment.PropertyFormExtraDetailsFormFragment;
 import com.steve.housing.views.fragment.PropertyManagerDetailsFormFragment;
@@ -13,7 +15,7 @@ import com.steve.housing.views.fragment.PropertyManagerDetailsFormFragment;
 
 public class PropertyFragmentPagerAdapter extends SmartFragmentStatePagerAdapter {
 
-    private String tabTitles[] = new String[]{"Property", "Property extra", "Property Manager"};
+    private String tabTitles[] = new String[]{"Property Status", "Property Identitfication", "Property Manager","Emergency Contact","Agent Contact"};
 
     public PropertyFragmentPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -28,7 +30,10 @@ public class PropertyFragmentPagerAdapter extends SmartFragmentStatePagerAdapter
                 return new PropertyFormExtraDetailsFormFragment();
             case 2:
                 return new PropertyManagerDetailsFormFragment();
-
+            case 3:
+                return  new EmergencyDetailsFormFragment();
+            case 4:
+                return  new AgentPropertyDetailsFormFragment();
 
         }
         return null;

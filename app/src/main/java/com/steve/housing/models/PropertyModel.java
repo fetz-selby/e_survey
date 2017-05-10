@@ -67,7 +67,7 @@ import io.realm.RealmObject;
 
 public class PropertyModel extends RealmObject {
     private String id;
-    private String pins ;
+    private String pins;
     private String propertyType;
     private String classification;
     private String ownershipType;
@@ -75,9 +75,18 @@ public class PropertyModel extends RealmObject {
     private boolean registered;
     private String titleNumber;
     private String identureNumber;
-    private float longitude ;
+    private float longitude;
     private float latidude;
-    private DistrictModel district;
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    private String district;
     private String address;
     private String familyUnit;
     private String electricitySource;
@@ -99,7 +108,7 @@ public class PropertyModel extends RealmObject {
     private String propertyManagerEmail;
     private boolean landTrust;
     private RealmList<TrustyModel> trusties;
-    private String createdBy ;
+    private String createdBy;
     private String createdAt;
 
     public String getCreatedBy() {
@@ -204,14 +213,6 @@ public class PropertyModel extends RealmObject {
 
     public void setLatidude(float latidude) {
         this.latidude = latidude;
-    }
-
-    public DistrictModel getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(DistrictModel district) {
-        this.district = district;
     }
 
     public String getAddress() {
@@ -381,13 +382,6 @@ public class PropertyModel extends RealmObject {
     public void setTrusties(RealmList<TrustyModel> trusties) {
         this.trusties = trusties;
     }
-
-
-
-
-
-
-
 
 
 }

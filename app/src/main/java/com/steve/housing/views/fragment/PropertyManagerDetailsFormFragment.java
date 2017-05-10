@@ -16,19 +16,18 @@ import com.steve.housing.R;
 public class PropertyManagerDetailsFormFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    TextInputLayout propertyManagerFullNameWrapper;
-    TextInputLayout propertyManagerEmailWrapper;
-    TextInputLayout propertyManagerPhoneWrapper;
-    TextInputLayout propertyManagerCityWrapper;
-    TextInputLayout propertyManagerAddressWrapper;
-    TextInputLayout propertyManagerLicenseWrapper;
-    EditText propertyManagerFullName;
-    EditText propertyManagerEmail;
-    EditText propertyManagerPhone;
-    EditText propertyManagerCity;
-    EditText propertyManagerAddress;
-    EditText propertyManagerLicense;
-
+    TextInputLayout propertyPmanagerFullNameWrapper;
+    TextInputLayout propertyPmanagerEmailWrapper;
+    TextInputLayout propertyPmanagerPhoneWrapper;
+    TextInputLayout propertyPmanagerCityWrapper;
+    TextInputLayout propertyPmanagerAddressWrapper;
+    TextInputLayout propertyPmanagerLicenseWrapper;
+    EditText propertyPmanagerFullName;
+    EditText propertyPmanagerEmail;
+    EditText propertyPmanagerPhone;
+    EditText propertyPmanagerCity;
+    EditText propertyPmanagerAddress;
+    EditText propertyPmanagerLicense;
 
 
     public PropertyManagerDetailsFormFragment() {
@@ -55,18 +54,18 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_property_manager_details_form, container, false);
-        propertyManagerFullNameWrapper = (TextInputLayout) view.findViewById(R.id.propertyManagerNameWrapper);
-        propertyManagerEmailWrapper = (TextInputLayout) view.findViewById(R.id.propertyManagerEmailWrapper);
-        propertyManagerPhoneWrapper = (TextInputLayout) view.findViewById(R.id.propertyManagerPhoneWrapper);
-        propertyManagerCityWrapper = (TextInputLayout) view.findViewById(R.id.propertyManagerCityWrapper);
-        propertyManagerAddressWrapper = (TextInputLayout) view.findViewById(R.id.propertyManagerAddressWrapper);
-        propertyManagerLicenseWrapper = (TextInputLayout) view.findViewById(R.id.propertyManagerAddressWrapper);
-        propertyManagerCity = (EditText) view.findViewById(R.id.editTextPropertyManagerCity);
-        propertyManagerFullName = (EditText) view.findViewById(R.id.editTextPropertyManagerName);
-        propertyManagerEmail = (EditText) view.findViewById(R.id.editTextPropertyManagerEmail);
-        propertyManagerAddress = (EditText) view.findViewById(R.id.editTextPropertyManagerAddress);
-        propertyManagerPhone = (EditText) view.findViewById(R.id.editTextPropertyManagerPhone);
-        propertyManagerLicense = (EditText) view.findViewById(R.id.editTextPropertyManagerLicense);
+        propertyPmanagerFullNameWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerName);
+        propertyPmanagerEmailWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerEmail);
+        propertyPmanagerPhoneWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerPhone);
+        propertyPmanagerCityWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerCity);
+//        propertyPmanagerAddressWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerAddress);
+        propertyPmanagerLicenseWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerLicenceNumber);
+        propertyPmanagerCity = (EditText) view.findViewById(R.id.editTextPManagerCity);
+        propertyPmanagerFullName = (EditText) view.findViewById(R.id.editTextPManagerName);
+        propertyPmanagerEmail = (EditText) view.findViewById(R.id.editTextPManagerEmail);
+//        propertyPmanagerAddress = (EditText) view.findViewById(R.id.editTextPManagerAddress);
+        propertyPmanagerPhone = (EditText) view.findViewById(R.id.editTextPropertyManagerPhone);
+        propertyPmanagerLicense = (EditText) view.findViewById(R.id.editTextPManagerLicenceNumber);
 
 
         return view;

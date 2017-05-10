@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.steve.housing.R;
+import com.steve.housing.models.PersonMDL;
 import com.steve.housing.utils.GenUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -38,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.realm.Realm;
+import io.realm.RealmAsyncTask;
 
 import static com.steve.housing.utils.Constants.IdDataPreferences;
 import static com.steve.housing.utils.Constants.idImageKey;
@@ -65,6 +67,7 @@ public class IdentificationCardFragment extends Fragment {
     private FloatingActionButton fab;
     private boolean idErr, spinnerIdCardErr;
     private Realm mRealm;
+    private RealmAsyncTask realmAsyncTask;
     private static final int SELECT_FILE = 100;
     private static final int REQUEST_CAMERA = 101;
     private static final int PIC_CROP = 102;
@@ -99,7 +102,7 @@ public class IdentificationCardFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_identification_card, container, false);
-//        mRealm = Realm.getDefaultInstance();
+        mRealm = Realm.getDefaultInstance();
 
         initFields(view);
 
@@ -127,10 +130,10 @@ public class IdentificationCardFragment extends Fragment {
                                 Toast.makeText(getContext(), " " + which, Toast.LENGTH_LONG).show();
 
                                 switch (which) {
+//                                    case 0:
+//                                        galleryIntent();
+//                                        break;
                                     case 0:
-                                        galleryIntent();
-                                        break;
-                                    case 1:
                                         cameraIntent();
                                         break;
                                 }
@@ -180,6 +183,29 @@ public class IdentificationCardFragment extends Fragment {
                     editor.putString(idImageKey, encodedImage);
                     editor.commit();
                     Toast.makeText(getContext(), "Thanks", Toast.LENGTH_LONG).show();
+
+                    realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+
+                            PersonMDL personMDL = realm.where(PersonMDL.class).findAllSorted("createdDate").last();
+                            personMDL.setIdentificationNumber(idText);
+                            personMDL.setIdentificationType(idType);
+                            personMDL.setIdentificationPicture(encodedImage);
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(getContext(), "ID details updated", Toast.LENGTH_LONG).show();
+
+                        }
+                    }, new Realm.Transaction.OnError() {
+                        @Override
+                        public void onError(Throwable error) {
+                            Toast.makeText(getContext(), "ID details update failed", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
 
 
                     //Toast.makeText(getContext(), "No Error", Toast.LENGTH_LONG).show();
@@ -370,5 +396,22 @@ public class IdentificationCardFragment extends Fragment {
 
             }
         }
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
     }
 }

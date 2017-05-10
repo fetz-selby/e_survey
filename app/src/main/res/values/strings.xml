@@ -178,7 +178,7 @@
     <string name="enter_language_hint">Enter Language</string>
     <string name="fullname_hint">Fullname</string>
     <string name="phone_hint">Phone</string>
-    <string name="city_hint">city</string>
+    <string name="city_hint">City</string>
     <string name="address_hint">Address</string>
     <string name="license_number_hint">license number</string>
     <string name="property_type_hint">Property Type</string>
@@ -198,8 +198,10 @@
     <string name="password">Enter password</string>
     <string name="extra_phone_number_hint">Additional phone number</string>
     <string name="house_address_hint">House Address</string>
-    <string name="title_activity_property_list">PropertyListActivity</string>
+    <string name="title_activity_property_list">Properties</string>
     <string name="date_picker_title">Date</string>
     <string name="date_of_birth_hint">date of birth</string>
     <string name="languages_spoken_and_written_hint">languages spoken and written</string>
+    <string name="null_value">null</string>
+    <string name="title_activity_property_view_pager">PropertyViewPagerActivity</string>
 </resources>
