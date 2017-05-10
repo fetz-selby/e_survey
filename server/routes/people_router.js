@@ -7,21 +7,21 @@ var routes = function(){
 
     var peoplesRouter = express.Router(),
         EventEmitter = new event();
-
+    
 
     peoplesRouter.route('/')
         .get(function(req, res){  
-            //Return all people [limit this request]
+            //Return all people [limit this request] add ?page=1 to request
             var page = req.query.page || 1;
             var limit = 20;
-            var offset = page == 0 ? limit : limit * page;
+//            var offset = page == 0 ? limit : limit * page;
+            
         
-            People.find({})
-//            .limit(limit)
-//            .skip(offset)
-//            .sort('-createdAt')
-            .then(function(person){
-                res.json({people: people});
+            People.paginate({}, {limit: limit, page: page, sort:'-createdAt'})
+            .then(function(result){
+                result.people = result.docs;
+                delete result.docs;
+                res.send(result);
             })
             .catch(function(err){
                 res.status(500).send({error: err});

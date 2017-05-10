@@ -110,3 +110,5 @@ process.on("unhandledRejection", function(reason, p){
 var initAllEvents = function(){
     
 }
+
+module.exports = app;

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
 
 var peopleSchema = new Schema({
 	firstname		: String,
@@ -53,6 +54,7 @@ var peopleSchema = new Schema({
 	status 			: String
 });
 
+peopleSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('People', peopleSchema);
 
 

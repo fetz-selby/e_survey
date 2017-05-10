@@ -19,7 +19,7 @@ var agentSchema = new Schema({
     createdBy       : { type: Schema.Types.ObjectId, ref: 'User' },
     createdDate     : { type: Date, default: Date.now },
     modifiedDate    : { type: Date, default: Date.now },
-    status          : String
+    status          : { type: String, default: 'A'}
 }, {
     toObject: {
         virtuals: true
