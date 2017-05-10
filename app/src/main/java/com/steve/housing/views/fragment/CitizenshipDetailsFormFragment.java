@@ -1,5 +1,6 @@
 package com.steve.housing.views.fragment;
 
+import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -152,5 +153,10 @@ public class CitizenshipDetailsFormFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void onButtonClicked(View v){
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getActivity().getFragmentManager(),"Date Picker");
     }
 }
