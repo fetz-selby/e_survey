@@ -15,7 +15,6 @@ var routes = function(){
 	    	var email = req.body.email,
 				password = req.body.password;
 
-			req.checkBody('email', 'email field is required').notEmpty();
 			req.checkBody('password', 'password field is required').notEmpty();
 
 		    var errors = req.validationErrors();
@@ -23,15 +22,15 @@ var routes = function(){
 
 
 
-			User.findOne({email: email})
+			User.findOne({$or: [{phone: email},{email: email}]} )
 			.then(function(user){
 		        // if no user is found, return the message
 		        if (!user)
-		            return res.status(422).json({success: false, message:'Invalid username/password.'});
+		            return res.status(422).json({success: false, message:'Invalid username/password.', user: null});
 
 		        // if the user is found but the password is wrong
 		        if (!user.validPassword(password))
-		            return res.status(422).json({success: false, message:'Invalid username/password.'});
+		            return res.status(422).json({success: false, message:'Invalid username/password.', user:null});
 
 
 		        // login successful

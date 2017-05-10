@@ -14,7 +14,7 @@ var routes = function(){
         .get(function(req, res){  
             //Return all people [limit this request]
             var page = req.query.page || 1;
-            var limit = 20;
+            var limit = 100;
 //            var offset = page == 0 ? limit : limit * page;
         
             Property.paginate({}, {limit: limit, page: page, sort:'-createdAt'})
@@ -31,14 +31,27 @@ var routes = function(){
     propertyRouter.route('/:id')
         .get(function(req, res){
            //Return a specific person
-            People.findOne({_id: req.params.id})
-            .then(function(person){
-                res.json({person: person});
+            Property.findOne({_id: req.params.id})
+            .populate('owners')
+            .then(function(property){
+                res.json({property: property});
             })
             .catch(function(err){
                 res.status(500).send(err)
             })
-        }); 
+        });
+    propertyRouter.route('/:id/people')
+        .get(function(req, res){
+           //Return a specific person
+            Property.findOne({_id: req.params.id}, 'owners')
+            .populate('owners')
+            .then(function(propery){
+                res.json({people: propery.owners});
+            })
+            .catch(function(err){
+                res.status(500).send(err)
+            })
+        });
 
     propertyRouter.route('/region/:id')
         .get(function(req, res){
@@ -115,7 +128,6 @@ var routes = function(){
         
             peopleService.saveOwners(req.body.owners)
             .then(function(resp){
-                console.log(resp)
                 var newProp = new Property;
                 newProp.pins = req.body.pins;
                 newProp.propertyType = req.body.propertyType;
@@ -131,7 +143,8 @@ var routes = function(){
                     region  : req.body.region,
                     district: req.body.district
                 }
-                newProp.address = req.body.address
+                newProp.tin = owner.tin;
+                newProp.address = req.body.address;
                 newProp.familyUnits = req.body.familyUnits;
                 newProp.electricitySource = req.body.electricitySource;
                 newProp.partnershipType = req.body.partnershipType;
@@ -141,14 +154,14 @@ var routes = function(){
                     city    : req.body.emergencyCity,
                     phone   : req.body.emergencyPhone,
                     email   : req.body.emergencyEmail
-                }
+                };
                 newProp.authorizedAgent = {
                     name 	: req.body.agentName,
                     address	: req.body.agentAddress,
                     city	: req.body.agentCity,
                     phones	: req.body.agentPhone,
                     email	: req.body.agentEmail
-                }
+                };
                 newProp.propertyManager = {
                     name    : req.body.managerName,
                     address : req.body.managerAddress,
@@ -156,16 +169,15 @@ var routes = function(){
                     phone   : req.body.managerPhone,
                     email   : req.body.managerEmail
 
-                }
+                };
                 newProp.trustBeneficiaries = {
                     name    : req.body.beneficiaryName,
                     address : req.body.beneficiaryAddress,
                     city    : req.body.beneficiaryCity,
                     phone   : req.body.beneficiaryPhone,
                     email   : req.body.beneficiaryEmail
-                }
+                };
                 newProp.owners = resp.owners;
-
 
                 newProp.save(function(err){
                     return res.json({status: true, message: 'Property registered'});

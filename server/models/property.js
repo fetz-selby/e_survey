@@ -58,8 +58,8 @@ var propertySchema = new Schema({
 		city 		: String,
 		phone 		: String
 	}],
+    guid            : String,
     owners 			: [{ type: Schema.Types.ObjectId, ref: 'People' }],
-
     createdDate		: { type: Date, default: Date.now },
     modifiedDate	: { type: Date, default: Date.now },
     status			: { type: String, default: 'A'}
