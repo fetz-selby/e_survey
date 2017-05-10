@@ -1,14 +1,10 @@
 package com.steve.housing.utils;
 
-import android.graphics.Bitmap;
-
-import com.frosquivel.magicalcamera.MagicalCamera;
-
 /**
  * Created by SOVAVY on 4/25/2017.
  */
 
-public class  Constants {
+public class Constants {
 
 
     public static String loadingDialogMsg;
@@ -20,8 +16,6 @@ public class  Constants {
     public static final String LOGIN_URL = "https://esurvey-api.herokuapp.com/eghana/esurvey/api/auth/agents/login";
 
 
-
-
     public static final String PREFS = "prefs";
 
     public static final String prefStringDefaultValue = "";
@@ -30,9 +24,12 @@ public class  Constants {
 
     public static final String prefsLogin = "prefslogin";
 
-    public static final String PdataPreferences = "Pdatareferences" ;
+    public static final String PdataPreferences = "Pdatareferences";
     public static final String OwnerContactDataPreferences = "OwnerContactDataPreferences";
     public static final String IdDataPreferences = "IdDataPreferences";
+    public static final String OwnerEmploymentsDataPreferences = "OwnerEmploymentsDataPreferences";
+    public static final String OwnerCitizenshipDataPreferences = "OwnerCitizhenshipDataPreferences";
+    public static final String OwenrLanguageDataPreferences = "OwnerLanguageDataPreferences";
     public static final String firstNameKey = "FirstNameKey";
     public static final String lastNameKey = "lastNameKey";
     public static final String otherNameKey = "otherNameKey";
@@ -47,4 +44,19 @@ public class  Constants {
     public static final String ownerEmailKey = "ownerEmailKey";
     public static final String ownerAddressKey = "ownerAddressKey";
     public static final String ownerDistrictKey = "ownerDistrictKey";
+    public static final String ownerEmploymentSectorKey = "ownerEmploymentSectorKey";
+    public static final String ownerEmploymentStatusKey = "ownerEmploymentStatusKey";
+    public static final String ownerEmployerKey = "ownerEmployerKey";
+    public static final String ownerProfessionKey = "ownerProfessionKey";
+    public static final String ownerPositionKey = "ownerPositionKey";
+    public static final String ownerOfficeLocationKey = "ownerOfficeLocationKey";
+    public static final String ownerDateofBirthKey = "ownerDateOfBirthKey";
+    public static final String ownerCitizenshipTypeKey = "ownerCitizenshipTypeKey";
+    public static final String ownerPlaceOfBirthKey = "ownerPlaceOfBirthKey";
+    public static final String ownerSecondCountryKey = "ownerSecondCountryKey";
+    public static final String ownerEthnicityKey = "ownerEthnicityKey";
+    public static final String ownerFirstLanguageKey = "ownerFirstLanguageKey";
+    public static final String ownerFirstLanguageMediumKey = "ownerFirstLanguageMediumKey";
+
+
 }

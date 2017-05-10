@@ -1,4 +1,5 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,7 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/spinnerEmploymentSector"
@@ -19,61 +27,96 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/spinnerEmploymentStatus"
         android:layout_below="@+id/spinnerEmploymentStatus"
-        android:layout_marginTop="23dp" />
-
-    <EditText
-        android:id="@+id/editTextWorkplace"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/spinnerEmploymentSector"
-        android:layout_below="@+id/spinnerEmploymentSector"
         android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="@string/workplace_hint"
-        android:inputType="textPersonName" />
+        app:layout_constraintLeft_toLeftOf="@+id/spinnerEmploymentStatus"
+        app:layout_constraintRight_toRightOf="@+id/spinnerEmploymentStatus"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerEmploymentStatus" />
 
-    <EditText
-        android:id="@+id/editTextOccupation"
-        android:layout_width="280dp"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutEmployer"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextWorkplace"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/your_profession_hint"
-        android:inputType="textPersonName" />
+        app:layout_constraintLeft_toLeftOf="@+id/spinnerEmploymentSector"
+        app:layout_constraintRight_toRightOf="@+id/spinnerEmploymentSector"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerEmploymentSector">
 
-    <EditText
-        android:id="@+id/editTextEployeePosition"
-        android:layout_width="280dp"
+        <EditText
+            android:id="@+id/editTextEmployer"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/workplace_hint"
+            android:inputType="textPersonName" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutProfession"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextOccupation"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/your_position_hint"
-        android:inputType="textPersonName" />
+        android:layout_marginTop="11dp"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutEmployer"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmployer"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutEmployer">
 
-    <EditText
-        android:id="@+id/editTextEmployerAddress"
-        android:layout_width="280dp"
+        <EditText
+            android:id="@+id/editTextProfession"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/your_profession_hint"
+            android:inputType="textPersonName" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutPosition"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextEployeePosition"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
-        android:ems="10"
-        android:hint="@string/location_of_workplace_hint"
-        android:inputType="textPostalAddress" />
+        android:layout_marginTop="19dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutProfession"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutProfession"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutProfession">
 
-    <EditText
-        android:id="@+id/editTextJobStartDate"
-        android:layout_width="280dp"
+        <EditText
+            android:id="@+id/editTextPosition"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/your_position_hint"
+            android:inputType="textPersonName" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextEmployerAddress"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutPosition"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutPosition"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPosition"
+        android:id="@+id/textInputLayoutWorkplaceLocation">
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/editTextWorkplaceLocation"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/location_of_workplace_hint"
+            android:inputType="textPostalAddress" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButtonEmploymentData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutWorkplaceLocation"
+        app:srcCompat="@drawable/check"
+        android:layout_marginTop="23dp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWorkplaceLocation"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutWorkplaceLocation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintHorizontal_bias="0.969"
+        app:layout_constraintVertical_bias="0.185" />
+
+
+</android.support.constraint.ConstraintLayout>

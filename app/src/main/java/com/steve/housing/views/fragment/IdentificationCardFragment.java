@@ -42,6 +42,7 @@ import io.realm.Realm;
 import static com.steve.housing.utils.Constants.IdDataPreferences;
 import static com.steve.housing.utils.Constants.idImageKey;
 import static com.steve.housing.utils.Constants.idTextKey;
+import static com.steve.housing.utils.Constants.idTypeKey;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -175,7 +176,7 @@ public class IdentificationCardFragment extends Fragment {
                     SharedPreferences.Editor editor = sharedpreferencesOwnerID.edit();
 
                     editor.putString(idTextKey, idData);
-                    editor.putString(idType, idText);
+                    editor.putString(idTypeKey, idText);
                     editor.putString(idImageKey, encodedImage);
                     editor.commit();
                     Toast.makeText(getContext(), "Thanks", Toast.LENGTH_LONG).show();
