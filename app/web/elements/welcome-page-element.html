@@ -9,38 +9,40 @@
 
   <template>
     <style>
-      .heading{width: 100%; height: 70px; background: #000000; box-shadow: 0 0 5px 0; opacity: 0.9;}
-      .heading .img-style{float: right; width: 79px; height: 59px; padding: 8px 5px 0 0;}
+      .heading{width: 100%; height: 70px; background: #FFFFFF; box-shadow: 0 0 5px 0;}
+      .heading .img-style{float: right; width: 70px; height: 53px; padding: 17px 0 0 0;}
       .heading .logo-style{float: left; width: 100px; height: 35px; padding: 2px 0 0 0;}
+      .heading .coa-img-style{float: right; width: 50px; height: 45px; padding: 17px 8px 0 0;}
+      .hide{display: none;}
 
       .heading .title{float: left; width: 400px;}
       .heading .title .jomboron{font-size: 30px; font-weight: 400;}
       .heading .title .desc{font-size: 12px;}
 
-      .display{background: #006064; width: 100%; height: 50px; margin: 160px 0 0 0; padding: 5px; color: #ECECEC;}
+
+      .display{background: #006064; width: 112%; height: 50px; margin: 160px 0 0 -28px; padding: 5px; color: #ECECEC; box-shadow: 8px 6px 10px #888888;}
       .display .district-style{font-size: 15px;}
       .display .region-style{font-size: 11px;}
-
+      .step2-container-style{padding-top: 15px;}
       .clearfix{height: 0; clear: both;}
-      footer{width: 100%; height: 50px; background: #006064;}
-      footer .reg{float: right; margin: 14px; color: #ECECEC;}
     </style>      
+    
     <div class="heading">
       <img class="img-style" src="../img/coa.png">
-      <img class="logo-style" src="../img/f.png">
+
       <div class="title">
-        <div class="jomboron">aDIS</div>
+        <div class="jomboron">eDAIS</div>
         <div class="clearfix"></div>
-        <div class="desc">advance district integration system</div>
+        <div class="desc">electronic District Assembly Integration System</div>
       </div>
     </div>
-    <div class="container">
-      <div class="row">
-        
-        <div class="col-md-8">
+
+      <div class="row" id="map_container">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
           <map-element on-tapreq="_onTabReq" on-hoverreq="_onHoverReq"></map-element>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="display">
             <div class="district-style">{{district}}</div>
             <div class="region-style">{{region}}</div>
@@ -48,20 +50,18 @@
         </div>
       </div>
 
-       
-    </div>
-    <footer>
-      <div class="reg">2017 | aDIS</div>
-    </footer>
+      <div class="row hide" id="step_container" class="step2-container-style">
+        <step-2-element id="step2"></step-2-element>
+      </div>
 
-  </template>
+      <footer></footer>
+   </template>
 
   <script>
     Polymer({
       is: 'welcome-page-element',
       ready : function(){
-        this.district = '......';
-        this.region = '...';
+
       },
       properties: {
         // declare the owner property
@@ -71,14 +71,18 @@
 
       },
       _onTabReq : function(e){
-        console.log(e.detail.event);
-        this.set('district', e.detail.event.NAME1__);
-        this.set('region', e.detail.event.NAME2__);
+        $('#map_container').addClass('hide');
+        $('#step_container').removeClass('hide');
+
+        this.$.step2.district = e.detail.data.NAME1__;
+        this.$.step2.region = e.detail.data.NAME2__;
+
+        this.$.step2.data = e.detail.data;
       },
       _onHoverReq : function(e){
-        console.log(e.detail.event);
-        this.set('district', e.detail.event.NAME1__);
-        this.set('region', e.detail.event.NAME2__);
+
+        this.set('district', e.detail.data.NAME1__);
+        this.set('region', e.detail.data.NAME2__);
       }
     
     });

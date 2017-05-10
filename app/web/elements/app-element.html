@@ -1,0 +1,46 @@
+<link rel="import"  href="../bower_components/polymer/polymer.html">
+
+<link rel="import"  href="elements.html">
+
+<dom-module id="app-element">
+
+<link href="../css/custom.css" rel="stylesheet">
+
+
+  <template>
+    <style>
+    
+    </style>      
+    <div class="container">
+     <div class="row" id="map_container">
+        <div class="col-md-12">
+          <login-element on-success="_onLoginSuccess"></login-element>
+        </div>
+      </div>
+
+      <div class="row" id="step_container" class="step2-container-style" style="display:none;">
+        <welcome-page-element id="step2"></welcome-page-element>
+      </div>
+       
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'app-element',
+      ready : function(){
+
+      },
+      properties: {
+        // declare the owner property
+       
+      },
+      _onLoginSuccess : function(){
+        $('#map_container').attr('style', 'display:none;');
+        $('#step_container').attr('style', 'display:block;');
+      }
+    
+    });
+  </script>
+
+</dom-module>

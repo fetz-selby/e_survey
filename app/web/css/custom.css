@@ -1,5 +1,6 @@
 *[hidden]{display:none;}
 .push-right{float: right;}
 .push-left{float: left;}
+.hide{display: none;}
 
 .clearfix{height: 0; clear: both;}
