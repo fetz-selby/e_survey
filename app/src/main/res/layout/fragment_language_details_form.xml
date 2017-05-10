@@ -1,80 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
 
-    <TextView
-        android:id="@+id/textViewLanguage"
-        android:layout_width="205dp"
+    <!--<TextView-->
+    <!--android:id="@+id/textViewLanguage"-->
+    <!--android:layout_width="205dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="24dp"-->
+    <!--android:layout_marginRight="8dp"-->
+    <!--android:layout_marginTop="31dp"-->
+    <!--android:text="@string/language_textview"-->
+    <!--android:textAlignment="gravity"-->
+    <!--android:textStyle="bold"-->
+    <!--app:layout_constraintHorizontal_bias="0.236"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintRight_toLeftOf="@+id/buttonAddLanguage"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/buttonAddLanguage"-->
+    <!--android:layout_width="42dp"-->
+    <!--android:layout_height="34dp"-->
+    <!--android:layout_marginRight="16dp"-->
+    <!--android:layout_marginTop="16dp"-->
+    <!--android:background="@color/colorWhite"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:srcCompat="@android:drawable/ic_input_add" />-->
+
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/linearLayoutLanguage"-->
+    <!--android:layout_width="307dp"-->
+    <!--android:layout_height="323dp"-->
+    <!--android:orientation="vertical"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="0.485"-->
+    <!--android:layout_marginLeft="24dp"-->
+    <!--android:layout_marginRight="24dp"-->
+    <!--android:layout_marginBottom="2dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/spinnerPrimaryLanguage"></LinearLayout>-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editTextPrimaryLanguage"-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="8dp"-->
+    <!--android:layout_marginTop="18dp"-->
+    <!--android:ems="10"-->
+    <!--android:inputType="textPersonName"-->
+    <!--android:hint="@string/enter_language_hint"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/textViewLanguage"-->
+    <!--app:layout_constraintRight_toLeftOf="@+id/spinnerPrimaryLanguage"-->
+    <!--android:layout_marginRight="8dp"-->
+    <!--app:layout_constraintHorizontal_bias="0.588"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--app:layout_constraintBottom_toTopOf="@+id/linearLayoutLanguage" />-->
+
+    <!--<Spinner-->
+    <!--android:id="@+id/spinnerPrimaryLanguage"-->
+    <!--android:layout_width="171dp"-->
+    <!--android:layout_height="26dp"-->
+    <!--android:layout_marginRight="16dp"-->
+    <!--android:layout_marginTop="32dp"-->
+    <!--android:spinnerMode="dialog"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/textViewLanguage"-->
+    <!--tools:layout_editor_absoluteY="72dp"-->
+    <!--tools:layout_editor_absoluteX="133dp" />-->
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButtonGetLanguages"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/check"
+        android:layout_marginTop="118dp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWritten"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutWritten"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutWritten"
+        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutLanguageSpoken"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="31dp"
-        android:text="@string/language_textview"
-        android:textAlignment="gravity"
-        android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.236"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/buttonAddLanguage"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/buttonAddLanguage"
-        android:layout_width="42dp"
-        android:layout_height="34dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/colorWhite"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:layout_constraintHorizontal_bias="0.833">
 
+        <EditText
+            android:id="@+id/editTextLanguageSpoken"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/language_spoken_hint"
+            android:inputType="textMultiLine" />
+        />
+    </android.support.design.widget.TextInputLayout>
 
-
-    <LinearLayout
-        android:id="@+id/linearLayoutLanguage"
-        android:layout_width="307dp"
-        android:layout_height="323dp"
-        android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerPrimaryLanguage"></LinearLayout>
-
-    <EditText
-        android:id="@+id/editTextPrimaryLanguage"
-        android:layout_width="100dp"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutWritten"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="18dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/enter_language_hint"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewLanguage"
-        app:layout_constraintRight_toLeftOf="@+id/spinnerPrimaryLanguage"
-        android:layout_marginRight="8dp"
-        app:layout_constraintHorizontal_bias="0.588"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutLanguage" />
+        android:layout_marginTop="31dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutSpokenWritten"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutSpokenWritten"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutSpokenWritten">
 
-    <Spinner
-        android:id="@+id/spinnerPrimaryLanguage"
-        android:layout_width="171dp"
-        android:layout_height="26dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="32dp"
-        android:spinnerMode="dialog"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewLanguage"
-        tools:layout_editor_absoluteY="72dp"
-        tools:layout_editor_absoluteX="133dp" />
+        <EditText
+            android:id="@+id/editTextWriten"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="language written"
+            android:inputType="textMultiLine" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutSpokenWritten"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayoutLanguageSpoken"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayoutLanguageSpoken"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutLanguageSpoken">
+
+        <EditText
+            android:id="@+id/editTextSpokenWritten"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/languages_spoken_and_written_hint"
+            android:inputType="textMultiLine" />
+    </android.support.design.widget.TextInputLayout>
+
+
 </android.support.constraint.ConstraintLayout>

@@ -20,16 +20,40 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.PersonMDL;
 import com.steve.housing.utils.GenUtils;
 
+import java.util.UUID;
+
+import io.realm.Realm;
+
+import static com.steve.housing.utils.Constants.OwenrLanguageDataPreferences;
+import static com.steve.housing.utils.Constants.OwnerContactDataPreferences;
 import static com.steve.housing.utils.Constants.OwnerEmploymentsDataPreferences;
+import static com.steve.housing.utils.Constants.PdataPreferences;
+import static com.steve.housing.utils.Constants.disabilityKey;
+import static com.steve.housing.utils.Constants.firstNameKey;
+import static com.steve.housing.utils.Constants.idImageKey;
+import static com.steve.housing.utils.Constants.idTextKey;
+import static com.steve.housing.utils.Constants.idTypeKey;
+import static com.steve.housing.utils.Constants.lastNameKey;
+import static com.steve.housing.utils.Constants.maritalStatusKey;
+import static com.steve.housing.utils.Constants.otherNameKey;
+import static com.steve.housing.utils.Constants.ownerAddressKey;
+import static com.steve.housing.utils.Constants.ownerDistrictKey;
+import static com.steve.housing.utils.Constants.ownerEmailKey;
 import static com.steve.housing.utils.Constants.ownerEmployerKey;
 import static com.steve.housing.utils.Constants.ownerEmploymentSectorKey;
 import static com.steve.housing.utils.Constants.ownerEmploymentStatusKey;
+import static com.steve.housing.utils.Constants.ownerExtraPhoneKey;
+import static com.steve.housing.utils.Constants.ownerLanguageSpokenKey;
+import static com.steve.housing.utils.Constants.ownerLanguageSpokenWrittenKey;
+import static com.steve.housing.utils.Constants.ownerLanguageWrittenKey;
 import static com.steve.housing.utils.Constants.ownerOfficeLocationKey;
+import static com.steve.housing.utils.Constants.ownerPhoneKey;
 import static com.steve.housing.utils.Constants.ownerPositionKey;
 import static com.steve.housing.utils.Constants.ownerProfessionKey;
-import static com.steve.housing.views.fragment.LanguageDetailsFormFragment.ARG_PAGE;
+import static com.steve.housing.utils.Constants.profileImageKey;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,9 +66,10 @@ import static com.steve.housing.views.fragment.LanguageDetailsFormFragment.ARG_P
 public class EmploymentDetailsFormFragment extends Fragment {
 
 
-    public static final String  ARG_PAGE ="ARG_PAGE";
+    public static final String ARG_PAGE = "ARG_PAGE";
 
     private int mPage;
+    private Realm mRealm;
     private Spinner spinnerEmploymentStatus;
     private Spinner spinnerEmploymentSector;
     private EditText editTextEmployer, editTextProfession, editTextPosition, editTextWorkLocation;
@@ -53,7 +78,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
     private FloatingActionButton floatingActionButtonGetEmployementData;
     private OnFragmentInteractionListener mListener;
     SharedPreferences sharedpreferencesOwnerEmploymentData;
-    private String employementStatus, employmentSector;
+    private String contactStatus, employmentSector;
     boolean professionError, employerError;
 
     public EmploymentDetailsFormFragment() {
@@ -80,7 +105,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_employment_details_form, container,  false);
+        View view = inflater.inflate(R.layout.fragment_employment_details_form, container, false);
         initFields(view);
 
 
@@ -113,7 +138,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
         spinnerEmploymentStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                employementStatus = parent.getItemAtPosition(position).toString();
+                contactStatus = parent.getItemAtPosition(position).toString();
 
             }
 
@@ -145,7 +170,7 @@ public class EmploymentDetailsFormFragment extends Fragment {
                 } else {
 
 
-                    String employerData = editTextEmployer.getText().toString();
+                    final String employerData = editTextEmployer.getText().toString();
                     String professionData = editTextProfession.getText().toString();
                     String positionData = editTextPosition.getText().toString();
                     String officeLocation = editTextWorkLocation.getText().toString();
@@ -154,12 +179,64 @@ public class EmploymentDetailsFormFragment extends Fragment {
                     SharedPreferences.Editor editor = sharedpreferencesOwnerEmploymentData.edit();
 
                     editor.putString(ownerEmploymentSectorKey, employmentSector);
-                    editor.putString(ownerEmploymentStatusKey, employementStatus);
+                    editor.putString(ownerEmploymentStatusKey, contactStatus);
                     editor.putString(ownerEmployerKey, employerData);
                     editor.putString(ownerProfessionKey, professionData);
                     editor.putString(ownerPositionKey, positionData);
                     editor.putString(ownerOfficeLocationKey, officeLocation);
                     editor.commit();
+                    final SharedPreferences personalData = getActivity().getSharedPreferences(PdataPreferences, Context.MODE_PRIVATE);
+                    final SharedPreferences idData = getActivity().getSharedPreferences(OwnerContactDataPreferences, Context.MODE_PRIVATE);
+                    final SharedPreferences contactData = getActivity().getSharedPreferences(OwnerContactDataPreferences, Context.MODE_PRIVATE);
+                    final SharedPreferences languageData = getActivity().getSharedPreferences(OwenrLanguageDataPreferences, Context.MODE_PRIVATE);
+                    mRealm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+
+                            String id = UUID.randomUUID().toString();
+                            PersonMDL personMDL = realm.createObject(PersonMDL.class, id);
+                            // personal data
+                            personMDL.setFirstname(personalData.getString(firstNameKey, ""));
+                            personMDL.setLastname(personalData.getString(lastNameKey, ""));
+                            personMDL.setOthername(personalData.getString(otherNameKey, ""));
+                            personMDL.setOwnerPhoto(personalData.getString(profileImageKey, ""));
+                            personMDL.setMaritalStatus(personalData.getString(maritalStatusKey, ""));
+                            personMDL.setDisability(personalData.getString(disabilityKey, ""));
+                            // id data
+                            personMDL.setIdentificationNumber(idData.getString(idTextKey, ""));
+                            personMDL.setIdentificationPicture(idData.getString(idImageKey, ""));
+                            personMDL.setIdentificationType(idData.getString(idTypeKey, ""));
+                            // contact data
+                            personMDL.setPhoneNumber(contactData.getString(ownerPhoneKey, ""));
+                            personMDL.setAdditionalPhoneNumber(contactData.getString(ownerExtraPhoneKey, ""));
+                            personMDL.setEmail(contactData.getString(ownerEmailKey, ""));
+                            personMDL.setPostalAddress(contactData.getString(ownerAddressKey, ""));
+                            personMDL.setDistrict(contactData.getString(ownerDistrictKey, ""));
+                            // citizenship data
+                            personMDL.setDob();
+                            personMDL.setDualCityzenship();
+                            personMDL.setNationality();
+                            personMDL.setEthnicity();
+                            personMDL.setNationalityType();
+                            // employmentdata
+                            personMDL.setEmployer();
+                            personMDL.setEmploymentStatus();
+                            personMDL.setEmploymentSector();
+                            personMDL.setEmployer();
+                            personMDL.setProfession();
+                            personMDL.setWorkplaceLocation();
+                            personMDL.setCommencementDate();
+                            //language data
+                            personMDL.setLanguageSpoken(languageData.getString(ownerLanguageSpokenKey,""));
+                            personMDL.setLanguageSpokenWritten(languageData.getString(ownerLanguageWrittenKey,""));
+                            personMDL.setLanguageWritten(languageData.getString(ownerLanguageSpokenWrittenKey,"");
+
+
+                            GenUtils.getToastMessage(getActivity(), "Owner data Saved Successfully");
+                        }
+                    });
+
+
                     Toast.makeText(getContext(), "Thanks", Toast.LENGTH_LONG).show();
 
                 }
@@ -169,32 +246,32 @@ public class EmploymentDetailsFormFragment extends Fragment {
 
     }
 
-        @Override
-        public void onAttach (Context context){
-            super.onAttach(context);
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
-        }
+    }
 
-        @Override
-        public void onDetach () {
-            super.onDetach();
-            mListener = null;
-        }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
-        /**
-         * This interface must be implemented by activities that contain this
-         * fragment to allow an interaction in this fragment to be communicated
-         * to the activity and potentially other fragments contained in that
-         * activity.
-         * <p>
-         * See the Android Training lesson <a href=
-         * "http://developer.android.com/training/basics/fragments/communicating.html"
-         * >Communicating with Other Fragments</a> for more information.
-         */
-        public interface OnFragmentInteractionListener {
-            // TODO: Update argument type and name
-            void onFragmentInteraction(Uri uri);
-        }
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
 
     public void initFields(View view) {
 

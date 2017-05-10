@@ -64,13 +64,19 @@ public class PersonMDL extends RealmObject {
     private String firstname;
     private String lastname;
     private String othername;
-    private String imagedata;
     private String maritalStatus;
     private String disability;
-    private String idCardImage;
-    private String idCardType;
-    private String getIdCardDigit;
     private String dob;
+
+    public String getNationalityType() {
+        return nationalityType;
+    }
+
+    public void setNationalityType(String nationalityType) {
+        this.nationalityType = nationalityType;
+    }
+
+    private String nationalityType;
     private String nationality;
     private String dualCityzenship;
     private String ethnicity;
@@ -79,19 +85,68 @@ public class PersonMDL extends RealmObject {
     private String employmentStatus;
     private String employmentSector;
     private String position;
+
+    public String getWorkplaceLocation() {
+        return workplaceLocation;
+    }
+
+    public void setWorkplaceLocation(String workplaceLocation) {
+        this.workplaceLocation = workplaceLocation;
+    }
+
+    private String workplaceLocation;
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    private String profession;
     private String commencementDate;
     private String identificationType;
     private String identificationNumber;
     private String identificationPicture;
     private String PhoneNumber;
     private String additionalPhoneNumber;
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    private String district ;
     private String languageWritten;
     private String languageSpoken;
-    private String getLanguageSpokenWritten;
+
+    public String getLanguageSpokenWritten() {
+        return languageSpokenWritten;
+    }
+
+    public void setLanguageSpokenWritten(String languageSpokenWritten) {
+        this.languageSpokenWritten = languageSpokenWritten;
+    }
+
+    private String languageSpokenWritten;
+
     private String ResidentialAddress;
     private String PostalAddress;
+    private String email;
     private String createdBy;
     private String createdAt;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getCreatedBy() {
         return createdBy;
@@ -110,8 +165,6 @@ public class PersonMDL extends RealmObject {
     }
 
 
-
-
     public String getLanguageWritten() {
         return languageWritten;
     }
@@ -128,13 +181,6 @@ public class PersonMDL extends RealmObject {
         this.languageSpoken = languageSpoken;
     }
 
-    public String getGetLanguageSpokenWritten() {
-        return getLanguageSpokenWritten;
-    }
-
-    public void setGetLanguageSpokenWritten(String getLanguageSpokenWritten) {
-        this.getLanguageSpokenWritten = getLanguageSpokenWritten;
-    }
 
     public String getResidentialAddress() {
         return ResidentialAddress;
@@ -151,8 +197,6 @@ public class PersonMDL extends RealmObject {
     public void setPostalAddress(String postalAddress) {
         PostalAddress = postalAddress;
     }
-
-
 
 
     public String getDob() {
@@ -276,31 +320,6 @@ public class PersonMDL extends RealmObject {
     }
 
 
-    public String getIdCardImage() {
-        return idCardImage;
-    }
-
-    public void setIdCardImage(String idCardImage) {
-        this.idCardImage = idCardImage;
-    }
-
-    public String getIdCardType() {
-        return idCardType;
-    }
-
-    public void setIdCardType(String idCardType) {
-        this.idCardType = idCardType;
-    }
-
-    public String getGetIdCardDigit() {
-        return getIdCardDigit;
-    }
-
-    public void setGetIdCardDigit(String getIdCardDigit) {
-        this.getIdCardDigit = getIdCardDigit;
-    }
-
-
     public String getId() {
         return id;
     }
@@ -331,14 +350,6 @@ public class PersonMDL extends RealmObject {
 
     public void setOthername(String othername) {
         this.othername = othername;
-    }
-
-    public String getImagedata() {
-        return imagedata;
-    }
-
-    public void setImagedata(String imagedata) {
-        this.imagedata = imagedata;
     }
 
     public String getMaritalStatus() {

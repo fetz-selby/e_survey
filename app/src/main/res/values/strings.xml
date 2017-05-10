@@ -200,4 +200,6 @@
     <string name="house_address_hint">House Address</string>
     <string name="title_activity_property_list">PropertyListActivity</string>
     <string name="date_picker_title">Date</string>
+    <string name="date_of_birth_hint">date of birth</string>
+    <string name="languages_spoken_and_written_hint">languages spoken and written</string>
 </resources>

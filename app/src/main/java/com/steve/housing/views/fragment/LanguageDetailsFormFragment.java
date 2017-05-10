@@ -1,19 +1,31 @@
 package com.steve.housing.views.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.utils.GenUtils;
+
+import static com.steve.housing.utils.Constants.OwenrLanguageDataPreferences;
+import static com.steve.housing.utils.Constants.ownerEmployerKey;
+import static com.steve.housing.utils.Constants.ownerEmploymentSectorKey;
+import static com.steve.housing.utils.Constants.ownerEmploymentStatusKey;
+import static com.steve.housing.utils.Constants.ownerLanguageSpokenKey;
+import static com.steve.housing.utils.Constants.ownerLanguageSpokenWrittenKey;
+import static com.steve.housing.utils.Constants.ownerLanguageWrittenKey;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,14 +36,20 @@ import com.steve.housing.R;
  * create an instance of this fragment.
  */
 public class LanguageDetailsFormFragment extends Fragment {
-    private ImageButton btnAddLanguage;
-    private Spinner spinnerPrimaryLanguage;
-    private Spinner spinnerSecondaryLanguage;
-    private EditText editTextPrimaryLanguage;
-    private ArrayAdapter<CharSequence> adapter;
+//    private ImageButton btnAddLanguage;
+//    private Spinner spinnerPrimaryLanguage;
+//    private Spinner spinnerSecondaryLanguage;
+//    private EditText editTextPrimaryLanguage;
+//    private ArrayAdapter<CharSequence> adapter;
+
+    EditText editTextLanguageSpoken, editTextLanguageWritten, editTextLanguageSpokenWrtitten;
+    TextInputLayout textInputLayoutLanguageSpoken, textInputLayoutLanguageWritten, textInputLayoutLanguageSpokenWritten;
+    FloatingActionButton floatingActionButtonAddLanguage;
     private OnFragmentInteractionListener mListener;
     public static final String ARG_PAGE = "ARG_PAGE";
     private int mPage;
+    SharedPreferences sharedpreferencesOwnerLanguageData;
+    private boolean languageSpokenWrittenError, languageSpokenError, languageWrittenError;
 
 
     public LanguageDetailsFormFragment() {
@@ -50,6 +68,7 @@ public class LanguageDetailsFormFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedpreferencesOwnerLanguageData = getActivity().getSharedPreferences(OwenrLanguageDataPreferences, Context.MODE_PRIVATE);
 
     }
 
@@ -59,19 +78,52 @@ public class LanguageDetailsFormFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_language_details_form, container, false);
         // Inflate the layout for this fragment
-        adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.items_languages, android.R.layout.simple_spinner_dropdown_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        editTextPrimaryLanguage = (EditText) view.findViewById(R.id.editTextPrimaryLanguage);
-        spinnerPrimaryLanguage = (Spinner) view.findViewById(R.id.spinnerPrimaryLanguage);
-        spinnerPrimaryLanguage.setAdapter(adapter);
-        final LinearLayout linearLayoutFormLanguage = (LinearLayout) view.findViewById(R.id.linearLayoutLanguage);
-        btnAddLanguage = (ImageButton) view.findViewById(R.id.buttonAddLanguage);
-        addMoreLanguage(linearLayoutFormLanguage, btnAddLanguage);
+//        adapter = ArrayAdapter.createFromResource(getActivity(),
+//                R.array.items_languages, android.R.layout.simple_spinner_dropdown_item);
+//        // Specify the layout to use when the list of choices appears
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        editTextPrimaryLanguage = (EditText) view.findViewById(R.id.editTextPrimaryLanguage);
+//        spinnerPrimaryLanguage = (Spinner) view.findViewById(R.id.spinnerPrimaryLanguage);
+//        spinnerPrimaryLanguage.setAdapter(adapter);
+//        final LinearLayout linearLayoutFormLanguage = (LinearLayout) view.findViewById(R.id.linearLayoutLanguage);
+//        btnAddLanguage = (ImageButton) view.findViewById(R.id.buttonAddLanguage);
+//        addMoreLanguage(linearLayoutFormLanguage, btnAddLanguage);
+        initFields(view);
+
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        floatingActionButtonAddLanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                languageSpokenError = GenUtils.isEmpty(editTextLanguageSpoken, textInputLayoutLanguageSpoken, "Language spoken required");
+                languageWrittenError = GenUtils.isEmpty(editTextLanguageWritten, textInputLayoutLanguageSpoken, "Language written required");
+                languageSpokenWrittenError = GenUtils.isEmpty(editTextLanguageSpokenWrtitten, textInputLayoutLanguageSpoken, "Language spoken and written required");
+
+                if (!(languageSpokenError && !languageWrittenError && languageSpokenWrittenError)) {
+                    Toast.makeText(getContext(), "Error check Fields", Toast.LENGTH_LONG).show();
+                } else {
+                    String languageSpokenData = editTextLanguageSpoken.getText().toString();
+                    String languageWrittenData = editTextLanguageWritten.getText().toString();
+                    String languageSpokenWrittenData = editTextLanguageSpokenWrtitten.getText().toString();
+                    SharedPreferences.Editor editor = sharedpreferencesOwnerLanguageData.edit();
+                    editor.putString(ownerLanguageSpokenKey, languageSpokenData);
+                    editor.putString(ownerLanguageWrittenKey, languageWrittenData);
+                    editor.putString(ownerLanguageSpokenWrittenKey, languageSpokenWrittenData);
+                    editor.commit();
+
+                }
+
+            }
+
+        });
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -112,31 +164,80 @@ public class LanguageDetailsFormFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void addMoreLanguage(final LinearLayout linearLayoutForm, ImageButton imageButton) {
-        imageButton.setOnClickListener(new View.OnClickListener() {
+    public void initFields(View view) {
+        editTextLanguageSpoken = (EditText) view.findViewById(R.id.editTextLanguageSpoken);
+        editTextLanguageWritten = (EditText) view.findViewById(R.id.editTextWriten);
+        editTextLanguageSpokenWrtitten = (EditText) view.findViewById(R.id.editTextSpokenWritten);
+        floatingActionButtonAddLanguage = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonGetLanguages);
+        textInputLayoutLanguageSpoken = (TextInputLayout) view.findViewById(R.id.textInputLayoutLanguageSpoken);
+        textInputLayoutLanguageSpokenWritten = (TextInputLayout) view.findViewById(R.id.textInputLayoutSpokenWritten);
+        textInputLayoutLanguageWritten = (TextInputLayout) view.findViewById(R.id.textInputLayoutWritten);
 
-            @Override
-            public void onClick(View v) {
-                final RelativeLayout newView = (RelativeLayout) getActivity().getLayoutInflater()
-                        .inflate(R.layout.row_detail, null);
-                newView.setLayoutParams(new LinearLayout.
-                        LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                        , ViewGroup.LayoutParams.WRAP_CONTENT));
-                spinnerSecondaryLanguage = (Spinner) newView.findViewById(R.id.spinnerLanguage);
-
-                // Apply the adapter to the spinner
-                spinnerSecondaryLanguage.setAdapter(adapter);
-
-                ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
-                btnRemove.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        linearLayoutForm.removeView(newView);
-                    }
-                });
-                linearLayoutForm.addView(newView);
-            }
-        });
     }
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            switch (view.getId()) {
+                case R.id.editTextLanguageSpoken:
+                    GenUtils.isEmpty(editTextLanguageSpoken, textInputLayoutLanguageSpoken, "Language Spoken required");
+                    break;
+                case R.id.editTextWriten:
+                    GenUtils.isEmpty(editTextLanguageWritten, textInputLayoutLanguageWritten, "Language written required");
+                    break;
+                case R.id.editTextSpokenWritten:
+                    GenUtils.isEmpty(editTextLanguageSpokenWrtitten, textInputLayoutLanguageSpokenWritten, "Language written and written required");
+                    break;
+
+                default:
+
+            }
+        }
+    }
+
+//    private void addMoreLanguage(final LinearLayout linearLayoutForm, ImageButton imageButton) {
+//        imageButton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                final RelativeLayout newView = (RelativeLayout) getActivity().getLayoutInflater()
+//                        .inflate(R.layout.row_detail, null);
+//                newView.setLayoutParams(new LinearLayout.
+//                        LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+//                        , ViewGroup.LayoutParams.WRAP_CONTENT));
+//                spinnerSecondaryLanguage = (Spinner) newView.findViewById(R.id.spinnerLanguage);
+//
+//                // Apply the adapter to the spinner
+//                spinnerSecondaryLanguage.setAdapter(adapter);
+//
+//                ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
+//                btnRemove.setOnClickListener(new View.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(View v) {
+//                        linearLayoutForm.removeView(newView);
+//                    }
+//                });
+//                linearLayoutForm.addView(newView);
+//            }
+//        });
+//    }
 }

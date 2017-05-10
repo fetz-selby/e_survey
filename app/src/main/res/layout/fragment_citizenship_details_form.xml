@@ -11,87 +11,98 @@
 
     <Spinner
         android:id="@+id/spinnerCitizenshipType"
-        android:layout_width="321dp"
-        android:layout_height="38dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="38dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="24dp" />
-
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextViewFirstCountry"
-        android:layout_width="322dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="31dp"
-        android:hint="@string/country_hint"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCitizenshipType">
-    <requestFocus />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextViewFirstCountry"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/country_hint"
+        app:layout_constraintLeft_toLeftOf="@+id/spinnerCitizenshipType"
+        app:layout_constraintRight_toRightOf="@+id/spinnerCitizenshipType"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCitizenshipType"
+        app:layout_constraintHorizontal_bias="0.0">
+
+        <requestFocus />
     </AutoCompleteTextView>
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextViewSecondCountry"
-        android:layout_width="322dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="31dp"
-        android:hint="Entry second country if dual citizenship"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewFirstCountry">
+        android:layout_marginTop="16dp"
+        android:hint="Second country "
+        app:layout_constraintLeft_toLeftOf="@+id/autoCompleteTextViewFirstCountry"
+        app:layout_constraintRight_toRightOf="@+id/autoCompleteTextViewFirstCountry"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewFirstCountry"
+        app:layout_constraintHorizontal_bias="0.0">
+
         <requestFocus />
     </AutoCompleteTextView>
 
     <EditText
         android:id="@+id/editTextPlaceOfBirth"
-        android:layout_width="322dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/place_of_birth_hint"
         android:inputType="textPersonName"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewSecondCountry" />
+        app:layout_constraintLeft_toLeftOf="@+id/autoCompleteTextViewSecondCountry"
+        app:layout_constraintRight_toRightOf="@+id/autoCompleteTextViewSecondCountry"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewSecondCountry"
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <EditText
         android:id="@+id/editTextEthnicity"
-        android:layout_width="322dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Ethnicity"
         android:inputType="textPersonName"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPlaceOfBirth" />
+        app:layout_constraintLeft_toLeftOf="@+id/editTextPlaceOfBirth"
+        app:layout_constraintRight_toRightOf="@+id/editTextPlaceOfBirth"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPlaceOfBirth"
+        app:layout_constraintHorizontal_bias="0.0" />
 
-    <Button
-        android:id="@+id/buttonDateofBirth"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editTextDateOfBirth"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="pick Dob"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintLeft_toLeftOf="@+id/editTextEthnicity"
+        app:layout_constraintRight_toRightOf="@+id/editTextEthnicity"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/editTextEthnicity"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.037" />
+        android:hint="@string/date_of_birth_hint"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/check"
+        android:layout_marginTop="52dp"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDateOfBirth"
+        app:layout_constraintLeft_toLeftOf="@+id/editTextDateOfBirth"
+        app:layout_constraintRight_toRightOf="@+id/editTextDateOfBirth"
+        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.0" />
+
 </android.support.constraint.ConstraintLayout>
