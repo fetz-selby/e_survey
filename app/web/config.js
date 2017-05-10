@@ -1,6 +1,6 @@
 var config = {
-  domain : 'http://localhost:8000',
+  domain : 'https://esurvey-api.herokuapp.com',
   basepath : '/eghana/esurvey/api/',
-  url : 'http://localhost:8000/eghana/esurvey/api',
+  url : 'https://esurvey-api.herokuapp.com/eghana/esurvey/api',
 }
 

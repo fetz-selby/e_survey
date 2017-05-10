@@ -5,10 +5,11 @@
 <link rel="import"  href="elements.html">
 
 <dom-module id="login-element">
+<script src="../config.js"></script>
 
   <template>
 
-  	<iron-ajax id='loginCall' method="GET" handle-as="json" on-response="_handleLoginResponse" debounce-duration="0" on-error="_onLoginErrorRequest"></iron-ajax>
+  	<iron-ajax id='loginCall' method="POST" handle-as="json" on-response="_handleLoginResponse" debounce-duration="0" on-error="_onLoginErrorRequest"></iron-ajax>
 
     <style>
      paper-button.indigo {
@@ -39,7 +40,7 @@
 
 					<div class="form-group">
 						<div class="pre-icon os-icon os-icon-user-male-circle"></div>
-						<paper-input always-float-label label="Username"></paper-input>
+						<paper-input always-float-label label="Username" value="{{username}}"></paper-input>
 					</div>
 
 
@@ -52,7 +53,7 @@
 
 					<div class="form-group">
 						<div class="pre-icon os-icon os-icon-fingerprint"></div>
-						<paper-input always-float-label label="Password"></paper-input>
+						<paper-input always-float-label label="Password" type="password" value="{{password}}"></paper-input>
 					</div>
 
 
@@ -78,12 +79,26 @@
       },
       _handleLoginResponse : function(e){
       	if(e.detail.response){
-
+      		console.log('user-obj ::: '+e.detail.response);
       		this.fire('success', {user : e.detail.response});
       	}
       },
       _onLoginTapped : function(){
       	this.fire('success', {user : ''});
+      	this.$.loginCall.url = config.url+'/auth/login';
+
+      	//Check if it's email or phone
+      	if(this.username.includes('@')){
+      		this.$.loginCall.body = {email : this.username, password : this.password};
+      	}else{
+      		this.$.loginCall.body = {phone : this.username, password : this.password};
+      	}
+
+      	this.$.loginCall.generateRequest();
+
+      },
+      _onLoginErrorRequest : function(e){
+
       }
      
     });
