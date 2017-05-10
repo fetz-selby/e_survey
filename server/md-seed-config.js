@@ -23,8 +23,8 @@ module.exports = {
   */
   seedersList: {
 //      userSeeder,
-      agentSeeder,
+//      agentSeeder,
 //      peopleSeeder,
-//        propertySeeder
+      propertySeeder
   }
 };
