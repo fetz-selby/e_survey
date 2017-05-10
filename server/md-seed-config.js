@@ -1,8 +1,9 @@
 var mongooseLib = require('mongoose'),
     dbConfig = require('./config'),
-    userSeeder = require('./seeders/users.seeder.js');
-    agentSeeder = require('./seeders/agents.seeder.js');
-    peopleSeeder = require('./seeders/people.seeder.js');
+    userSeeder = require('./seeders/users.seeder.js'),
+    agentSeeder = require('./seeders/agents.seeder.js'),
+    peopleSeeder = require('./seeders/people.seeder.js'),
+    propertySeeder = require('./seeders/property.seeder.js');
 
 
 mongooseLib.Promise = global.Promise;
@@ -22,7 +23,8 @@ module.exports = {
   */
   seedersList: {
 //      userSeeder,
-//      agentSeeder,
-      peopleSeeder
+      agentSeeder,
+//      peopleSeeder,
+//        propertySeeder
   }
 };

@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
+
 
 var propertySchema = new Schema({
 	pins 			: String,
@@ -13,7 +15,6 @@ var propertySchema = new Schema({
 	},
 	location		: {
 		gps 		: { lat: Number, lng: Number },
-		region 		: { type: Schema.Types.ObjectId, ref: 'Region' },
 		town 		: String,
 		district	: { type: Schema.Types.ObjectId },
 		what3words	: String
@@ -21,10 +22,10 @@ var propertySchema = new Schema({
 	address 		: String,
 	familyUnits     : Number,
 	electricitySource: String,
-	partnership		:[{
-		name 		: String,
-		percentage	: Number
-	}],
+//	partnership		:[{
+//		name 		: String,
+//		percentage	: Number
+//	}],
 	partnershipType : String,
 
 	emergency		: {
@@ -61,9 +62,10 @@ var propertySchema = new Schema({
 
     createdDate		: { type: Date, default: Date.now },
     modifiedDate	: { type: Date, default: Date.now },
-    status			: String
+    status			: { type: String, default: 'A'}
 });
 
 
+propertySchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Property', propertySchema);

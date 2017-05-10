@@ -51,7 +51,7 @@ var peopleSchema = new Schema({
 	createdBy 		: { type: Schema.Types.ObjectId, ref: 'Agent' },
 	createdDate 	: { type: Date, default: Date.now },
 	modifiedDate	: { type: Date, default: Date.now },
-	status 			: String
+	status 			: { type: String, default: 'A'}
 });
 
 peopleSchema.plugin(mongoosePaginate);

@@ -15,14 +15,13 @@ var routes = function(){
             //Return all people [limit this request]
             var page = req.query.page || 1;
             var limit = 20;
-            var offset = page == 0 ? limit : limit * page;
+//            var offset = page == 0 ? limit : limit * page;
         
-            Property.find({})
-            .limit(limit)
-            .skip(offset)
-            .sort('-createdAt')
-            .then(function(properties){
-                res.json({properties: properties});
+            Property.paginate({}, {limit: limit, page: page, sort:'-createdAt'})
+            .then(function(result){
+                result.properties = result.docs;
+                delete result.docs;
+                res.send(result);
             })
             .catch(function(err){
                 res.status(500).send(err)
