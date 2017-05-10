@@ -43,6 +43,7 @@ exports.saveOwners = function(owners){
             newPeople.position = owner.position;
             newPeople.employmentSector = owner.employmentSector;
             newPeople.disablity = owner.disablity;
+            newPeople.tin = owner.tin;
             newPeople.identification = {
                 type: owner.idType,
                 number: owner.idNumber,

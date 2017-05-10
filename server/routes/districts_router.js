@@ -1,6 +1,7 @@
 var express = require('express'),
     event = require('events').EventEmitter
 	Region = require('../models/region')
+	Property = require('../models/property')
 	districtService = require('../services/district_service');
 	flatten = require('../services/helper_service').flatten;
 
@@ -48,6 +49,24 @@ var routes = function(){
                 res.json({districts: doc.districts}); 
             })
         }); 
+    districtsRouter.route('/:id/people')
+        .get(function(req, res){
+            var districtId = req.params.id;
+            Property.find({'location.district': districtId}, 'owners')
+            .populate('owners')
+            .then(function(properties){
+                var people = [];
+                for(var prop of properties){
+                    for(var owner of prop.owners){
+                        people.push(owner);
+                    }
+                }
+                res.json({people: people});
+            })
+            .catch(function(err){
+                res.status(500).send(err)
+            })
+        })
 
     districtsRouter.route('/:id')
         .put(function(req, res){

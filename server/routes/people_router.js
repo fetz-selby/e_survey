@@ -67,7 +67,9 @@ var routes = function(){
             .then(function(properties){
                 var people = [];
                 for(var prop of properties){
-                    people.concat(prop.owners)
+                    for(var owner of prop.owners){
+                        people.push(owner);
+                    }
                 }
                 res.json({people: people});
             })

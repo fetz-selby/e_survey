@@ -38,9 +38,11 @@ var peopleSchema = new Schema({
 	employmentStatus: String,
 	employer 		: String,
 	occupation 		: String,
+    tin             : String,
 	commencementDate: Date,
 	position 		: String,
 	employmentSector: String,
+    guid            : String,
 	disability		: [String],
 	identification	: {
 		type  		: { type: String, default:'' },
