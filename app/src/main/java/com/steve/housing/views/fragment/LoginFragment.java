@@ -20,10 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.steve.housing.R;
 import com.steve.housing.utils.Constants;
 import com.steve.housing.utils.GenUtils;
@@ -37,6 +39,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.realm.Realm;
+
+import static com.steve.housing.utils.Constants.REGION_URL;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -104,6 +108,76 @@ public class LoginFragment extends Fragment {
                                 String user = result.getString("success");
                                 String message = result.getString("message");
                                 if (user.equals("true")) {
+
+//                                    get data
+                                    Map<String, String> params = new HashMap<String, String>();
+                                    params.put("email", usernameET.getText().toString().trim());
+                                    params.put("password", passwordET.getText().toString().trim());
+
+
+                                    mVolleyRequest.postData(Constants.LOGIN_URL, params, new VolleyRequests.VolleyPostCallBack() {
+
+                                        @RequiresApi(api = Build.VERSION_CODES.M)
+                                        @Override
+                                        public void onSuccess(JSONObject result) {
+                                            Log.d(TAG, result.toString());
+                                            try {
+                                                String user = result.getString("success");
+                                                String message = result.getString("message");
+                                                if (user.equals("true")) {
+                                                mVolleyRequest.JsonObjRequest(REGION_URL, new VolleyRequests.VolleyJsonCallBack() {
+                                                    @Override
+                                                    public void onSuccess(JSONObject result) {
+                                                        if(result.isNull("null")){
+                                                            Toast.makeText(getContext(),result.toString(),Toast.LENGTH_LONG);
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onError(VolleyError error) {
+                                                        Toast.makeText(getContext(),error.toString(),Toast.LENGTH_LONG);
+                                                    }
+
+                                                    @Override
+                                                    public void onStart() {
+                                                        mProgressBar.setVisibility(View.VISIBLE);
+                                                    }
+
+                                                    @Override
+                                                    public void onFinish() {
+                                                        mProgressBar.setVisibility(View.INVISIBLE);
+                                                    }
+                                                });
+
+                                                    setUserlogin();
+                                                } else {
+                                                    msg("Username or password do not exist, try again");
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+
+                                        @RequiresApi(api = Build.VERSION_CODES.M)
+                                        @Override
+                                        public void onError(VolleyError error) {
+                                            msg(error.getMessage());
+                                            Log.e("Shit", error.toString());
+                                            mProgressBar.setVisibility(View.INVISIBLE);
+                                        }
+
+                                        @Override
+                                        public void onStart() {
+                                            mProgressBar.setVisibility(View.VISIBLE);
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            mProgressBar.setVisibility(View.INVISIBLE);
+                                        }
+                                    });
                                     setUserlogin();
                                 } else {
                                     msg("Username or password do not exist, try again");
@@ -132,6 +206,8 @@ public class LoginFragment extends Fragment {
                             mProgressBar.setVisibility(View.INVISIBLE);
                         }
                     });
+
+
 
 
                 }

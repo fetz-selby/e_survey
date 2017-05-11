@@ -1,32 +1,57 @@
 package com.steve.housing.views.fragment;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.utils.GenUtils;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link PropertyFormExtraDetailsFormFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PropertyFormExtraDetailsFormFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PropertyFormExtraDetailsFormFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.List;
+import java.util.Locale;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import fr.quentinklein.slt.LocationTracker;
+import fr.quentinklein.slt.TrackerSettings;
+import io.realm.Realm;
+import io.realm.RealmAsyncTask;
+
+
+public class PropertyFormExtraDetailsFormFragment extends Fragment  implements LocationListener {
+
+    private ProgressDialog dialog;
+    private LocationManager mlocManager = null;
+    private Context ctx;
+
+    private ProgressBar gpsLoading = null;
+    private Realm mRealm;
+    private RealmAsyncTask realmAsyncTask;
+    private EditText editTextNumberOfUnits, editTextDistrict, editTextAddress, editTextCoordinates, editTextLandmark;
+    private String numberofUnits, district, address;
+    private FloatingActionButton floatingActionButtonCoordinates;
+    public static final int PERMISSION_ACCESS_COARSE_LOCATION = 99;
+    private LocationManager locationManager;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,20 +59,11 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PropertyFormExtraDetailsFormFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static PropertyFormExtraDetailsFormFragment newInstance(String param1, String param2) {
         PropertyFormExtraDetailsFormFragment fragment = new PropertyFormExtraDetailsFormFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,8 +72,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -65,9 +80,224 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_property_form_extra_details_form, container, false);
+        View view = inflater.inflate(R.layout.fragment_property_form_extra_details_form, container, false);
+        editTextAddress = (EditText) view.findViewById(R.id.editTextPropertyAddress);
+        editTextDistrict = (EditText) view.findViewById(R.id.editTextPropertyDistrict);
+        editTextNumberOfUnits = (EditText) view.findViewById(R.id.editTextNumberOfUnits);
+        editTextCoordinates = (EditText) view.findViewById(R.id.editTextPropertyCoordinates);
+//        editTextLandmark = (EditText) view.findViewById(R.id.editTextPropertyLandmark) ;
+        floatingActionButtonCoordinates = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonPropertyCoordinates);
+        gpsLoading = (ProgressBar) view.findViewById(R.id.gps_loading_panel);
+
+        mRealm = Realm.getDefaultInstance();
+//        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        dialog = new ProgressDialog(getActivity());
+
+
+
+        floatingActionButtonCoordinates.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "loading", Toast.LENGTH_LONG).show();
+                getLocation();
+                LocationTracker tracker = new LocationTracker(getContext(), new TrackerSettings()
+                        .setUseGPS(true)
+                        .setUseNetwork(true)
+                        .setUsePassive(true)) {
+                    @Override
+                    public void onLocationFound(Location location) {
+                        Toast.makeText(getContext(), "" + location.getLatitude() + "" + location.getLongitude(), Toast.LENGTH_LONG).show();
+                        editTextCoordinates.setText( "" + location.getLatitude() + "" + location.getLongitude());
+
+                        Geocoder geocoder;
+                        List<Address> addresses;
+                        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+                        String strFullAddress = "N/A";
+
+                        try {
+                            addresses = geocoder.getFromLocation(location.getLongitude(), location.getLatitude(), 1);
+                            if (!addresses.isEmpty()) {
+                                String address = addresses.get(0).getAddressLine(0);
+                                String city = addresses.get(0).getLocality();
+                                String state = addresses.get(0).getAdminArea();
+                                String country = addresses.get(0).getCountryName();
+                                String postalCode = addresses.get(0).getPostalCode();
+                                String knownName = addresses.get(0).getFeatureName();
+
+                                strFullAddress = address +
+                                        ", " + city +
+                                        ",  " + state +
+                                        ", " + country;
+                                Toast.makeText(getContext(),strFullAddress, Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (java.io.IOException e) {
+                            Log.e("setGPSData", e.getMessage());
+                        }
+
+                    }
+
+                    @Override
+                    public void onTimeout() {
+
+                    }
+                };
+                tracker.startListening();
+
+                checkLocationPermission();
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // You need to ask the user to enable the permissions
+//                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+//                            PERMISSION_ACCESS_COARSE_LOCATION);
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle(R.string.title_location_permission)
+                            .setMessage(R.string.text_location_permission)
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //Prompt the user once explanation has been shown
+                                    ActivityCompat.requestPermissions(getActivity(),
+                                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                            PERMISSION_ACCESS_COARSE_LOCATION);
+                                }
+                            })
+                            .create()
+                            .show();
+
+                } else {
+//                    LocationTracker tracker = new LocationTracker(getContext()) {
+//                        @Override
+//                        public void onLocationFound(Location location) {
+//                            Toast.makeText(getContext(), "" + location.getLatitude() + "" + location.getLongitude(), Toast.LENGTH_LONG).show();
+//                        }
+//
+//                        @Override
+//                        public void onTimeout() {
+//
+//                        }
+//                    };
+//                    tracker.startListening();
+                }
+            }
+        });
+        return view;
     }
 
+    void getLocation() {
+        try {
+            locationManager = (LocationManager) getActivity(). getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+        }
+        catch(SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ACCESS_COARSE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(getContext(),
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+//                        //Request location updates:
+////                        locationManager.requestLocationUpdates(provider, 400, 1, this);
+//                        LocationTracker tracker = new LocationTracker(ctx, new TrackerSettings()
+//                                .setUseGPS(true)
+//                                .setUseNetwork(true)
+//                                .setUsePassive(true)) {
+//                            @Override
+//                            public void onLocationFound(Location location) {
+//                                // Do some stuff
+//                                editTextCoordinates.setText("" + location.getLatitude() + "" + location.getLongitude());
+//
+//                            }
+//
+//                            @Override
+//                            public void onTimeout() {
+//
+//                            }
+//                        };
+//                        tracker.startListening();
+                    }
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                return;
+            }
+
+        }
+    }
+
+    //
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.title_location_permission)
+                        .setMessage(R.string.text_location_permission)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        PERMISSION_ACCESS_COARSE_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSION_ACCESS_COARSE_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    //    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        switch (requestCode) {
+//            case PERMISSION_ACCESS_COARSE_LOCATION:
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    // All good!
+//                } else {
+//                    Toast.makeText(getContext(), "Need your location!", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                break;
+//        }
+//    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -92,6 +322,28 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        editTextCoordinates.setText(location.getLatitude() + ", " + location.getLongitude());
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(getContext(), "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -106,4 +358,62 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
+    }
+
+    private void setGPSData() {
+//        TextView txtGPSCoordinates = (TextView) rootView.findViewById((R.id.gps_coordinates));
+//        TextView txtGPSAddress = (TextView) rootView.findViewById((R.id.gps_address));
+
+        double[] coors = GenUtils.getGPSCoords(getActivity());
+
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+        String strFullAddress = "N/A";
+
+        try {
+            addresses = geocoder.getFromLocation(coors[0], coors[1], 1);
+            if (!addresses.isEmpty()) {
+                String address = addresses.get(0).getAddressLine(0);
+                String city = addresses.get(0).getLocality();
+                String state = addresses.get(0).getAdminArea();
+                String country = addresses.get(0).getCountryName();
+                String postalCode = addresses.get(0).getPostalCode();
+                String knownName = addresses.get(0).getFeatureName();
+
+                strFullAddress = address +
+                        ", " + city +
+                        ",  " + state +
+                        ", " + country;
+            }
+
+        } catch (java.io.IOException e) {
+            Log.e("setGPSData", e.getMessage());
+        }
+
+//        txtGPSCoordinates.setText(String.valueOf(coors[0]) + ", " + String.valueOf(coors[1]));
+        editTextCoordinates.setText(String.valueOf(coors[0]) + ", " + String.valueOf(coors[1]));
+        editTextAddress.setText(strFullAddress);
+
+        Log.d("setGPSData", "Latitude: " + coors[0]);
+        Log.d("setGPSData", "Longitude: " + coors[1]);
+    }
+
+
 }

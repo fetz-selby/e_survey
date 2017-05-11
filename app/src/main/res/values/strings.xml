@@ -205,4 +205,13 @@
     <string name="null_value">null</string>
     <string name="title_activity_property_view_pager">PropertyViewPagerActivity</string>
     <string name="title_identification_number_hint">Title Identification Number</string>
+    <string name="coordinates_hint">Coordinates</string>
+    <string name="permission">Kindly enable your permission</string>
+    <string name="ok">OK</string>
+    <string name="title_location_permission">Enable Location</string>
+    <string name="text_location_permission">Kindly Enable Location</string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -3,14 +3,21 @@ package com.steve.housing.views.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.PropertyMDL;
+
+import io.realm.Realm;
+import io.realm.RealmAsyncTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,16 +28,21 @@ import com.steve.housing.R;
  * create an instance of this fragment.
  */
 public class AgentPropertyDetailsFormFragment extends Fragment {
-    TextInputLayout agentContactFullNameWrapper;
-    TextInputLayout agentContactEmailWrapper;
-    TextInputLayout agentContactPhoneWrapper;
-    TextInputLayout agentContactCityWrapper;
-    TextInputLayout agentContactAddressWrapper;
-    EditText agentContactFullName;
+   private TextInputLayout agentContactFullNameWrapper;
+   private TextInputLayout agentContactEmailWrapper;
+   private TextInputLayout agentContactPhoneWrapper;
+   private TextInputLayout agentContactCityWrapper;
+   private TextInputLayout agentContactAddressWrapper;
+   private EditText agentContactFullName;
     EditText agentContactEmail;
     EditText agentContactPhone;
     EditText agentContactCity;
     EditText agentContactAddress;
+    private Realm mRealm;
+    private RealmAsyncTask realmAsyncTask;
+    private String name, email, phone, city, address;
+    FloatingActionButton floatingActionButtonAgent;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -57,21 +69,65 @@ public class AgentPropertyDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_agent_property_details_form, container, false);
+        mRealm = Realm.getDefaultInstance();
         initViews(view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        floatingActionButtonAgent.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                name = agentContactFullName.getText().toString();
+                phone = agentContactPhone.getText().toString();
+                email = agentContactEmail.getText().toString();
+                city = agentContactCity.getText().toString();
+                address = agentContactAddress.getText().toString();
+                realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+
+
+                        PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
+                        propertyMDL.setAgentContactAddress((address.isEmpty()) ? "N/A" : address);
+                        propertyMDL.setAgentContactCity((city.isEmpty()) ? "N/A" : city);
+                        propertyMDL.setAgentContactEmail((email.isEmpty()) ? "N/A" : email);
+                        propertyMDL.setAgentContactName((name.isEmpty()) ? "N/A" : name);
+                        propertyMDL.setAgentContactphone((phone.isEmpty()) ? "N/A" : phone);
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(getContext(), "details updated", Toast.LENGTH_LONG).show();
+
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        Toast.makeText(getContext(), " failed", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+            }
+        });
     }
 
     private void initViews(View view) {
         agentContactFullNameWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentName);
         agentContactEmailWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentEmail);
-        agentContactPhoneWrapper = (TextInputLayout)  view.findViewById(R.id.textInputLayoutAgentPhone);
-        agentContactCityWrapper =  (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentCity);
-        agentContactAddressWrapper = (TextInputLayout)view.findViewById(R.id.textInputLayoutAgentAddress);
+        agentContactPhoneWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentPhone);
+        agentContactCityWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentCity);
+        agentContactAddressWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentAddress);
         agentContactFullName = (EditText) view.findViewById(R.id.editTextEmergencyName);
         agentContactEmail = (EditText) view.findViewById(R.id.editTextEmergencyEmail);
-        agentContactPhone = (EditText)  view.findViewById(R.id.editTextEmergencyPhone);
+        agentContactPhone = (EditText) view.findViewById(R.id.editTextEmergencyPhone);
         agentContactCity = (EditText) view.findViewById(R.id.editTextEmergencyCity);
         agentContactAddress = (EditText) view.findViewById(R.id.editTextEmergencyAddress);
+        floatingActionButtonAgent = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonAgent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -112,7 +168,8 @@ public class AgentPropertyDetailsFormFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-//    @Override
+
+    //    @Override
 //    public void onStop() {
 //        super.onStop();
 //        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
@@ -127,5 +184,20 @@ public class AgentPropertyDetailsFormFragment extends Fragment {
 //        mRealm.close();
 //
 //    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
+    }
 
 }

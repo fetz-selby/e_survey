@@ -11,4 +11,6 @@
     <color name="textColorWhite">#FFFFFF</color>
     <color name="btnColorLogin">#018E42</color>
     <color name="btnColorSignUp">#11477E</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

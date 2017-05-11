@@ -12,6 +12,9 @@ import android.widget.EditText;
 
 import com.steve.housing.R;
 
+import io.realm.Realm;
+import io.realm.RealmAsyncTask;
+
 
 public class PropertyManagerDetailsFormFragment extends Fragment {
 
@@ -28,6 +31,9 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
     EditText propertyPmanagerCity;
     EditText propertyPmanagerAddress;
     EditText propertyPmanagerLicense;
+
+    private Realm mRealm;
+    private RealmAsyncTask realmAsyncTask;
 
 
     public PropertyManagerDetailsFormFragment() {
@@ -46,6 +52,7 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mRealm = Realm.getDefaultInstance();
 
     }
 
@@ -58,12 +65,12 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
         propertyPmanagerEmailWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerEmail);
         propertyPmanagerPhoneWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerPhone);
         propertyPmanagerCityWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerCity);
-//        propertyPmanagerAddressWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerAddress);
+       propertyPmanagerAddressWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerAddress);
         propertyPmanagerLicenseWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerLicenceNumber);
         propertyPmanagerCity = (EditText) view.findViewById(R.id.editTextPManagerCity);
         propertyPmanagerFullName = (EditText) view.findViewById(R.id.editTextPManagerName);
         propertyPmanagerEmail = (EditText) view.findViewById(R.id.editTextPManagerEmail);
-//        propertyPmanagerAddress = (EditText) view.findViewById(R.id.editTextPManagerAddress);
+          propertyPmanagerAddress = (EditText) view.findViewById(R.id.editTextPManagerAddress);
         propertyPmanagerPhone = (EditText) view.findViewById(R.id.editTextPropertyManagerPhone);
         propertyPmanagerLicense = (EditText) view.findViewById(R.id.editTextPManagerLicenceNumber);
 
@@ -103,5 +110,21 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
     }
 }

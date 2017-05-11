@@ -1,16 +1,21 @@
 package com.steve.housing.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.EditText;
@@ -350,12 +355,35 @@ public class GenUtils {
     public static void getToastMessage(Context context, String messsage) {
         try {
             Toast.makeText(context, messsage, Toast.LENGTH_LONG).show();
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d("Toast Message Error", e.getMessage());
         }
     }
 
 
+    public static double[] getGPSCoords(Context ctx) {
+//		String gpsValues = "0.0,0.0";
+        double[] gpsValues = {0, 0};
+        double longitude, latitude;
 
+        try {
+            LocationManager lm = (LocationManager) ctx.getSystemService(ctx.LOCATION_SERVICE);
+            if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                gpsValues[0] = location.getLatitude();
+                gpsValues[1] = location.getLongitude();
+            }
+
+
+
+//			gpsValues = String.valueOf(latitude) + "," + String.valueOf(longitude);
+        } catch (Exception e) {
+            Log.d("getGPSCoords", e.getMessage() + ".");
+        }
+
+        return gpsValues;
+
+    }
 }
 

@@ -3,14 +3,21 @@ package com.steve.housing.views.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.PropertyMDL;
+
+import io.realm.Realm;
+import io.realm.RealmAsyncTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +38,10 @@ public class EmergencyDetailsFormFragment extends Fragment {
     EditText emergencyContactPhone;
     EditText emergencyContactCity;
     EditText emergencyContactAddress;
+    FloatingActionButton floatingActionButtonEmergencyContact;
+    private Realm mRealm;
+    private RealmAsyncTask realmAsyncTask;
+    private String name, email, phone, city, address;
 
 
     private OnFragmentInteractionListener mListener;
@@ -58,10 +69,57 @@ public class EmergencyDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_emergency_detail_form, container, false);
+        mRealm = Realm.getDefaultInstance();
         initViews(view);
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        floatingActionButtonEmergencyContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                name = emergencyContactFullName.getText().toString();
+                phone = emergencyContactPhone.getText().toString();
+                email = emergencyContactEmail.getText().toString();
+                city = emergencyContactCity.getText().toString();
+                address = emergencyContactAddress.getText().toString();
+
+
+                realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+
+                        PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
+                        propertyMDL.setEmergencyContactAddress((address.isEmpty()) ? "N/A" : address);
+                        propertyMDL.setEmergencyContactCity((city.isEmpty()) ? "N/A" : city);
+                        propertyMDL.setEmergencyContactEmail((email.isEmpty()) ? "N/A" : email);
+                        propertyMDL.setEmergencyContactName((name.isEmpty()) ? "N/A" : name);
+                        propertyMDL.setEmergencyContactphone((phone.isEmpty()) ? "N/A" : phone);
+
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(getContext(), "details updated", Toast.LENGTH_LONG).show();
+
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        Toast.makeText(getContext(), " failed", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+            }
+        });
+    }
+
 
     private void initViews(View view) {
         emergencyContactFullNameWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyName);
@@ -74,6 +132,7 @@ public class EmergencyDetailsFormFragment extends Fragment {
         emergencyContactEmail = (EditText) view.findViewById(R.id.editTextEmergencyEmail);
         emergencyContactAddress = (EditText) view.findViewById(R.id.editTextEmergencyAddress);
         emergencyContactPhone = (EditText) view.findViewById(R.id.editTextEmergencyPhone);
+        floatingActionButtonEmergencyContact = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonPropertyEmergencyContact);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -108,5 +167,21 @@ public class EmergencyDetailsFormFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
     }
 }
