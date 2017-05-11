@@ -122,11 +122,11 @@ public class AgentPropertyDetailsFormFragment extends Fragment {
         agentContactPhoneWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentPhone);
         agentContactCityWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentCity);
         agentContactAddressWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentAddress);
-        agentContactFullName = (EditText) view.findViewById(R.id.editTextEmergencyName);
-        agentContactEmail = (EditText) view.findViewById(R.id.editTextEmergencyEmail);
-        agentContactPhone = (EditText) view.findViewById(R.id.editTextEmergencyPhone);
-        agentContactCity = (EditText) view.findViewById(R.id.editTextEmergencyCity);
-        agentContactAddress = (EditText) view.findViewById(R.id.editTextEmergencyAddress);
+        agentContactFullName = (EditText) view.findViewById(R.id.editTextAgentName);
+        agentContactEmail = (EditText) view.findViewById(R.id.editTextAgentEmail);
+        agentContactPhone = (EditText) view.findViewById(R.id.editTextAgentPhone);
+        agentContactCity = (EditText) view.findViewById(R.id.editTextAgentCity);
+        agentContactAddress = (EditText) view.findViewById(R.id.editTextAgentAddress);
         floatingActionButtonAgent = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonAgent);
     }
 

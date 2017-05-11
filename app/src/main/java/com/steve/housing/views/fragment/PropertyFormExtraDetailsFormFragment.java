@@ -22,10 +22,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.PropertyMDL;
 import com.steve.housing.utils.GenUtils;
 
 import java.util.List;
@@ -48,9 +50,13 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
     private RealmAsyncTask realmAsyncTask;
     private EditText editTextNumberOfUnits, editTextDistrict, editTextAddress, editTextCoordinates, editTextLandmark;
     private String numberofUnits, district, address;
+    private float longitude, latitute;
     private FloatingActionButton floatingActionButtonCoordinates;
     public static final int PERMISSION_ACCESS_COARSE_LOCATION = 99;
     private LocationManager locationManager;
+    float value;
+
+    FloatingActionButton floatingActionButonPropertyExtra;
 
 
     private OnFragmentInteractionListener mListener;
@@ -87,6 +93,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
         editTextCoordinates = (EditText) view.findViewById(R.id.editTextPropertyCoordinates);
 //        editTextLandmark = (EditText) view.findViewById(R.id.editTextPropertyLandmark) ;
         floatingActionButtonCoordinates = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonPropertyCoordinates);
+        floatingActionButonPropertyExtra = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonGetPropertyExtraDetails) ;
         gpsLoading = (ProgressBar) view.findViewById(R.id.gps_loading_panel);
 
         mRealm = Realm.getDefaultInstance();
@@ -145,7 +152,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
                 };
                 tracker.startListening();
 
-                checkLocationPermission();
+//                checkLocationPermission();
                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                         && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // You need to ask the user to enable the permissions
@@ -167,19 +174,45 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
                             .show();
 
                 } else {
-//                    LocationTracker tracker = new LocationTracker(getContext()) {
-//                        @Override
-//                        public void onLocationFound(Location location) {
-//                            Toast.makeText(getContext(), "" + location.getLatitude() + "" + location.getLongitude(), Toast.LENGTH_LONG).show();
-//                        }
-//
-//                        @Override
-//                        public void onTimeout() {
-//
-//                        }
-//                    };
-//                    tracker.startListening();
+
                 }
+            }
+        });
+        floatingActionButonPropertyExtra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                numberofUnits = editTextNumberOfUnits.getText().toString();
+
+                district = editTextDistrict.getText().toString();
+                address = editTextAddress.getText().toString();
+                realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+
+
+                        PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
+                        propertyMDL.setFamilyUnit((numberofUnits.isEmpty()) ? "N/A" : numberofUnits);
+                        propertyMDL.setDistrict((district.isEmpty()) ? "N/A" : district);
+                        propertyMDL.setAgentContactCity((address.isEmpty()) ? "N/A" : address);
+                        propertyMDL.setLongitude((longitude== 0) ? 0 : value);
+                        propertyMDL.setLongitude((latitute== 0) ? 0 : value);
+
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(getContext(), "details updated", Toast.LENGTH_LONG).show();
+
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        Toast.makeText(getContext(), " failed", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+
             }
         });
         return view;
@@ -244,45 +277,45 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
     }
 
     //
-    public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.title_location_permission)
-                        .setMessage(R.string.text_location_permission)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(getActivity(),
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        PERMISSION_ACCESS_COARSE_LOCATION);
-                            }
-                        })
-                        .create()
-                        .show();
-
-
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        PERMISSION_ACCESS_COARSE_LOCATION);
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
+//    public boolean checkLocationPermission() {
+//        if (ContextCompat.checkSelfPermission(getActivity(),
+//                Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+//
+//                // Show an explanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//                new AlertDialog.Builder(getActivity())
+//                        .setTitle(R.string.title_location_permission)
+//                        .setMessage(R.string.text_location_permission)
+//                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                //Prompt the user once explanation has been shown
+//                                ActivityCompat.requestPermissions(getActivity(),
+//                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                                        PERMISSION_ACCESS_COARSE_LOCATION);
+//                            }
+//                        })
+//                        .create()
+//                        .show();
+//
+//
+//            } else {
+//                // No explanation needed, we can request the permission.
+//                ActivityCompat.requestPermissions(getActivity(),
+//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                        PERMISSION_ACCESS_COARSE_LOCATION);
+//            }
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
 
 
     //    @Override
@@ -325,6 +358,11 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
     @Override
     public void onLocationChanged(Location location) {
         editTextCoordinates.setText(location.getLatitude() + ", " + location.getLongitude());
+        longitude = (float) location.getLongitude();
+        latitute = (float) location.getLatitude();
+//        double d = getInfoValueNumeric();
+//        float f = (float)d;
+
 
     }
 

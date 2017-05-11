@@ -3,14 +3,18 @@ package com.steve.housing.views.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.PropertyMDL;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
@@ -31,6 +35,9 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
     EditText propertyPmanagerCity;
     EditText propertyPmanagerAddress;
     EditText propertyPmanagerLicense;
+    FloatingActionButton floatingActionButtonPmanager;
+    private String name, email, phone, city, address, license;
+
 
     private Realm mRealm;
     private RealmAsyncTask realmAsyncTask;
@@ -52,7 +59,7 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRealm = Realm.getDefaultInstance();
+
 
     }
 
@@ -61,21 +68,71 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_property_manager_details_form, container, false);
+        mRealm = Realm.getDefaultInstance();
+        intViews(view);
+
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        floatingActionButtonPmanager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                name = propertyPmanagerFullName.getText().toString();
+                phone = propertyPmanagerPhone.getText().toString();
+                email = propertyPmanagerEmail.getText().toString();
+                city = propertyPmanagerCity.getText().toString();
+                address = propertyPmanagerAddress.getText().toString();
+                license = propertyPmanagerLicense.getText().toString();
+
+                realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+
+
+                        PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
+                        propertyMDL.setPropertyManagerContactAddress((address.isEmpty()) ? "N/A" : address);
+                        propertyMDL.setPropertyManagerContactCity((city.isEmpty()) ? "N/A" : city);
+                        propertyMDL.setPropertyManagerEmail((email.isEmpty()) ? "N/A" : email);
+                        propertyMDL.setPropertyManagerContactName((name.isEmpty()) ? "N/A" : name);
+                        propertyMDL.setAgentContactphone((phone.isEmpty()) ? "N/A" : phone);
+                        propertyMDL.setPropertyManagerLicenseNumber((phone.isEmpty()) ? "N/A" : phone);
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(getContext(), "details updated", Toast.LENGTH_LONG).show();
+
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        Toast.makeText(getContext(), " failed", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void intViews(View view) {
         propertyPmanagerFullNameWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerName);
         propertyPmanagerEmailWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerEmail);
         propertyPmanagerPhoneWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerPhone);
         propertyPmanagerCityWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerCity);
-       propertyPmanagerAddressWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerAddress);
+        propertyPmanagerAddressWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerAddress);
         propertyPmanagerLicenseWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutPmanagerLicenceNumber);
         propertyPmanagerCity = (EditText) view.findViewById(R.id.editTextPManagerCity);
         propertyPmanagerFullName = (EditText) view.findViewById(R.id.editTextPManagerName);
         propertyPmanagerEmail = (EditText) view.findViewById(R.id.editTextPManagerEmail);
-          propertyPmanagerAddress = (EditText) view.findViewById(R.id.editTextPManagerAddress);
+        propertyPmanagerAddress = (EditText) view.findViewById(R.id.editTextPManagerAddress);
         propertyPmanagerPhone = (EditText) view.findViewById(R.id.editTextPropertyManagerPhone);
         propertyPmanagerLicense = (EditText) view.findViewById(R.id.editTextPManagerLicenceNumber);
-
-
-        return view;
+        floatingActionButtonPmanager = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonPmanager);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
