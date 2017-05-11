@@ -125,7 +125,7 @@ var routes = function(){
 //            var errors = req.validationErrors();
 //            if (errors) return res.status(422).json({success: false, errors: errors});
             
-        
+//            return res.send(req.body)
             peopleService.saveOwners(req.body.owners)
             .then(function(resp){
                 var newProp = new Property;
@@ -143,7 +143,6 @@ var routes = function(){
                     region  : req.body.region,
                     district: req.body.district
                 }
-                newProp.tin = owner.tin;
                 newProp.address = req.body.address;
                 newProp.familyUnits = req.body.familyUnits;
                 newProp.electricitySource = req.body.electricitySource;
