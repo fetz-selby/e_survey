@@ -96,8 +96,6 @@ public class PersonalDetailsFormFragment extends Fragment {
         mRealm = Realm.getDefaultInstance();
 
 
-
-
         initFields(view);
 
 
@@ -199,7 +197,6 @@ public class PersonalDetailsFormFragment extends Fragment {
                     final Date date = new Date();
 
 
-
                     SharedPreferences.Editor editor = sharedpreferencesPersonalData.edit();
 
                     editor.putString(firstNameKey, firstNameData);
@@ -232,66 +229,34 @@ public class PersonalDetailsFormFragment extends Fragment {
 //                    });
 
 
-                   realmAsyncTask= mRealm.executeTransactionAsync(new Realm.Transaction() {
-                                                       @Override
-                                                       public void execute(Realm realm) {
+                    realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+                                                                        @Override
+                                                                        public void execute(Realm realm) {
 
-                                                           String id = UUID.randomUUID().toString();
-                                                           PersonMDL personMDL = realm.createObject(PersonMDL.class, id);
-                                                           // personal data
-                                                           personMDL.setFirstname(firstnameET.getText().toString().trim());
-                            personMDL.setLastname(lastnameET.getText().toString().trim());
-                            personMDL.setOthername(othernameET.getText().toString().trim());
-                            personMDL.setMaritalStatus(maritalStatus);
-                            personMDL.setDisability(disability);
-                                                           personMDL.setOwnerPhoto(encodedImage);
-                                                           personMDL.setCreatedDate(dateFormat.format(date));
-//                                                           // id data
-//                                                           personMDL.setIdentificationNumber(getString(R.string.null_value));
-//                                                           personMDL.setIdentificationPicture(getString(R.string.null_value));
-//                                                           personMDL.setIdentificationType(getString(R.string.null_value));
-//                                                           // contact data
-//                                                           personMDL.setPhoneNumber(getString(R.string.null_value));
-//                                                           personMDL.setAdditionalPhoneNumber(getString(R.string.null_value));
-//                                                           personMDL.setEmail(getString(R.string.null_value));
-//                                                           personMDL.setPostalAddress(getString(R.string.null_value));
-//                                                           personMDL.setDistrict(getString(R.string.null_value));
-//                                                           // citizenship data
-//                                                           personMDL.setDob(getString(R.string.null_value));
-//                                                           personMDL.setDualCityzenship(getString(R.string.null_value));
-//                                                           personMDL.setNationality(getString(R.string.null_value));
-//                                                           personMDL.setEthnicity(getString(R.string.null_value));
-//                                                           personMDL.setNationalityType(getString(R.string.null_value));
-//                                                           personMDL.setBirthPlace(getString(R.string.null_value));
-//                                                           // employmentdata
-//
-//                                                           personMDL.setEmployer(getString(R.string.null_value));
-//                                                           personMDL.setEmploymentStatus(getString(R.string.null_value));
-//                                                           personMDL.setEmploymentSector(getString(R.string.null_value));
-//                                                           personMDL.setPosition(getString(R.string.null_value));
-//                                                           personMDL.setProfession(getString(R.string.null_value));
-//                                                           personMDL.setWorkplaceLocation(getString(R.string.null_value));
-//                                                           personMDL.setCommencementDate(getString(R.string.null_value));
-//                                                           //language data
-//                                                           personMDL.setLanguageSpoken(getString(R.string.null_value));
-//                                                           personMDL.setLanguageSpokenWritten(getString(R.string.null_value));
-//                                                           personMDL.setLanguageWritten(getString(R.string.null_value));
-//
-//                                                           GenUtils.getToastMessage(getActivity(), "Owner data Saved Successfully");
-                                                       }
-                                                   }, new Realm.Transaction.OnSuccess() {
-                                                       @Override
-                                                       public void onSuccess() {
-                                                           Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_SHORT).show();
+                                                                            String id = UUID.randomUUID().toString();
+                                                                            PersonMDL personMDL = realm.createObject(PersonMDL.class, id);
+                                                                            // personal data
+                                                                            personMDL.setFirstname(firstnameET.getText().toString().trim());
+                                                                            personMDL.setLastname(lastnameET.getText().toString().trim());
+                                                                            personMDL.setOthername(othernameET.getText().toString().trim());
+                                                                            personMDL.setMaritalStatus(maritalStatus);
+                                                                            personMDL.setDisability(disability);
+                                                                            personMDL.setOwnerPhoto(encodedImage);
+                                                                            personMDL.setCreatedDate(dateFormat.format(date));
+                                                                        }
+                                                                    }, new Realm.Transaction.OnSuccess() {
+                                                                        @Override
+                                                                        public void onSuccess() {
+                                                                            Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_SHORT).show();
 
-                                                       }
-                                                   }, new Realm.Transaction.OnError() {
-                                                       @Override
-                                                       public void onError(Throwable error) {
-                                                           Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }, new Realm.Transaction.OnError() {
+                                                                        @Override
+                                                                        public void onError(Throwable error) {
+                                                                            Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
 
-                                                       }
-                                                   }
+                                                                        }
+                                                                    }
                     );
                 }
             }

@@ -204,4 +204,5 @@
     <string name="languages_spoken_and_written_hint">languages spoken and written</string>
     <string name="null_value">null</string>
     <string name="title_activity_property_view_pager">PropertyViewPagerActivity</string>
+    <string name="title_identification_number_hint">Title Identification Number</string>
 </resources>

@@ -26,13 +26,12 @@ public class EmergencyDetailsFormFragment extends Fragment {
     TextInputLayout emergencyContactPhoneWrapper;
     TextInputLayout emergencyContactCityWrapper;
     TextInputLayout emergencyContactAddressWrapper;
-    TextInputLayout emergencyContactLicenseWrapper;
     EditText emergencyContactFullName;
     EditText emergencyContactEmail;
     EditText emergencyContactPhone;
     EditText emergencyContactCity;
     EditText emergencyContactAddress;
-    EditText emergencyContactLicense;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,18 +58,22 @@ public class EmergencyDetailsFormFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_emergency_detail_form, container, false);
-       emergencyContactFullNameWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyName);
-       emergencyContactEmailWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyEmail);
-       emergencyContactPhoneWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyPhone);
-       emergencyContactCityWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyCity);
-       emergencyContactAddressWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyAddress);
-       emergencyContactCity = (EditText) view.findViewById(R.id.editTextEmergencyCity);
-       emergencyContactFullName = (EditText) view.findViewById(R.id.editTextEmergencyName);
-       emergencyContactEmail = (EditText) view.findViewById(R.id.editTextEmergencyEmail);
-       emergencyContactAddress = (EditText) view.findViewById(R.id.editTextEmergencyAddress);
-       emergencyContactPhone = (EditText) view.findViewById(R.id.editTextEmergencyPhone);
+        initViews(view);
 
         return view;
+    }
+
+    private void initViews(View view) {
+        emergencyContactFullNameWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyName);
+        emergencyContactEmailWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyEmail);
+        emergencyContactPhoneWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyPhone);
+        emergencyContactCityWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyCity);
+        emergencyContactAddressWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmergencyAddress);
+        emergencyContactCity = (EditText) view.findViewById(R.id.editTextEmergencyCity);
+        emergencyContactFullName = (EditText) view.findViewById(R.id.editTextEmergencyName);
+        emergencyContactEmail = (EditText) view.findViewById(R.id.editTextEmergencyEmail);
+        emergencyContactAddress = (EditText) view.findViewById(R.id.editTextEmergencyAddress);
+        emergencyContactPhone = (EditText) view.findViewById(R.id.editTextEmergencyPhone);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -2,6 +2,7 @@ package com.steve.housing.models;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by SOVAVY on 5/7/2017.
@@ -65,7 +66,8 @@ import io.realm.RealmObject;
 //        }],
 //        owners 			: [{ type: Schema.Types.ObjectId, ref: 'People' }],
 
-public class PropertyModel extends RealmObject {
+public class PropertyMDL extends RealmObject {
+    @PrimaryKey
     private String id;
     private String pins;
     private String propertyType;
@@ -77,15 +79,6 @@ public class PropertyModel extends RealmObject {
     private String identureNumber;
     private float longitude;
     private float latidude;
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
     private String district;
     private String address;
     private String familyUnit;
@@ -106,10 +99,89 @@ public class PropertyModel extends RealmObject {
     private String propertyManagerContactphone;
     private String propertyManagerPhone;
     private String propertyManagerEmail;
+    private String propertyManagerLicenseNumber;
+    private String AgentContactName;
+    private String AgentContactAddress;
+    private String AgentContactCity;
+    private String AgentContactphone;
+    private String AgentContactPhone;
+    private String AgentContactEmail;
     private boolean landTrust;
     private RealmList<TrustyModel> trusties;
     private String createdBy;
-    private String createdAt;
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    private String createdDate;
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+    public String getPropertyManagerLicenseNumber() {
+        return propertyManagerLicenseNumber;
+    }
+
+    public void setPropertyManagerLicenseNumber(String propertyManagerLicenseNumber) {
+        this.propertyManagerLicenseNumber = propertyManagerLicenseNumber;
+    }
+
+    public String getAgentContactName() {
+        return AgentContactName;
+    }
+
+    public void setAgentContactName(String agentContactName) {
+        AgentContactName = agentContactName;
+    }
+
+    public String getAgentContactAddress() {
+        return AgentContactAddress;
+    }
+
+    public void setAgentContactAddress(String agentContactAddress) {
+        AgentContactAddress = agentContactAddress;
+    }
+
+    public String getAgentContactCity() {
+        return AgentContactCity;
+    }
+
+    public void setAgentContactCity(String agentContactCity) {
+        AgentContactCity = agentContactCity;
+    }
+
+    public String getAgentContactphone() {
+        return AgentContactphone;
+    }
+
+    public void setAgentContactphone(String agentContactphone) {
+        AgentContactphone = agentContactphone;
+    }
+
+    public String getAgentContactPhone() {
+        return AgentContactPhone;
+    }
+
+    public void setAgentContactPhone(String agentContactPhone) {
+        AgentContactPhone = agentContactPhone;
+    }
+
+    public String getAgentContactEmail() {
+        return AgentContactEmail;
+    }
+
+    public void setAgentContactEmail(String agentContactEmail) {
+        AgentContactEmail = agentContactEmail;
+    }
 
     public String getCreatedBy() {
         return createdBy;
@@ -117,14 +189,6 @@ public class PropertyModel extends RealmObject {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getId() {

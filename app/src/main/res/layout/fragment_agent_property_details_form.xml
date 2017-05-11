@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/editTextPManagerName"
+            android:id="@+id/editTextAgentName"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:hint="@string/fullname_hint"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAgentName">
 
         <EditText
-            android:id="@+id/editTextPropertyManagerPhone"
+            android:id="@+id/editTextAgentPhone"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:hint="@string/phone_hint"
@@ -55,7 +55,7 @@
 
 
         <EditText
-            android:id="@+id/editTextPManagerEmail"
+            android:id="@+id/editTextAgentEmail"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:hint="@string/email_hint"
@@ -72,7 +72,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAgentEmail">
 
         <EditText
-            android:id="@+id/editTextPManagerCity"
+            android:id="@+id/editTextAgentCity"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:hint="@string/city_hint"
@@ -80,7 +80,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/floatingActionButtonAgent"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginBottom="8dp"
@@ -107,7 +107,7 @@
         android:layout_marginRight="8dp">
 
         <EditText
-            android:id="@+id/editTextPManagerAddress"
+            android:id="@+id/editTextAgentAddress"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:hint="@string/address_hint"

@@ -3,10 +3,12 @@ package com.steve.housing.views.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.steve.housing.R;
 
@@ -19,6 +21,16 @@ import com.steve.housing.R;
  * create an instance of this fragment.
  */
 public class AgentPropertyDetailsFormFragment extends Fragment {
+    TextInputLayout agentContactFullNameWrapper;
+    TextInputLayout agentContactEmailWrapper;
+    TextInputLayout agentContactPhoneWrapper;
+    TextInputLayout agentContactCityWrapper;
+    TextInputLayout agentContactAddressWrapper;
+    EditText agentContactFullName;
+    EditText agentContactEmail;
+    EditText agentContactPhone;
+    EditText agentContactCity;
+    EditText agentContactAddress;
 
     private OnFragmentInteractionListener mListener;
 
@@ -44,7 +56,22 @@ public class AgentPropertyDetailsFormFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_agent_property_details_form, container, false);
+        View view = inflater.inflate(R.layout.fragment_agent_property_details_form, container, false);
+        initViews(view);
+        return view;
+    }
+
+    private void initViews(View view) {
+        agentContactFullNameWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentName);
+        agentContactEmailWrapper = (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentEmail);
+        agentContactPhoneWrapper = (TextInputLayout)  view.findViewById(R.id.textInputLayoutAgentPhone);
+        agentContactCityWrapper =  (TextInputLayout) view.findViewById(R.id.textInputLayoutAgentCity);
+        agentContactAddressWrapper = (TextInputLayout)view.findViewById(R.id.textInputLayoutAgentAddress);
+        agentContactFullName = (EditText) view.findViewById(R.id.editTextEmergencyName);
+        agentContactEmail = (EditText) view.findViewById(R.id.editTextEmergencyEmail);
+        agentContactPhone = (EditText)  view.findViewById(R.id.editTextEmergencyPhone);
+        agentContactCity = (EditText) view.findViewById(R.id.editTextEmergencyCity);
+        agentContactAddress = (EditText) view.findViewById(R.id.editTextEmergencyAddress);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -85,4 +112,20 @@ public class AgentPropertyDetailsFormFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+//            realmAsyncTask.cancel();
+//
+//        }
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        mRealm.close();
+//
+//    }
+
 }

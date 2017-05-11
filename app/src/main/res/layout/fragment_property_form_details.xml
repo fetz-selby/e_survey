@@ -1,60 +1,63 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.steve.housing.views.fragment.PropertyFormDetailsFragment">
+    tools:context="com.steve.housing.views.fragment.PropertyFormDetailsFragment"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
 
 
     <Spinner
         android:id="@+id/spinnerPropertyType"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="18dp" />
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="-7dp"
+        android:layout_marginTop="11dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textViewPropertyClassification"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPropertyClassification" />
 
     <TextView
         android:id="@+id/textViewPropertyType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/property_type_hint"
         android:layout_alignBottom="@+id/spinnerPropertyType"
-        android:layout_alignStart="@+id/textViewPropertyClassification" />
+        android:layout_alignStart="@+id/textViewPropertyClassification"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/property_classification_hint"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/spinnerPropertyType"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPropertyType" />
 
     <Spinner
         android:id="@+id/spinnerPropertyClassification"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_alignStart="@+id/spinnerPropertyType"
         android:layout_below="@+id/spinnerPropertyType"
-        android:layout_alignStart="@+id/spinnerPropertyType" />
+        android:layout_marginTop="9dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textViewPropertyType"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPropertyType" />
 
     <TextView
         android:id="@+id/textViewPropertyClassification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/property_classification_hint"
         android:layout_alignBottom="@+id/spinnerPropertyClassification"
-        android:layout_alignStart="@+id/textViewOwnershipStatus" />
-
-    <EditText
-        android:id="@+id/editTextPin"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/property_identification_numbers_hint"
-        android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/spinnerElectricitySource" />
-
-    <Spinner
-        android:id="@+id/spinnerOwnershipStatus"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textViewOwnershipStatus"
+        android:layout_marginRight="178dp"
         android:layout_marginTop="16dp"
-        android:layout_below="@+id/spinnerPropertyClassification"
-        android:layout_alignStart="@+id/spinnerPropertyClassification" />
+        android:text="@string/property_type_hint"
+        android:textSize="18sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/textViewOwnershipStatus"
@@ -62,82 +65,98 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/spinnerOwnershipStatus"
         android:layout_alignStart="@+id/editTextPin"
-        android:text="@string/ownership_status_hint" />
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/ownership_status_hint"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/spinnerPropertyClassification"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPropertyClassification" />
 
     <TextView
         android:id="@+id/textViewRegistrationStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/registered_hint"
-        android:layout_marginTop="16dp"
+        android:layout_alignStart="@+id/textViewElectricitySource"
         android:layout_below="@+id/textViewOwnershipStatus"
-        android:layout_alignStart="@+id/textViewElectricitySource" />
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/registered_hint"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/spinnerOwnershipStatus"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerOwnershipStatus" />
 
     <TextView
         android:id="@+id/textViewElectricitySource"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="17dp"
         android:text="@string/electricity_source_hint"
-        android:layout_alignBottom="@+id/spinnerElectricitySource"
-        android:layout_alignEnd="@+id/textViewOwnershipStatus" />
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/spinnerRegistered"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRegistered" />
 
     <Spinner
         android:id="@+id/spinnerElectricitySource"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewRegistrationStatus"
-        android:layout_alignStart="@+id/spinnerOwnershipStatus"
-        android:layout_marginTop="15dp" />
+        android:layout_alignEnd="@+id/spinnerOwnershipStatus"
+        android:layout_below="@+id/textViewElectricitySource"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textViewElectricitySource"
+        app:layout_constraintTop_toBottomOf="@+id/textViewElectricitySource" />
 
-    <EditText
-        android:id="@+id/editTextTitleRegistrationNumber"
-        android:layout_width="280dp"
+    <Spinner
+        android:id="@+id/spinnerRegistered"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="@string/title_registration_number_hint"
-        android:layout_below="@+id/editTextPin"
-        android:layout_alignStart="@+id/editTextPin"
-        android:layout_marginTop="15dp" />
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textViewRegistrationStatus"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRegistrationStatus" />
 
-    <EditText
-        android:id="@+id/editTextIdentureNumber"
-        android:layout_width="280dp"
+    <Spinner
+        android:id="@+id/spinnerOwnershipStatus"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="@string/identure_number_hint"
-        android:layout_below="@+id/editTextTitleRegistrationNumber"
-        android:layout_alignStart="@+id/editTextTitleRegistrationNumber" />
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/textViewOwnershipStatus"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOwnershipStatus" />
 
-    <RadioButton
-        android:id="@+id/radioButtonYes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/yes_choice"
-        android:layout_alignBaseline="@+id/textViewRegistrationStatus"
-        android:layout_alignBottom="@+id/textViewRegistrationStatus"
-        android:layout_alignStart="@+id/spinnerElectricitySource" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButtonProperty"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerElectricitySource"
+        app:layout_constraintVertical_bias="0.818"
+        app:srcCompat="@drawable/check" />
 
-    <RadioButton
-        android:id="@+id/radioButtonNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no_choice"
-        android:layout_alignBaseline="@+id/radioButtonYes"
-        android:layout_alignBottom="@+id/radioButtonYes"
-        android:layout_toEndOf="@+id/radioButtonYes"
-        android:layout_marginStart="28dp" />
 
-    <EditText
-        android:id="@+id/editTextTaxIdentationNumber"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textViewElectricitySource"
-        android:layout_below="@+id/editTextIdentureNumber"
-        android:layout_marginTop="18dp"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Tax Identation Number" />
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

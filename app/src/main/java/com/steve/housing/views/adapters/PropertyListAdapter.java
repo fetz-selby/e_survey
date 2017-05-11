@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.steve.housing.models.PropertyModel;
+import com.steve.housing.models.PropertyMDL;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ import io.realm.RealmRecyclerViewAdapter;
  * Created by SOVAVY on 5/10/2017.
  */
 
-public class PropertyListAdapter extends RealmRecyclerViewAdapter<PropertyModel, PropertyListAdapter.PropertyListViewHolder> {
+public class PropertyListAdapter extends RealmRecyclerViewAdapter<PropertyMDL, PropertyListAdapter.PropertyListViewHolder> {
     private Context context;
     private Realm realm;
-    private List<PropertyModel> propertyModelList;
-    public PropertyListAdapter(@Nullable OrderedRealmCollection<PropertyModel> data, boolean autoUpdate) {
+    private List<PropertyMDL> propertyModelList;
+    public PropertyListAdapter(@Nullable OrderedRealmCollection<PropertyMDL> data, boolean autoUpdate) {
         super(data, autoUpdate);
     }
 
