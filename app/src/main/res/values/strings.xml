@@ -203,7 +203,7 @@
     <string name="date_of_birth_hint">date of birth</string>
     <string name="languages_spoken_and_written_hint">languages spoken and written</string>
     <string name="null_value">null</string>
-    <string name="title_activity_property_view_pager">PropertyViewPagerActivity</string>
+    <string name="title_activity_property_view_pager">Property Forms</string>
     <string name="title_identification_number_hint">Title Identification Number</string>
     <string name="coordinates_hint">Coordinates</string>
     <string name="permission">Kindly enable your permission</string>
@@ -214,4 +214,6 @@
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="submit_btn">Submit</string>
+    <string name="add_owner_btn">Add Owner</string>
 </resources>

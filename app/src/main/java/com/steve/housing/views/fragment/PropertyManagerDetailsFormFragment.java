@@ -99,7 +99,7 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
                         propertyMDL.setPropertyManagerEmail((email.isEmpty()) ? "N/A" : email);
                         propertyMDL.setPropertyManagerContactName((name.isEmpty()) ? "N/A" : name);
                         propertyMDL.setAgentContactphone((phone.isEmpty()) ? "N/A" : phone);
-                        propertyMDL.setPropertyManagerLicenseNumber((phone.isEmpty()) ? "N/A" : phone);
+                        propertyMDL.setPropertyManagerLicenseNumber((license.isEmpty()) ? "N/A" : license);
                     }
                 }, new Realm.Transaction.OnSuccess() {
                     @Override

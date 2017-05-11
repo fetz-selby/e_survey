@@ -8,4 +8,5 @@
     <dimen name="icon_size">48dp</dimen>
     <dimen name="button_height">35dp</dimen>
     <dimen name="button_width">35dp</dimen>
+    <dimen name="activity_vertical_padding">16dp</dimen>
 </resources>

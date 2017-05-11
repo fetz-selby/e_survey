@@ -16,6 +16,7 @@ public class Constants {
     public static final String LOGIN_URL = "https://esurvey-api.herokuapp.com/eghana/esurvey/api/auth/agents/login";
     public static final String DISTRICT_URL = "https://esurvey-api.herokuapp.com/eghana/esurvey/api/districts";
     public static final String REGION_URL = "https://esurvey-api.herokuapp.com/eghana/esurvey/api/regions";
+    public static final String PROPERTIES_URL ="https://esurvey-api.herokuapp.com/eghana/esurvey/api/property";
 
 
     public static final String PREFS = "prefs";
