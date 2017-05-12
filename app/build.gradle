@@ -92,4 +92,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:10.2.4'
     compile 'com.github.quentin7b:android-location-tracker:3.2'
     testCompile 'junit:junit:4.12'
+    compile 'com.google.code.gson:gson:2.8.0'
 }

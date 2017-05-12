@@ -1,9 +1,10 @@
 package com.steve.housing.views.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,15 @@ import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.steve.housing.R;
+import com.steve.housing.models.DistrictMDL;
+import com.steve.housing.models.RegionMDL;
 import com.steve.housing.utils.Constants;
 import com.steve.housing.utils.VolleyRequests;
+import com.steve.housing.views.activities.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,29 +60,31 @@ public class SplashScreenActivityFragment extends Fragment {
         prefs = getActivity().getSharedPreferences(Constants.PREFS, Context.MODE_PRIVATE);
         mRealm = Realm.getDefaultInstance();
         initField(view);
+        if (checkDistricts().isEmpty() || checkRegions().isEmpty())
+        {
+            getRegions();
+            getDistricts();
+        }else{
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        }
 
-        checkDistricts();
-        checkRegions();
 
-        getRegions();
-        getDistricts();
+
+
 
         return view;
 
 
-
-
     }
 
 
-
-
-    private void checkDistricts() {
-        RealmResults<DistrictMDL> allDistricts = mRealm.where(DistrictMDL.class).findAll();
+    private RealmResults<DistrictMDL> checkDistricts() {
+        return mRealm.where(DistrictMDL.class).findAll();
     }
 
-    private void checkRegions() {
-        RealmResults<RegionMDL> allRegions = mRealm.where(RegionMDL.class).findAll();
+    private RealmResults<RegionMDL> checkRegions() {
+      return   mRealm.where(RegionMDL.class).findAll();
     }
 
     private void getDistricts() {
