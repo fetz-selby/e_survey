@@ -98,6 +98,10 @@
         <activity
             android:name=".views.activities.OwnerListActivity"
             android:label="@string/title_activity_owner_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.activities.PropertyDetailsActivity"
+            android:label="@string/title_activity_property_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
