@@ -126,8 +126,12 @@ var routes = function(){
 //            if (errors) return res.status(422).json({success: false, errors: errors});
             
 //            return res.send(req.body)
+        
+//            console.log(req.body)
+//            console.log(typeof req.body.owners)
             peopleService.saveOwners(req.body.owners)
             .then(function(resp){
+                console.log(resp)
                 var newProp = new Property;
                 newProp.pins = req.body.pins;
                 newProp.propertyType = req.body.propertyType;
@@ -179,7 +183,7 @@ var routes = function(){
                 newProp.owners = resp.owners;
 
                 newProp.save(function(err){
-                    return res.json({status: true, message: 'Property registered'});
+                    return res.json({status: true, message: 'Property registered', property: newProp});
                 })
             })
         });

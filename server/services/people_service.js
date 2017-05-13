@@ -4,6 +4,9 @@ var People = require('../models/people');
 exports.saveOwners = function(owners){
     return new Promise(function(resolve, reject){    
         var ids = [];
+        if(typeof owners == 'string'){
+            owners = JSON.parse(owners);
+        }
         for(var i in owners){
             var owner = owners[i];
             var newPeople = new People;
