@@ -20,7 +20,7 @@ public class DistrictMDL extends RealmObject {
     private String id;
 
     @SerializedName("name")
-    private String region;
+    private String district;
 
 
     public String getId() {
@@ -31,10 +31,10 @@ public class DistrictMDL extends RealmObject {
         this.id = id;
     }
 
-    public String getRegion() {
-        return region;
+    public String getDistrict() {
+        return district;
     }
 
-    public void setRegion(String region) {
-        region = region;}
+    public void setDistrict(String district) {
+        district = district;}
 }

@@ -28,13 +28,15 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         });
 //        sp= (Spinner) findViewById(R.id.sp);
 //        //REALM CONFIGURATION
-//        RealmConfiguration config=new RealmConfiguration.Builder(this).build();
+//        RealmConfiguration config=new
+// RealmConfiguration.Builder(this).build();
 //        realm=Realm.getInstance(config);
 //        //retrieve
 //        RealmHelper helper=new RealmHelper(realm);
 //        spacecrafts=helper.retrieve();
 //        adapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,spacecrafts);
 //        sp.setAdapter(adapter);
+//        http://camposha.info/source/android-realm-spinner-save-retrieve-fill-save/
     }
 
 }

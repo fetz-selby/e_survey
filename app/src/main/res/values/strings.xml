@@ -114,4 +114,5 @@
     <string name="properties_btn">Properties</string>
     <string name="title_activity_owner_list">Owners</string>
     <string name="title_activity_property_details">PropertyDetailsActivity</string>
+    <string name="title_activity_realm_spinner_trial">RealmSpinnerTrialActivity</string>
 </resources>
