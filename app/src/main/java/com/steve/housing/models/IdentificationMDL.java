@@ -2,6 +2,7 @@ package com.steve.housing.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -14,7 +15,7 @@ import io.realm.annotations.PrimaryKey;
 //        picture		: String
 //        },
 
-public class IdentificationMDL {
+public class IdentificationMDL extends RealmObject{
 
 
     @PrimaryKey

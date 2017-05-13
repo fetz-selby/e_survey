@@ -22,16 +22,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.GpsCoordinatesMDL;
+import com.steve.housing.models.LocationMDL;
 import com.steve.housing.models.PropertyMDL;
 import com.steve.housing.utils.GenUtils;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import fr.quentinklein.slt.LocationTracker;
 import fr.quentinklein.slt.TrackerSettings;
@@ -39,12 +41,14 @@ import io.realm.Realm;
 import io.realm.RealmAsyncTask;
 
 
-public class PropertyFormExtraDetailsFormFragment extends Fragment  implements LocationListener {
+public class PropertyFormExtraDetailsFormFragment extends Fragment implements LocationListener {
 
+    public static final int PERMISSION_ACCESS_COARSE_LOCATION = 99;
+    float value;
+    FloatingActionButton floatingActionButonPropertyExtra;
     private ProgressDialog dialog;
     private LocationManager mlocManager = null;
     private Context ctx;
-
     private ProgressBar gpsLoading = null;
     private Realm mRealm;
     private RealmAsyncTask realmAsyncTask;
@@ -52,13 +56,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
     private String numberofUnits, district, address;
     private float longitude, latitute;
     private FloatingActionButton floatingActionButtonCoordinates;
-    public static final int PERMISSION_ACCESS_COARSE_LOCATION = 99;
     private LocationManager locationManager;
-    float value;
-
-    FloatingActionButton floatingActionButonPropertyExtra;
-
-
     private OnFragmentInteractionListener mListener;
 
     public PropertyFormExtraDetailsFormFragment() {
@@ -93,13 +91,12 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
         editTextCoordinates = (EditText) view.findViewById(R.id.editTextPropertyCoordinates);
 //        editTextLandmark = (EditText) view.findViewById(R.id.editTextPropertyLandmark) ;
         floatingActionButtonCoordinates = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonPropertyCoordinates);
-        floatingActionButonPropertyExtra = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonGetPropertyExtraDetails) ;
+        floatingActionButonPropertyExtra = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonGetPropertyExtraDetails);
         gpsLoading = (ProgressBar) view.findViewById(R.id.gps_loading_panel);
 
         mRealm = Realm.getDefaultInstance();
 //        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         dialog = new ProgressDialog(getActivity());
-
 
 
         floatingActionButtonCoordinates.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +111,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
                     @Override
                     public void onLocationFound(Location location) {
                         Toast.makeText(getContext(), "" + location.getLatitude() + "" + location.getLongitude(), Toast.LENGTH_LONG).show();
-                        editTextCoordinates.setText( "" + location.getLatitude() + "" + location.getLongitude());
+                        editTextCoordinates.setText("" + location.getLatitude() + "" + location.getLongitude());
 
                         Geocoder geocoder;
                         List<Address> addresses;
@@ -136,7 +133,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
                                         ", " + city +
                                         ",  " + state +
                                         ", " + country;
-                                Toast.makeText(getContext(),strFullAddress, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), strFullAddress, Toast.LENGTH_LONG).show();
                             }
 
                         } catch (java.io.IOException e) {
@@ -191,11 +188,18 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
 
 
                         PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
+                        String id = UUID.randomUUID().toString();
+                        String location_id = UUID.randomUUID().toString();
+                        GpsCoordinatesMDL gpsCoordinatesMDL = realm.createObject(GpsCoordinatesMDL.class, id);
+                        LocationMDL locationMDL  = realm.createObject(LocationMDL.class, location_id);
                         propertyMDL.setFamilyUnit((numberofUnits.isEmpty()) ? "N/A" : numberofUnits);
-                        propertyMDL.setDistrict((district.isEmpty()) ? "N/A" : district);
-                        propertyMDL.setAgentContactCity((address.isEmpty()) ? "N/A" : address);
-                        propertyMDL.setLongitude((longitude== 0) ? 0 : value);
-                        propertyMDL.setLongitude((latitute== 0) ? 0 : value);
+//                        propertyMDL.setDistrict((district.isEmpty()) ? "N/A" : district);
+//                        propertyMDL.setAgentContactCity((address.isEmpty()) ? "N/A" : address);
+                        gpsCoordinatesMDL.setLongitude((longitude == 0) ? 0 : value);
+                        gpsCoordinatesMDL.setLongitude((latitute == 0) ? 0 : value);
+//                        locationMDL.setDistrictMDL();
+                        locationMDL.setGps(gpsCoordinatesMDL);
+                        propertyMDL.setLocationMDL(locationMDL);
 
                     }
                 }, new Realm.Transaction.OnSuccess() {
@@ -220,10 +224,9 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
 
     void getLocation() {
         try {
-            locationManager = (LocationManager) getActivity(). getSystemService(Context.LOCATION_SERVICE);
+            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
-        }
-        catch(SecurityException e) {
+        } catch (SecurityException e) {
             e.printStackTrace();
         }
     }
@@ -382,21 +385,6 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     @Override
     public void onStop() {
         super.onStop();
@@ -451,6 +439,21 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment  implements L
 
         Log.d("setGPSData", "Latitude: " + coors[0]);
         Log.d("setGPSData", "Longitude: " + coors[1]);
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
 

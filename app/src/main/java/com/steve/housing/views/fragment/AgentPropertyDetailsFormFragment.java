@@ -14,7 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.AgentPropertyMDL;
 import com.steve.housing.models.PropertyMDL;
+
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
@@ -28,22 +31,20 @@ import io.realm.RealmAsyncTask;
  * create an instance of this fragment.
  */
 public class AgentPropertyDetailsFormFragment extends Fragment {
-   private TextInputLayout agentContactFullNameWrapper;
-   private TextInputLayout agentContactEmailWrapper;
-   private TextInputLayout agentContactPhoneWrapper;
-   private TextInputLayout agentContactCityWrapper;
-   private TextInputLayout agentContactAddressWrapper;
-   private EditText agentContactFullName;
     EditText agentContactEmail;
     EditText agentContactPhone;
     EditText agentContactCity;
     EditText agentContactAddress;
+    FloatingActionButton floatingActionButtonAgent;
+    private TextInputLayout agentContactFullNameWrapper;
+    private TextInputLayout agentContactEmailWrapper;
+    private TextInputLayout agentContactPhoneWrapper;
+    private TextInputLayout agentContactCityWrapper;
+    private TextInputLayout agentContactAddressWrapper;
+    private EditText agentContactFullName;
     private Realm mRealm;
     private RealmAsyncTask realmAsyncTask;
     private String name, email, phone, city, address;
-    FloatingActionButton floatingActionButtonAgent;
-
-
     private OnFragmentInteractionListener mListener;
 
     public AgentPropertyDetailsFormFragment() {
@@ -93,11 +94,15 @@ public class AgentPropertyDetailsFormFragment extends Fragment {
 
 
                         PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
-                        propertyMDL.setAgentContactAddress((address.isEmpty()) ? "N/A" : address);
-                        propertyMDL.setAgentContactCity((city.isEmpty()) ? "N/A" : city);
-                        propertyMDL.setAgentContactEmail((email.isEmpty()) ? "N/A" : email);
-                        propertyMDL.setAgentContactName((name.isEmpty()) ? "N/A" : name);
-                        propertyMDL.setAgentContactphone((phone.isEmpty()) ? "N/A" : phone);
+
+                        String id = UUID.randomUUID().toString();
+                        AgentPropertyMDL agentPropertyMDL = realm.createObject(AgentPropertyMDL.class, id);
+                        agentPropertyMDL.setAgentContactAddress((address.isEmpty()) ? "N/A" : address);
+                        agentPropertyMDL.setAgentContactCity((city.isEmpty()) ? "N/A" : city);
+                        agentPropertyMDL.setAgentContactEmail((email.isEmpty()) ? "N/A" : email);
+                        agentPropertyMDL.setAgentContactName((name.isEmpty()) ? "N/A" : name);
+                        agentPropertyMDL.setAgentContactphone((phone.isEmpty()) ? "N/A" : phone);
+                        propertyMDL.setAgentPropertyMDL(agentPropertyMDL);
                     }
                 }, new Realm.Transaction.OnSuccess() {
                     @Override
@@ -154,21 +159,6 @@ public class AgentPropertyDetailsFormFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     //    @Override
 //    public void onStop() {
 //        super.onStop();
@@ -198,6 +188,21 @@ public class AgentPropertyDetailsFormFragment extends Fragment {
         super.onDestroy();
         mRealm.close();
 
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
 }

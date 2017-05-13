@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,6 +19,7 @@ import com.steve.housing.models.DistrictMDL;
 import com.steve.housing.models.RegionMDL;
 import com.steve.housing.utils.Constants;
 import com.steve.housing.utils.VolleyRequests;
+import com.steve.housing.views.activities.HomeActivity;
 import com.steve.housing.views.activities.LoginActivity;
 
 import org.json.JSONException;
@@ -60,17 +60,15 @@ public class SplashScreenActivityFragment extends Fragment {
         prefs = getActivity().getSharedPreferences(Constants.PREFS, Context.MODE_PRIVATE);
         mRealm = Realm.getDefaultInstance();
         initField(view);
-        if (checkDistricts().isEmpty() || checkRegions().isEmpty())
-        {
+        if (checkDistricts().isEmpty() || checkRegions().isEmpty()) {
             getRegions();
             getDistricts();
-        }else{
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
         }
-
-
-
 
 
         return view;
@@ -84,7 +82,7 @@ public class SplashScreenActivityFragment extends Fragment {
     }
 
     private RealmResults<RegionMDL> checkRegions() {
-      return   mRealm.where(RegionMDL.class).findAll();
+        return mRealm.where(RegionMDL.class).findAll();
     }
 
     private void getDistricts() {
@@ -136,12 +134,7 @@ public class SplashScreenActivityFragment extends Fragment {
         mVolleyRequest.JsonObjRequest(Constants.REGION_URL, new VolleyRequests.VolleyJsonCallBack() {
             @Override
             public void onSuccess(JSONObject result) {
-                new MaterialDialog.Builder(getContext())
-                        .title("Results")
-                        .content(result.toString())
-                        .positiveText(R.string.ok)
-                        .negativeText(R.string.md_cancel_label)
-                        .show();
+
                 Gson gson = new GsonBuilder().create();
 
                 Type collectionType = new TypeToken<Collection<RegionMDL>>() {

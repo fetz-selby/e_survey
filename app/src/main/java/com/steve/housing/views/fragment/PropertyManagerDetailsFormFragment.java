@@ -25,7 +25,6 @@ import io.realm.RealmAsyncTask;
 
 public class PropertyManagerDetailsFormFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
     TextInputLayout propertyPmanagerFullNameWrapper;
     TextInputLayout propertyPmanagerEmailWrapper;
     TextInputLayout propertyPmanagerPhoneWrapper;
@@ -39,6 +38,7 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
     EditText propertyPmanagerAddress;
     EditText propertyPmanagerLicense;
     FloatingActionButton floatingActionButtonPmanager;
+    private OnFragmentInteractionListener mListener;
     private String name, email, phone, city, address, license;
 
 
@@ -97,10 +97,8 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
 
 
                         PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
-//                        String id = UUID.randomUUID().toString();
-//                        PropertyMDL propertyMDL = realm.createObject(PropertyMDL.class, id);
                         String id = UUID.randomUUID().toString();
-                        PropertyManagerMDL propertyManagerMDL = realm.createObject(PropertyManagerMDL.class,id);
+                        PropertyManagerMDL propertyManagerMDL = realm.createObject(PropertyManagerMDL.class, id);
                         propertyManagerMDL.setPropertyManagerContactAddress((address.isEmpty()) ? "N/A" : address);
                         propertyManagerMDL.setPropertyManagerContactCity((city.isEmpty()) ? "N/A" : city);
                         propertyManagerMDL.setPropertyManagerEmail((email.isEmpty()) ? "N/A" : email);
@@ -162,21 +160,6 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     @Override
     public void onStop() {
         super.onStop();
@@ -191,5 +174,20 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
         super.onDestroy();
         mRealm.close();
 
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }

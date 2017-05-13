@@ -2,13 +2,14 @@ package com.steve.housing.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by root on 5/12/17.
  */
 
-public class EmergencyContactMDL {
+public class EmergencyContactMDL extends RealmObject{
 
 
     //        emergency		: {

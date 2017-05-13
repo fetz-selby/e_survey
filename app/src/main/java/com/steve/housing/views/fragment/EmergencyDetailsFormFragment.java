@@ -14,7 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.EmergencyContactMDL;
 import com.steve.housing.models.PropertyMDL;
+
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
@@ -95,11 +98,16 @@ public class EmergencyDetailsFormFragment extends Fragment {
                     public void execute(Realm realm) {
 
                         PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
-                        propertyMDL.setEmergencyContactAddress((address.isEmpty()) ? "N/A" : address);
-                        propertyMDL.setEmergencyContactCity((city.isEmpty()) ? "N/A" : city);
-                        propertyMDL.setEmergencyContactEmail((email.isEmpty()) ? "N/A" : email);
-                        propertyMDL.setEmergencyContactName((name.isEmpty()) ? "N/A" : name);
-                        propertyMDL.setEmergencyContactphone((phone.isEmpty()) ? "N/A" : phone);
+                        //                        String id = UUID.randomUUID().toString();
+//                        PropertyMDL propertyMDL = realm.createObject(PropertyMDL.class, id);
+                        String id = UUID.randomUUID().toString();
+                        EmergencyContactMDL emergencyContactMDL = realm.createObject(EmergencyContactMDL.class, id);
+                        emergencyContactMDL.setEmergencyContactAddress((address.isEmpty()) ? "N/A" : address);
+                        emergencyContactMDL.setEmergencyContactCity((city.isEmpty()) ? "N/A" : city);
+                        emergencyContactMDL.setEmergencyContactEmail((email.isEmpty()) ? "N/A" : email);
+                        emergencyContactMDL.setEmergencyContactName((name.isEmpty()) ? "N/A" : name);
+                        emergencyContactMDL.setEmergencyContactphone((phone.isEmpty()) ? "N/A" : phone);
+                        propertyMDL.setEmergencyContactMDL(emergencyContactMDL);
 
                     }
                 }, new Realm.Transaction.OnSuccess() {
@@ -154,21 +162,6 @@ public class EmergencyDetailsFormFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     @Override
     public void onStop() {
         super.onStop();
@@ -183,5 +176,20 @@ public class EmergencyDetailsFormFragment extends Fragment {
         super.onDestroy();
         mRealm.close();
 
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }

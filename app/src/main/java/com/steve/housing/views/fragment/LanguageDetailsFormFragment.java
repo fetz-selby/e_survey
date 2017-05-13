@@ -1,6 +1,5 @@
 package com.steve.housing.views.fragment;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,11 +22,6 @@ import com.steve.housing.utils.GenUtils;
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
 
-import static com.steve.housing.utils.Constants.OwenrLanguageDataPreferences;
-import static com.steve.housing.utils.Constants.ownerLanguageSpokenKey;
-import static com.steve.housing.utils.Constants.ownerLanguageSpokenWrittenKey;
-import static com.steve.housing.utils.Constants.ownerLanguageWrittenKey;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -43,13 +37,13 @@ public class LanguageDetailsFormFragment extends Fragment {
 //    private EditText editTextPrimaryLanguage;
 //    private ArrayAdapter<CharSequence> adapter;
 
+    public static final String ARG_PAGE = "ARG_PAGE";
     EditText editTextLanguageSpoken, editTextLanguageWritten, editTextLanguageSpokenWrtitten;
     TextInputLayout textInputLayoutLanguageSpoken, textInputLayoutLanguageWritten, textInputLayoutLanguageSpokenWritten;
     FloatingActionButton floatingActionButtonAddLanguage;
-    private OnFragmentInteractionListener mListener;
-    public static final String ARG_PAGE = "ARG_PAGE";
-    private int mPage;
     SharedPreferences sharedpreferencesOwnerLanguageData;
+    private OnFragmentInteractionListener mListener;
+    private int mPage;
     private boolean languageSpokenWrittenError, languageSpokenError, languageWrittenError;
     private Realm mRealm;
     private RealmAsyncTask realmAsyncTask;
@@ -71,7 +65,7 @@ public class LanguageDetailsFormFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedpreferencesOwnerLanguageData = getActivity().getSharedPreferences(OwenrLanguageDataPreferences, Context.MODE_PRIVATE);
+
 
     }
 
@@ -115,11 +109,6 @@ public class LanguageDetailsFormFragment extends Fragment {
                     final String languageSpokenData = editTextLanguageSpoken.getText().toString();
                     final String languageWrittenData = editTextLanguageWritten.getText().toString();
                     final String languageSpokenWrittenData = editTextLanguageSpokenWrtitten.getText().toString();
-                    SharedPreferences.Editor editor = sharedpreferencesOwnerLanguageData.edit();
-                    editor.putString(ownerLanguageSpokenKey, languageSpokenData);
-                    editor.putString(ownerLanguageWrittenKey, languageWrittenData);
-                    editor.putString(ownerLanguageSpokenWrittenKey, languageSpokenWrittenData);
-                    editor.commit();
 
 
                     realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
@@ -176,6 +165,62 @@ public class LanguageDetailsFormFragment extends Fragment {
         mListener = null;
     }
 
+    public void initFields(View view) {
+        editTextLanguageSpoken = (EditText) view.findViewById(R.id.editTextLanguageSpoken);
+        editTextLanguageWritten = (EditText) view.findViewById(R.id.editTextWriten);
+        editTextLanguageSpokenWrtitten = (EditText) view.findViewById(R.id.editTextSpokenWritten);
+        floatingActionButtonAddLanguage = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonGetLanguages);
+        textInputLayoutLanguageSpoken = (TextInputLayout) view.findViewById(R.id.textInputLayoutLanguageSpoken);
+        textInputLayoutLanguageSpokenWritten = (TextInputLayout) view.findViewById(R.id.textInputLayoutSpokenWritten);
+        textInputLayoutLanguageWritten = (TextInputLayout) view.findViewById(R.id.textInputLayoutWritten);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
+    }
+
+//    private void addMoreLanguage(final LinearLayout linearLayoutForm, ImageButton imageButton) {
+//        imageButton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                final RelativeLayout newView = (RelativeLayout) getActivity().getLayoutInflater()
+//                        .inflate(R.layout.row_detail, null);
+//                newView.setLayoutParams(new LinearLayout.
+//                        LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+//                        , ViewGroup.LayoutParams.WRAP_CONTENT));
+//                spinnerSecondaryLanguage = (Spinner) newView.findViewById(R.id.spinnerLanguage);
+//
+//                // Apply the adapter to the spinner
+//                spinnerSecondaryLanguage.setAdapter(adapter);
+//
+//                ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
+//                btnRemove.setOnClickListener(new View.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(View v) {
+//                        linearLayoutForm.removeView(newView);
+//                    }
+//                });
+//                linearLayoutForm.addView(newView);
+//            }
+//        });
+//    }
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -189,17 +234,6 @@ public class LanguageDetailsFormFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    public void initFields(View view) {
-        editTextLanguageSpoken = (EditText) view.findViewById(R.id.editTextLanguageSpoken);
-        editTextLanguageWritten = (EditText) view.findViewById(R.id.editTextWriten);
-        editTextLanguageSpokenWrtitten = (EditText) view.findViewById(R.id.editTextSpokenWritten);
-        floatingActionButtonAddLanguage = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonGetLanguages);
-        textInputLayoutLanguageSpoken = (TextInputLayout) view.findViewById(R.id.textInputLayoutLanguageSpoken);
-        textInputLayoutLanguageSpokenWritten = (TextInputLayout) view.findViewById(R.id.textInputLayoutSpokenWritten);
-        textInputLayoutLanguageWritten = (TextInputLayout) view.findViewById(R.id.textInputLayoutWritten);
-
     }
 
     private class MyTextWatcher implements TextWatcher {
@@ -238,50 +272,5 @@ public class LanguageDetailsFormFragment extends Fragment {
 
             }
         }
-    }
-
-//    private void addMoreLanguage(final LinearLayout linearLayoutForm, ImageButton imageButton) {
-//        imageButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                final RelativeLayout newView = (RelativeLayout) getActivity().getLayoutInflater()
-//                        .inflate(R.layout.row_detail, null);
-//                newView.setLayoutParams(new LinearLayout.
-//                        LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-//                        , ViewGroup.LayoutParams.WRAP_CONTENT));
-//                spinnerSecondaryLanguage = (Spinner) newView.findViewById(R.id.spinnerLanguage);
-//
-//                // Apply the adapter to the spinner
-//                spinnerSecondaryLanguage.setAdapter(adapter);
-//
-//                ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
-//                btnRemove.setOnClickListener(new View.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(View v) {
-//                        linearLayoutForm.removeView(newView);
-//                    }
-//                });
-//                linearLayoutForm.addView(newView);
-//            }
-//        });
-//    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
-            realmAsyncTask.cancel();
-
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mRealm.close();
-
     }
 }

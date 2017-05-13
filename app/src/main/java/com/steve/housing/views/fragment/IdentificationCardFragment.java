@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.steve.housing.R;
+import com.steve.housing.models.IdentificationMDL;
 import com.steve.housing.models.OwnerMDL;
 import com.steve.housing.utils.GenUtils;
 
@@ -36,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
@@ -172,9 +174,15 @@ public class IdentificationCardFragment extends Fragment {
                         public void execute(Realm realm) {
 
                             OwnerMDL ownerMDL = realm.where(OwnerMDL.class).findAllSorted("createdDate").last();
-                            ownerMDL.setIdentificationNumber(idText);
-                            ownerMDL.setIdentificationType(idType);
-                            ownerMDL.setIdentificationPicture(encodedImage);
+                            //                        String id = UUID.randomUUID().toString();
+
+//                        PropertyMDL propertyMDL = realm.createObject(PropertyMDL.class, id);
+                            String id = UUID.randomUUID().toString();
+                            IdentificationMDL identificationMDL = realm.createObject(IdentificationMDL.class, id);
+                            identificationMDL.setIdentificationNumber(idText);
+                            identificationMDL.setIdentificationType(idType);
+                            identificationMDL.setIdentificationPicture(encodedImage);
+                            ownerMDL.setIdentificationMDL(identificationMDL);
                         }
                     }, new Realm.Transaction.OnSuccess() {
                         @Override

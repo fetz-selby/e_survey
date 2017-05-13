@@ -359,4 +359,13 @@ public class OwnerMDL extends RealmObject {
     public void setDistrict(String district) {
         this.district = district;
     }
+
+    public IdentificationMDL getIdentificationMDL() {
+        return identificationMDL;
+    }
+
+    public void setIdentificationMDL(IdentificationMDL identificationMDL) {
+        this.identificationMDL = identificationMDL;
+    }
+
 }
