@@ -169,7 +169,7 @@ public class CompleteFragment extends Fragment {
 
                     Log.d(TAG, "Params" + params.toString());
 
-                    mVolleyRequest.postData(Constants.url, params, new VolleyRequests.VolleyPostCallBack() {
+                    mVolleyRequest.postData(Constants.DISTRICT_URL, params, new VolleyRequests.VolleyPostCallBack() {
 
                         @Override
                         public void onSuccess(JSONObject result) {

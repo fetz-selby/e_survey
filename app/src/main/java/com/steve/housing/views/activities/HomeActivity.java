@@ -1,5 +1,7 @@
 package com.steve.housing.views.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,8 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.steve.housing.R;
+import com.steve.housing.utils.Constants;
 
 public class HomeActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +22,8 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
     }
+
 
 }

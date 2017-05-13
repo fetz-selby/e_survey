@@ -19,8 +19,8 @@ public class Constants {
     public static final String prefStringDefaultValue = "";
     public static final int prefIntDefualtValue = 0;
     public static final boolean prefBooleanDefault = false;
-    public static final String prefsLogin = "prefslogin";
     public static String loadingDialogMsg;
     public static String serverAddress;
     public static int noNetworkMsg;
+    public static String prefsLogin= "prefslogin";
 }

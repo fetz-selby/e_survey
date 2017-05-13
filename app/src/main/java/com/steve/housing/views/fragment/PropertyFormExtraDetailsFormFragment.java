@@ -6,8 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,7 +15,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,16 +30,10 @@ import com.steve.housing.models.DistrictMDL;
 import com.steve.housing.models.GpsCoordinatesMDL;
 import com.steve.housing.models.LocationMDL;
 import com.steve.housing.models.PropertyMDL;
-import com.steve.housing.models.RegionMDL;
-import com.steve.housing.utils.GenUtils;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
-import fr.quentinklein.slt.LocationTracker;
-import fr.quentinklein.slt.TrackerSettings;
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
 import io.realm.RealmResults;
@@ -68,6 +59,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
     private FloatingActionButton floatingActionButtonCoordinates;
     private LocationManager locationManager;
     private OnFragmentInteractionListener mListener;
+    private String districtValue;
 
     public PropertyFormExtraDetailsFormFragment() {
         // Required empty public constructor
@@ -103,6 +95,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
         floatingActionButtonCoordinates = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonPropertyCoordinates);
         floatingActionButonPropertyExtra = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonGetPropertyExtraDetails);
         gpsLoading = (ProgressBar) view.findViewById(R.id.gps_loading_panel);
+        final String districtValue;
 
         mRealm = Realm.getDefaultInstance();
 //        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -115,8 +108,9 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
         spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "" + mRealm.where(DistrictMDL.class).equalTo("district", districtsData.get(position)).findFirst(), Toast.LENGTH_LONG).show();
-                districtMDL = mRealm.where(DistrictMDL.class).equalTo("district", districtsData.get(position)).findFirst();
+//                Toast.makeText(getActivity(), "" + mRealm.where(DistrictMDL.class).equalTo("district", districtsData.get(position)).findFirst(), Toast.LENGTH_LONG).show();
+//                districtMDL = mRealm.where(DistrictMDL.class).equalTo("district", districtsData.get(position)).findFirst();
+                district = districtsData.get(position);
 
             }
 
@@ -131,24 +125,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "loading", Toast.LENGTH_LONG).show();
-//                getLocation();
-                LocationTracker tracker = new LocationTracker(getContext(), new TrackerSettings()
-                        .setUseGPS(true)
-                        .setUseNetwork(true)
-                        .setUsePassive(true)) {
-                    @Override
-                    public void onLocationFound(Location location) {
-                        Toast.makeText(getContext(), "" + location.getLatitude() + "" + location.getLongitude(), Toast.LENGTH_LONG).show();
-                        editTextCoordinates.setText("" + location.getLatitude() + "" + location.getLongitude());
-
-                    }
-
-                    @Override
-                    public void onTimeout() {
-
-                    }
-                };
-                tracker.startListening();
+                getLocation();
 
 //                checkLocationPermission();
                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -198,6 +175,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
 //                        propertyMDL.setAgentContactCity((address.isEmpty()) ? "N/A" : address);
                         gpsCoordinatesMDL.setLongitude((longitude == 0) ? 0 : value);
                         gpsCoordinatesMDL.setLongitude((latitute == 0) ? 0 : value);
+                        districtMDL = realm.where(DistrictMDL.class).equalTo("district", district).findFirst();
                         locationMDL.setDistrictMDL(districtMDL);
 //                        locationMDL.setDistrictMDL();
                         propertyMDL.setAddress(address);
@@ -214,7 +192,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
                 }, new Realm.Transaction.OnError() {
                     @Override
                     public void onError(Throwable error) {
-                        Toast.makeText(getContext(), " failed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -249,31 +227,11 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
 
-//                        //Request location updates:
-////                        locationManager.requestLocationUpdates(provider, 400, 1, this);
-//                        LocationTracker tracker = new LocationTracker(ctx, new TrackerSettings()
-//                                .setUseGPS(true)
-//                                .setUseNetwork(true)
-//                                .setUsePassive(true)) {
-//                            @Override
-//                            public void onLocationFound(Location location) {
-//                                // Do some stuff
-//                                editTextCoordinates.setText("" + location.getLatitude() + "" + location.getLongitude());
-//
-//                            }
-//
-//                            @Override
-//                            public void onTimeout() {
-//
-//                            }
-//                        };
-//                        tracker.startListening();
+
                     }
 
                 } else {
 
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
 
                 }
                 return;
@@ -282,61 +240,6 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
         }
     }
 
-    //
-//    public boolean checkLocationPermission() {
-//        if (ContextCompat.checkSelfPermission(getActivity(),
-//                Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Should we show an explanation?
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-//
-//                // Show an explanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//                new AlertDialog.Builder(getActivity())
-//                        .setTitle(R.string.title_location_permission)
-//                        .setMessage(R.string.text_location_permission)
-//                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                //Prompt the user once explanation has been shown
-//                                ActivityCompat.requestPermissions(getActivity(),
-//                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                                        PERMISSION_ACCESS_COARSE_LOCATION);
-//                            }
-//                        })
-//                        .create()
-//                        .show();
-//
-//
-//            } else {
-//                // No explanation needed, we can request the permission.
-//                ActivityCompat.requestPermissions(getActivity(),
-//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                        PERMISSION_ACCESS_COARSE_LOCATION);
-//            }
-//            return false;
-//        } else {
-//            return true;
-//        }
-//    }
-
-
-    //    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        switch (requestCode) {
-//            case PERMISSION_ACCESS_COARSE_LOCATION:
-//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    // All good!
-//                } else {
-//                    Toast.makeText(getContext(), "Need your location!", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                break;
-//        }
-//    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -347,12 +250,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+
     }
 
     @Override
@@ -366,8 +264,6 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
         editTextCoordinates.setText(location.getLatitude() + ", " + location.getLongitude());
         longitude = (float) location.getLongitude();
         latitute = (float) location.getLatitude();
-//        double d = getInfoValueNumeric();
-//        float f = (float)d;
 
 
     }
@@ -404,45 +300,6 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
 
     }
 
-    private void setGPSData() {
-//        TextView txtGPSCoordinates = (TextView) rootView.findViewById((R.id.gps_coordinates));
-//        TextView txtGPSAddress = (TextView) rootView.findViewById((R.id.gps_address));
-
-        double[] coors = GenUtils.getGPSCoords(getActivity());
-
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(getActivity(), Locale.getDefault());
-
-        String strFullAddress = "N/A";
-
-        try {
-            addresses = geocoder.getFromLocation(coors[0], coors[1], 1);
-            if (!addresses.isEmpty()) {
-                String address = addresses.get(0).getAddressLine(0);
-                String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-                String postalCode = addresses.get(0).getPostalCode();
-                String knownName = addresses.get(0).getFeatureName();
-
-                strFullAddress = address +
-                        ", " + city +
-                        ",  " + state +
-                        ", " + country;
-            }
-
-        } catch (java.io.IOException e) {
-            Log.e("setGPSData", e.getMessage());
-        }
-
-//        txtGPSCoordinates.setText(String.valueOf(coors[0]) + ", " + String.valueOf(coors[1]));
-        editTextCoordinates.setText(String.valueOf(coors[0]) + ", " + String.valueOf(coors[1]));
-        editTextAddress.setText(strFullAddress);
-
-        Log.d("setGPSData", "Latitude: " + coors[0]);
-        Log.d("setGPSData", "Longitude: " + coors[1]);
-    }
 
     public ArrayList<String> retrieveDistricts() {
         ArrayList<String> regions = new ArrayList<>();
