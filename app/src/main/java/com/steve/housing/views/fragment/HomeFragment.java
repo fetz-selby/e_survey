@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.steve.housing.R;
+import com.steve.housing.views.activities.OwnerListActivity;
 import com.steve.housing.views.activities.PropertyListActivity;
 
 /**
@@ -48,6 +49,8 @@ public class HomeFragment extends Fragment {
         buttonOwnersList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intentOwnerList= new Intent(getActivity(), OwnerListActivity.class);
+                startActivity(intentOwnerList);
 
             }
         });

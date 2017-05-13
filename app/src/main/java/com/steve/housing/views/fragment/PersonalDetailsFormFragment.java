@@ -211,34 +211,33 @@ public class PersonalDetailsFormFragment extends Fragment {
 
 
                     realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
-                                                                        @Override
-                                                                        public void execute(Realm realm) {
+                        @Override
+                        public void execute(Realm realm) {
 
-                                                                            String id = UUID.randomUUID().toString();
-                                                                            OwnerMDL ownerMDL = realm.createObject(OwnerMDL.class, id);
-                                                                            // personal data
-                                                                            ownerMDL.setFirstname(firstnameET.getText().toString().trim());
-                                                                            ownerMDL.setLastname(lastnameET.getText().toString().trim());
-                                                                            ownerMDL.setOthername(othernameET.getText().toString().trim());
-                                                                            ownerMDL.setMaritalStatus(maritalStatus);
-                                                                            ownerMDL.setDisability(disability);
-                                                                            ownerMDL.setOwnerPhoto(encodedImage);
-                                                                            ownerMDL.setCreatedDate(dateFormat.format(date));
-                                                                        }
-                                                                    }, new Realm.Transaction.OnSuccess() {
-                                                                        @Override
-                                                                        public void onSuccess() {
-                                                                            Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_SHORT).show();
+                            String id = UUID.randomUUID().toString();
+                            OwnerMDL ownerMDL = realm.createObject(OwnerMDL.class, id);
+                            // personal data
+                            ownerMDL.setFirstname(firstnameET.getText().toString().trim());
+                            ownerMDL.setLastname(lastnameET.getText().toString().trim());
+                            ownerMDL.setOthername(othernameET.getText().toString().trim());
+                            ownerMDL.setMaritalStatus(maritalStatus);
+                            ownerMDL.setDisability(disability);
+                            ownerMDL.setOwnerPhoto(encodedImage);
+                            ownerMDL.setCreatedDate(dateFormat.format(date));
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_SHORT).show();
 
-                                                                        }
-                                                                    }, new Realm.Transaction.OnError() {
-                                                                        @Override
-                                                                        public void onError(Throwable error) {
-                                                                            Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }, new Realm.Transaction.OnError() {
+                        @Override
+                        public void onError(Throwable error) {
+                            Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
 
-                                                                        }
-                                                                    }
-                    );
+                        }
+                    });
                 }
             }
         });

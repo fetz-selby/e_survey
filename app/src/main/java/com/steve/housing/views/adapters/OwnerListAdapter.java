@@ -1,6 +1,5 @@
 package com.steve.housing.views.adapters;
 
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.steve.housing.R;
 import com.steve.housing.models.OwnerMDL;
-import com.steve.housing.utils.VolleyRequests;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
@@ -28,7 +26,7 @@ public class OwnerListAdapter extends RealmRecyclerViewAdapter<OwnerMDL, OwnerLi
     @Override
     public OwnerListAdapter.OwnerListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.property_row, parent, false);
+                .inflate(R.layout.owner_row, parent, false);
         return new OwnerListAdapter.OwnerListViewHolder(itemView);
     }
 
@@ -43,7 +41,7 @@ public class OwnerListAdapter extends RealmRecyclerViewAdapter<OwnerMDL, OwnerLi
 //        holder.propertyButtonAddOwner.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-        holder.ownerName.setText(ownerMDL.getFirstname() + " " + ownerMDL.getLastname());
+        holder.ownerName.setText(ownerMDL.getLastname() + " " + ownerMDL.getLastname());
         holder.ownerPhone.setText(ownerMDL.getPhoneNumber());
         holder.ownerViewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,13 +56,14 @@ public class OwnerListAdapter extends RealmRecyclerViewAdapter<OwnerMDL, OwnerLi
     }
 
     public class OwnerListViewHolder extends RecyclerView.ViewHolder {
-        TextView ownerName;
-        TextView  ownerPhone;
-        Button ownerViewDetails;
         public OwnerMDL data;
+        TextView ownerName;
+        TextView ownerPhone;
+        Button ownerViewDetails;
+
         public OwnerListViewHolder(View itemView) {
             super(itemView);
-            ownerName =(TextView) itemView.findViewById(R.id.owner_items_row_text_top);
+            ownerName = (TextView) itemView.findViewById(R.id.owner_items_row_text_top);
             ownerPhone = (TextView) itemView.findViewById(R.id.owner_items_row_text_bottom);
             ownerViewDetails = (Button) itemView.findViewById(R.id.buttonViewOwnerDetail);
         }

@@ -72,6 +72,7 @@
         <activity
             android:name=".views.activities.PropertyListActivity"
             android:label="@string/title_activity_property_list"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.activities.PropertyViewPagerActivity"
@@ -81,6 +82,7 @@
         <activity
             android:name=".views.activities.SplashScreenActivity"
             android:label="@string/title_activity_splash_screen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -91,6 +93,7 @@
         <activity
             android:name=".views.activities.HomeActivity"
             android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.activities.OwnerListActivity"

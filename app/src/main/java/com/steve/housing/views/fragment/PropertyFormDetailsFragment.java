@@ -202,33 +202,31 @@ public class PropertyFormDetailsFragment extends Fragment {
                 final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 final Date date = new Date();
                 realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
-                                                                    @Override
-                                                                    public void execute(Realm realm) {
+                    @Override
+                    public void execute(Realm realm) {
+                        String id = UUID.randomUUID().toString();
+                        PropertyMDL propertyMDL = realm.createObject(PropertyMDL.class, id);
+                        // personal data
+                        propertyMDL.setClassification(classification);
+                        propertyMDL.setElectricitySource(electricitySource);
+                        propertyMDL.setOwnershipType(ownershipStatus);
+                        propertyMDL.setPropertyType(propertyType);
+                        propertyMDL.setRegistered(registeredValue);
+                        propertyMDL.setCreatedDate(dateFormat.format(date));
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_SHORT).show();
 
-                                                                        String id = UUID.randomUUID().toString();
-                                                                        PropertyMDL propertyMDL = realm.createObject(PropertyMDL.class, id);
-                                                                        // personal data
-                                                                        propertyMDL.setClassification(classification);
-                                                                        propertyMDL.setElectricitySource(electricitySource);
-                                                                        propertyMDL.setOwnershipType(ownershipStatus);
-                                                                        propertyMDL.setPropertyType(propertyType);
-                                                                        propertyMDL.setRegistered(registeredValue);
-                                                                        propertyMDL.setCreatedDate(dateFormat.format(date));
-                                                                    }
-                                                                }, new Realm.Transaction.OnSuccess() {
-                                                                    @Override
-                                                                    public void onSuccess() {
-                                                                        Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
 
-                                                                    }
-                                                                }, new Realm.Transaction.OnError() {
-                                                                    @Override
-                                                                    public void onError(Throwable error) {
-                                                                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
-
-                                                                    }
-                                                                }
-                );
+                    }
+                });
 
             }
         });
