@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/top_rel_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_vertical_padding">
+
+            <ImageView
+                android:id="@+id/owner_items_row_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="5dp"
+                android:contentDescription="Item image"
+                android:src="@drawable/camera" />
+
+            <LinearLayout
+                android:id="@+id/team_items_listbody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/owner_items_row_image"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/owner_items_row_text_top"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="Owner name"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/owner_items_row_text_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/owner_items_row_text_top"
+                        android:text="Phone number"
+                        android:textColor="@color/pf_grey"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top_rel_layout"
+            android:padding="@dimen/activity_vertical_padding">
+
+            <!--<Button-->
+                <!--android:id="@+id/owner_items_row_add"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:background="@color/btnColorSignUp"-->
+                <!--android:text="Vew"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="12sp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textAlignment="center"-->
+                <!--android:layout_alignParentTop="true" />-->
+
+            <Button
+                android:id="@+id/buttonViewOwnerDetail"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/common_google_signin_btn_text_light_default"
+                android:ellipsize="end"
+                android:textColor="@color/colorWhite"
+                android:lines="1"
+                android:padding="@dimen/activity_vertical_padding"
+                android:text="Details" />
+
+            <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="3 GHS"-->
+            <!--android:id="@+id/owner_items_row_price"-->
+            <!--android:layout_below="@+id/owner_items_row_add"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true" />-->
+
+            <!--<Spinner-->
+            <!--android:id="@+id/spinnerPrices"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:spinnerMode="dialog"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:layout_toLeftOf="@+id/owner_items_row_add"-->
+            <!--android:layout_toStartOf="@+id/owner_items_row_add" />-->
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

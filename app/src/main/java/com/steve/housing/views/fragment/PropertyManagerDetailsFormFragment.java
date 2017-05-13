@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 import com.steve.housing.R;
 import com.steve.housing.models.PropertyMDL;
+import com.steve.housing.models.PropertyManagerMDL;
+
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
@@ -94,12 +97,17 @@ public class PropertyManagerDetailsFormFragment extends Fragment {
 
 
                         PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
-                        propertyMDL.setPropertyManagerContactAddress((address.isEmpty()) ? "N/A" : address);
-                        propertyMDL.setPropertyManagerContactCity((city.isEmpty()) ? "N/A" : city);
-                        propertyMDL.setPropertyManagerEmail((email.isEmpty()) ? "N/A" : email);
-                        propertyMDL.setPropertyManagerContactName((name.isEmpty()) ? "N/A" : name);
-                        propertyMDL.setAgentContactphone((phone.isEmpty()) ? "N/A" : phone);
-                        propertyMDL.setPropertyManagerLicenseNumber((license.isEmpty()) ? "N/A" : license);
+//                        String id = UUID.randomUUID().toString();
+//                        PropertyMDL propertyMDL = realm.createObject(PropertyMDL.class, id);
+                        String id = UUID.randomUUID().toString();
+                        PropertyManagerMDL propertyManagerMDL = realm.createObject(PropertyManagerMDL.class,id);
+                        propertyManagerMDL.setPropertyManagerContactAddress((address.isEmpty()) ? "N/A" : address);
+                        propertyManagerMDL.setPropertyManagerContactCity((city.isEmpty()) ? "N/A" : city);
+                        propertyManagerMDL.setPropertyManagerEmail((email.isEmpty()) ? "N/A" : email);
+                        propertyManagerMDL.setPropertyManagerContactName((name.isEmpty()) ? "N/A" : name);
+                        propertyManagerMDL.setPropertyManagerContactphone((phone.isEmpty()) ? "N/A" : phone);
+                        propertyManagerMDL.setPropertyManagerLicenseNumber((license.isEmpty()) ? "N/A" : license);
+                        propertyMDL.setPropertyManagerMDL(propertyManagerMDL);
                     }
                 }, new Realm.Transaction.OnSuccess() {
                     @Override

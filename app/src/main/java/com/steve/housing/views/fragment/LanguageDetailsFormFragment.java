@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.steve.housing.R;
-import com.steve.housing.models.PersonMDL;
+import com.steve.housing.models.OwnerMDL;
 import com.steve.housing.utils.GenUtils;
 
 import io.realm.Realm;
@@ -126,10 +126,10 @@ public class LanguageDetailsFormFragment extends Fragment {
                         @Override
                         public void execute(Realm realm) {
 
-                            PersonMDL personMDL = realm.where(PersonMDL.class).findAllSorted("createdDate").last();
-                            personMDL.setLanguageSpoken(languageSpokenData);
-                            personMDL.setLanguageWritten(languageWrittenData);
-                            personMDL.setGetLanguageSpokenWritten(languageSpokenWrittenData);
+                            OwnerMDL ownerMDL = realm.where(OwnerMDL.class).findAllSorted("createdDate").last();
+                            ownerMDL.setLanguageSpoken(languageSpokenData);
+                            ownerMDL.setLanguageWritten(languageWrittenData);
+                            ownerMDL.setGetLanguageSpokenWritten(languageSpokenWrittenData);
 
                         }
                     }, new Realm.Transaction.OnSuccess() {

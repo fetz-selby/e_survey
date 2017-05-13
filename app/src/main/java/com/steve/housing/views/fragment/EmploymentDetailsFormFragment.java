@@ -21,13 +21,11 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.steve.housing.R;
-import com.steve.housing.models.PersonMDL;
+import com.steve.housing.models.OwnerMDL;
 import com.steve.housing.utils.GenUtils;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
-
-import static com.steve.housing.utils.Constants.OwnerEmploymentsDataPreferences;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +70,6 @@ public class EmploymentDetailsFormFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedpreferencesOwnerEmploymentData = getActivity().getSharedPreferences(OwnerEmploymentsDataPreferences, Context.MODE_PRIVATE);
 
     }
 
@@ -181,13 +178,13 @@ public class EmploymentDetailsFormFragment extends Fragment {
                         @Override
                         public void execute(Realm realm) {
 
-                            PersonMDL personMDL = realm.where(PersonMDL.class).findAllSorted("createdDate").last();
-                            personMDL.setEmployer((employerData.isEmpty()) ? "N/A" : employerData);
-                            personMDL.setEmploymentSector((employmentSector.isEmpty()) ? "N/A" : employmentSector);
-                            personMDL.setEmploymentStatus((employmentStatus.isEmpty()) ? "N/A" : employmentStatus);
-                            personMDL.setPosition((positionData.isEmpty()) ? "N/A" : positionData);
-                            personMDL.setProfession((professionData.isEmpty()) ? "N/A" : professionData);
-                            personMDL.setWorkplaceLocation((officeLocation.isEmpty()) ? "N/A" : officeLocation);
+                            OwnerMDL ownerMDL = realm.where(OwnerMDL.class).findAllSorted("createdDate").last();
+                            ownerMDL.setEmployer((employerData.isEmpty()) ? "N/A" : employerData);
+                            ownerMDL.setEmploymentSector((employmentSector.isEmpty()) ? "N/A" : employmentSector);
+                            ownerMDL.setEmploymentStatus((employmentStatus.isEmpty()) ? "N/A" : employmentStatus);
+                            ownerMDL.setPosition((positionData.isEmpty()) ? "N/A" : positionData);
+                            ownerMDL.setProfession((professionData.isEmpty()) ? "N/A" : professionData);
+                            ownerMDL.setWorkplaceLocation((officeLocation.isEmpty()) ? "N/A" : officeLocation);
                         }
                     }, new Realm.Transaction.OnSuccess() {
                         @Override
@@ -204,11 +201,11 @@ public class EmploymentDetailsFormFragment extends Fragment {
                     });
                     new MaterialDialog.Builder(getContext())
                             .title("RESULT")
-                            .content(mRealm.where(PersonMDL.class).findAll().toString())
+                            .content(mRealm.where(OwnerMDL.class).findAll().toString())
                             .positiveText("OK")
                             .negativeText("DISMISS")
                             .show();
-                    Toast.makeText(getContext(), mRealm.where(PersonMDL.class).findAll().toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), mRealm.where(OwnerMDL.class).findAll().toString(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -245,8 +242,23 @@ public class EmploymentDetailsFormFragment extends Fragment {
         editTextWorkLocation = (EditText) view.findViewById(R.id.editTextWorkplaceLocation);
 
         floatingActionButtonGetEmployementData = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonEmploymentData);
-        sharedpreferencesOwnerEmploymentData = this.getActivity().getSharedPreferences(OwnerEmploymentsDataPreferences, Context.MODE_PRIVATE);
 
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
 
     }
 
@@ -289,22 +301,5 @@ public class EmploymentDetailsFormFragment extends Fragment {
 
             }
         }
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
-            realmAsyncTask.cancel();
-
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mRealm.close();
-
     }
 }

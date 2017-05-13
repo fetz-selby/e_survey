@@ -1,5 +1,7 @@
 package com.steve.housing.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -77,38 +79,41 @@ public class PropertyMDL extends RealmObject {
     private boolean registered;
     private String titleNumber;
     private String identureNumber;
-    private float longitude;
-    private float latidude;
-    private String district;
+
+
+    //        location		: {
+//        gps 		: { lat: Number, lng: Number },
+//        region 		: { type: Schema.Types.ObjectId, ref: 'Region' },
+//        town 		: String,
+//        district	: { type: Schema.Types.ObjectId },
+//        what3words	: String
+//        },
+    @SerializedName("location")
+    private LocationMDL locationMDL;
+
+
     private String address;
     private String familyUnit;
     private String electricitySource;
     private String partnershipName;
     private float partnershipPercentage;
     private String partnershipType;
-    private RealmList<PersonMDL> ownerList;
-    private String emergencyContactName;
-    private String emergencyContactAddress;
-    private String emergencyContactCity;
-    private String emergencyContactphone;
-    private String emergencyContactPhone;
-    private String emergencyContactEmail;
-    private String propertyManagerContactName;
-    private String propertyManagerContactAddress;
-    private String propertyManagerContactCity;
-    private String propertyManagerContactphone;
-    private String propertyManagerPhone;
-    private String propertyManagerEmail;
-    private String propertyManagerLicenseNumber;
-    private String AgentContactName;
-    private String AgentContactAddress;
-    private String AgentContactCity;
-    private String AgentContactphone;
-    private String AgentContactPhone;
-    private String AgentContactEmail;
+    @SerializedName("owners")
+    private RealmList<OwnerMDL> ownerList;
+    @SerializedName("propertyManager")
+    private PropertyManagerMDL propertyManagerMDL;
+
+
+    @SerializedName("agent")
+    private AgentPropertyMDL agentPropertyMDL;
+    @SerializedName("emergency")
+    private EmergencyContactMDL emergencyContactMDL;
+
+
     private boolean landTrust;
     private RealmList<TrustyModel> trusties;
     private String createdBy;
+    private String createdDate;
 
     public String getCreatedDate() {
         return createdDate;
@@ -116,71 +121,6 @@ public class PropertyMDL extends RealmObject {
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
-    }
-
-    private String createdDate;
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-    public String getPropertyManagerLicenseNumber() {
-        return propertyManagerLicenseNumber;
-    }
-
-    public void setPropertyManagerLicenseNumber(String propertyManagerLicenseNumber) {
-        this.propertyManagerLicenseNumber = propertyManagerLicenseNumber;
-    }
-
-    public String getAgentContactName() {
-        return AgentContactName;
-    }
-
-    public void setAgentContactName(String agentContactName) {
-        AgentContactName = agentContactName;
-    }
-
-    public String getAgentContactAddress() {
-        return AgentContactAddress;
-    }
-
-    public void setAgentContactAddress(String agentContactAddress) {
-        AgentContactAddress = agentContactAddress;
-    }
-
-    public String getAgentContactCity() {
-        return AgentContactCity;
-    }
-
-    public void setAgentContactCity(String agentContactCity) {
-        AgentContactCity = agentContactCity;
-    }
-
-    public String getAgentContactphone() {
-        return AgentContactphone;
-    }
-
-    public void setAgentContactphone(String agentContactphone) {
-        AgentContactphone = agentContactphone;
-    }
-
-    public String getAgentContactPhone() {
-        return AgentContactPhone;
-    }
-
-    public void setAgentContactPhone(String agentContactPhone) {
-        AgentContactPhone = agentContactPhone;
-    }
-
-    public String getAgentContactEmail() {
-        return AgentContactEmail;
-    }
-
-    public void setAgentContactEmail(String agentContactEmail) {
-        AgentContactEmail = agentContactEmail;
     }
 
     public String getCreatedBy() {
@@ -263,21 +203,6 @@ public class PropertyMDL extends RealmObject {
         this.identureNumber = identureNumber;
     }
 
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public float getLatidude() {
-        return latidude;
-    }
-
-    public void setLatidude(float latidude) {
-        this.latidude = latidude;
-    }
 
     public String getAddress() {
         return address;
@@ -327,109 +252,14 @@ public class PropertyMDL extends RealmObject {
         this.partnershipType = partnershipType;
     }
 
-    public RealmList<PersonMDL> getOwnerList() {
+    public RealmList<OwnerMDL> getOwnerList() {
         return ownerList;
     }
 
-    public void setOwnerList(RealmList<PersonMDL> ownerList) {
+    public void setOwnerList(RealmList<OwnerMDL> ownerList) {
         this.ownerList = ownerList;
     }
 
-    public String getEmergencyContactName() {
-        return emergencyContactName;
-    }
-
-    public void setEmergencyContactName(String emergencyContactName) {
-        this.emergencyContactName = emergencyContactName;
-    }
-
-    public String getEmergencyContactAddress() {
-        return emergencyContactAddress;
-    }
-
-    public void setEmergencyContactAddress(String emergencyContactAddress) {
-        this.emergencyContactAddress = emergencyContactAddress;
-    }
-
-    public String getEmergencyContactCity() {
-        return emergencyContactCity;
-    }
-
-    public void setEmergencyContactCity(String emergencyContactCity) {
-        this.emergencyContactCity = emergencyContactCity;
-    }
-
-    public String getEmergencyContactphone() {
-        return emergencyContactphone;
-    }
-
-    public void setEmergencyContactphone(String emergencyContactphone) {
-        this.emergencyContactphone = emergencyContactphone;
-    }
-
-    public String getEmergencyContactPhone() {
-        return emergencyContactPhone;
-    }
-
-    public void setEmergencyContactPhone(String emergencyContactPhone) {
-        this.emergencyContactPhone = emergencyContactPhone;
-    }
-
-    public String getEmergencyContactEmail() {
-        return emergencyContactEmail;
-    }
-
-    public void setEmergencyContactEmail(String emergencyContactEmail) {
-        this.emergencyContactEmail = emergencyContactEmail;
-    }
-
-    public String getPropertyManagerContactName() {
-        return propertyManagerContactName;
-    }
-
-    public void setPropertyManagerContactName(String propertyManagerContactName) {
-        this.propertyManagerContactName = propertyManagerContactName;
-    }
-
-    public String getPropertyManagerContactAddress() {
-        return propertyManagerContactAddress;
-    }
-
-    public void setPropertyManagerContactAddress(String propertyManagerContactAddress) {
-        this.propertyManagerContactAddress = propertyManagerContactAddress;
-    }
-
-    public String getPropertyManagerContactCity() {
-        return propertyManagerContactCity;
-    }
-
-    public void setPropertyManagerContactCity(String propertyManagerContactCity) {
-        this.propertyManagerContactCity = propertyManagerContactCity;
-    }
-
-    public String getPropertyManagerContactphone() {
-        return propertyManagerContactphone;
-    }
-
-    public void setPropertyManagerContactphone(String propertyManagerContactphone) {
-        this.propertyManagerContactphone = propertyManagerContactphone;
-    }
-
-    public String getPropertyManagerPhone() {
-        return propertyManagerPhone;
-    }
-
-    public void setPropertyManagerPhone(String propertyManagerPhone) {
-        this.propertyManagerPhone = propertyManagerPhone;
-    }
-
-    public String getPropertyManagerEmail() {
-        return propertyManagerEmail;
-    }
-
-    public void setPropertyManagerEmail(String propertyManagerEmail) {
-        this.propertyManagerEmail = propertyManagerEmail;
-    }
 
     public boolean isLandTrust() {
         return landTrust;
@@ -445,6 +275,40 @@ public class PropertyMDL extends RealmObject {
 
     public void setTrusties(RealmList<TrustyModel> trusties) {
         this.trusties = trusties;
+    }
+
+
+    public LocationMDL getLocationMDL() {
+        return locationMDL;
+    }
+
+    public void setLocationMDL(LocationMDL locationMDL) {
+        this.locationMDL = locationMDL;
+    }
+
+    public PropertyManagerMDL getPropertyManagerMDL() {
+        return propertyManagerMDL;
+    }
+
+    public void setPropertyManagerMDL(PropertyManagerMDL propertyManagerMDL) {
+        this.propertyManagerMDL = propertyManagerMDL;
+    }
+
+    public EmergencyContactMDL getEmergencyContactMDL() {
+        return emergencyContactMDL;
+    }
+
+    public void setEmergencyContactMDL(EmergencyContactMDL emergencyContactMDL) {
+        this.emergencyContactMDL = emergencyContactMDL;
+    }
+
+
+    public AgentPropertyMDL getAgentPropertyMDL() {
+        return agentPropertyMDL;
+    }
+
+    public void setAgentPropertyMDL(AgentPropertyMDL agentPropertyMDL) {
+        this.agentPropertyMDL = agentPropertyMDL;
     }
 
 

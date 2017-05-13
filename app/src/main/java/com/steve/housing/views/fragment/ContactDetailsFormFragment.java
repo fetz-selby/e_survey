@@ -1,6 +1,5 @@
 package com.steve.housing.views.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -19,18 +18,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.steve.housing.R;
-import com.steve.housing.models.PersonMDL;
+import com.steve.housing.models.OwnerMDL;
 import com.steve.housing.utils.GenUtils;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
-
-import static com.steve.housing.utils.Constants.OwnerContactDataPreferences;
-import static com.steve.housing.utils.Constants.ownerAddressKey;
-import static com.steve.housing.utils.Constants.ownerDistrictKey;
-import static com.steve.housing.utils.Constants.ownerEmailKey;
-import static com.steve.housing.utils.Constants.ownerExtraPhoneKey;
-import static com.steve.housing.utils.Constants.ownerPhoneKey;
 
 
 /**
@@ -39,9 +31,9 @@ import static com.steve.housing.utils.Constants.ownerPhoneKey;
 public class ContactDetailsFormFragment extends Fragment {
 
 
+    public static final String ARG_PAGE = "ARG_PAGE";
     private static final String TAG = ContactDetailsFormFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
-    public static final String ARG_PAGE = "ARG_PAGE";
     private TextInputLayout textInputLayoutPhone, textInputLayoutExtraPhone, textInputLayoutEmail;
     private TextInputLayout textInputLayoutAddress, textInputLayoutDistrict;
     private EditText editTextPhone, editTextExtraPhone, editTextEmail, editTextAddress, editTextDistrict;
@@ -129,28 +121,16 @@ public class ContactDetailsFormFragment extends Fragment {
                     final String districtData = editTextDistrict.getText().toString();
 
 
-
-                    SharedPreferences.Editor editor = sharedpreferencesOwnerContact.edit();
-
-                    editor.putString(ownerPhoneKey, phoneData);
-                    editor.putString(ownerExtraPhoneKey, extraPhoneData);
-                    editor.putString(ownerEmailKey, emailData);
-                    editor.putString(ownerAddressKey, addressData);
-                    editor.putString(ownerDistrictKey, districtData);
-
-                    editor.commit();
-                    Toast.makeText(getContext(), "Thanks", Toast.LENGTH_LONG).show();
-
                     realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
 
-                            PersonMDL personMDL = realm.where(PersonMDL.class).findAllSorted("createdDate").last();
-                            personMDL.setPhoneNumber(phoneData);
-                            personMDL.setAdditionalPhoneNumber((extraPhoneData.isEmpty()) ? "N/A" : extraPhoneData);
-                            personMDL.setEmail((emailData.isEmpty()) ? "N/A" : emailData);
-                            personMDL.setHouseAddress(addressData);
-                            personMDL.setDistrict(districtData);
+                            OwnerMDL ownerMDL = realm.where(OwnerMDL.class).findAllSorted("createdDate").last();
+                            ownerMDL.setPhoneNumber(phoneData);
+                            ownerMDL.setAdditionalPhoneNumber((extraPhoneData.isEmpty()) ? "N/A" : extraPhoneData);
+                            ownerMDL.setEmail((emailData.isEmpty()) ? "N/A" : emailData);
+                            ownerMDL.setHouseAddress(addressData);
+                            ownerMDL.setDistrict(districtData);
                         }
                     }, new Realm.Transaction.OnSuccess() {
                         @Override
@@ -178,21 +158,6 @@ public class ContactDetailsFormFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -217,9 +182,39 @@ public class ContactDetailsFormFragment extends Fragment {
         editTextPhone.addTextChangedListener(new ContactDetailsFormFragment.MyTextWatcher(editTextPhone));
         editTextAddress.addTextChangedListener(new ContactDetailsFormFragment.MyTextWatcher(editTextAddress));
         editTextDistrict.addTextChangedListener(new ContactDetailsFormFragment.MyTextWatcher(editTextDistrict));
-        sharedpreferencesOwnerContact = this.getActivity().getSharedPreferences(OwnerContactDataPreferences, Context.MODE_PRIVATE);
 
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
     private class MyTextWatcher implements TextWatcher {
@@ -259,22 +254,6 @@ public class ContactDetailsFormFragment extends Fragment {
             }
         }
 
-
-}
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
-            realmAsyncTask.cancel();
-
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mRealm.close();
 
     }
 }

@@ -1,7 +1,5 @@
 package com.steve.housing.views.fragment;
 
-import android.app.DialogFragment;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,21 +18,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.steve.housing.R;
-import com.steve.housing.models.PersonMDL;
+import com.steve.housing.models.OwnerMDL;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
-
-import static com.steve.housing.utils.Constants.PdataPreferences;
-import static com.steve.housing.utils.Constants.ownerBirthPlaceKey;
-import static com.steve.housing.utils.Constants.ownerCitizenshipTypeKey;
-import static com.steve.housing.utils.Constants.ownerDateofBirthKey;
-import static com.steve.housing.utils.Constants.ownerEthnicityKey;
-import static com.steve.housing.utils.Constants.ownerNationalityKey;
-import static com.steve.housing.utils.Constants.ownerSecondCountryKey;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,13 +38,13 @@ public class CitizenshipDetailsFormFragment extends Fragment {
 
 
     public static final String ARG_PAGE = "ARG_PAGE";
+    SharedPreferences sharedpreferencesOwnerCitizenship;
+    FloatingActionButton floatingActionButtonCitizenship;
+    String citizenshipTypedata;
     private Spinner spinnerTypeOfCitizenship;
     private AutoCompleteTextView autoCompleteTextViewFirstCountry;
     private AutoCompleteTextView autoCompleteTextViewSecondCountry;
     private EditText editTextEthnicity, editTextDob, editTextBirthPlace;
-    SharedPreferences sharedpreferencesOwnerCitizenship;
-    FloatingActionButton floatingActionButtonCitizenship;
-    String citizenshipTypedata;
     private Realm mRealm;
     private RealmAsyncTask realmAsyncTask;
 
@@ -105,7 +95,6 @@ public class CitizenshipDetailsFormFragment extends Fragment {
         autoCompleteTextViewSecondCountry.setThreshold(1);
 
 
-
         ArrayAdapter<CharSequence> adapterCitizenship = ArrayAdapter.createFromResource(getActivity(),
                 R.array.items_citizenship, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
@@ -143,28 +132,8 @@ public class CitizenshipDetailsFormFragment extends Fragment {
                     final String dobData = editTextDob.getText().toString();
                     final String secondCountryData = autoCompleteTextViewSecondCountry.getText().toString();
                     final String ethnicityData = editTextEthnicity.getText().toString();
-                    final String birthPlaceData  = editTextBirthPlace.getText().toString();
+                    final String birthPlaceData = editTextBirthPlace.getText().toString();
                     final String nationalityData = autoCompleteTextViewFirstCountry.getText().toString();
-
-                    SharedPreferences.Editor editor = sharedpreferencesOwnerCitizenship.edit();
-
-                    editor.putString(ownerDateofBirthKey, dobData);
-                    editor.putString(ownerCitizenshipTypeKey, citizenshipTypedata);
-                    editor.putString(ownerBirthPlaceKey, birthPlaceData);
-                    editor.putString(ownerNationalityKey,nationalityData);
-                    if (!ethnicityData.isEmpty()) {
-                        editor.putString(ownerEthnicityKey, ethnicityData);
-                    } else {
-                        editor.putString(ownerEthnicityKey, "NA");
-                    }
-
-                    if (!secondCountryData.isEmpty()) {
-                        editor.putString(ownerSecondCountryKey, secondCountryData);
-
-                    } else {
-                        editor.putString(ownerSecondCountryKey, "NA");
-                    }
-                    editor.commit();
 
 //                    private String nationalityType;
 //                    private String nationality;
@@ -176,13 +145,13 @@ public class CitizenshipDetailsFormFragment extends Fragment {
                         @Override
                         public void execute(Realm realm) {
 
-                            PersonMDL personMDL = realm.where(PersonMDL.class).findAllSorted("createdDate").last();
-                            personMDL.setNationalityType(citizenshipTypedata);
-                            personMDL.setNationality(nationalityData);
-                            personMDL.setDualCityzenship((secondCountryData.isEmpty()) ? "N/A" : secondCountryData);
-                            personMDL.setEthnicity((ethnicityData.isEmpty()) ? "N/A" : ethnicityData);
-                            personMDL.setBirthPlace(birthPlaceData);
-                            personMDL.setDateOfBirth(dobData);
+                            OwnerMDL ownerMDL = realm.where(OwnerMDL.class).findAllSorted("createdDate").last();
+                            ownerMDL.setNationalityType(citizenshipTypedata);
+                            ownerMDL.setNationality(nationalityData);
+                            ownerMDL.setDualCityzenship((secondCountryData.isEmpty()) ? "N/A" : secondCountryData);
+                            ownerMDL.setEthnicity((ethnicityData.isEmpty()) ? "N/A" : ethnicityData);
+                            ownerMDL.setBirthPlace(birthPlaceData);
+                            ownerMDL.setDateOfBirth(dobData);
                         }
                     }, new Realm.Transaction.OnSuccess() {
                         @Override
@@ -206,7 +175,6 @@ public class CitizenshipDetailsFormFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        sharedpreferencesOwnerCitizenship = this.getActivity().getSharedPreferences(PdataPreferences, Context.MODE_PRIVATE);
         autoCompleteTextViewFirstCountry = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextViewFirstCountry);
         autoCompleteTextViewSecondCountry = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextViewSecondCountry);
         spinnerTypeOfCitizenship = (Spinner) view.findViewById(R.id.spinnerCitizenshipType);
@@ -244,12 +212,6 @@ public class CitizenshipDetailsFormFragment extends Fragment {
         mListener = null;
     }
 
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     @Override
     public void onStop() {
         super.onStop();
@@ -264,5 +226,10 @@ public class CitizenshipDetailsFormFragment extends Fragment {
         super.onDestroy();
         mRealm.close();
 
+    }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }

@@ -1,7 +1,6 @@
 package com.steve.housing.views.fragment;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -29,7 +28,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.steve.housing.R;
-import com.steve.housing.models.PersonMDL;
+import com.steve.housing.models.OwnerMDL;
 import com.steve.housing.utils.GenUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -40,11 +39,6 @@ import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
-
-import static com.steve.housing.utils.Constants.IdDataPreferences;
-import static com.steve.housing.utils.Constants.idImageKey;
-import static com.steve.housing.utils.Constants.idTextKey;
-import static com.steve.housing.utils.Constants.idTypeKey;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,8 +51,10 @@ import static com.steve.housing.utils.Constants.idTypeKey;
 public class IdentificationCardFragment extends Fragment {
 
     private static final String TAG = IdentificationCardFragment.class.getSimpleName();
-
-
+    private static final int SELECT_FILE = 100;
+    private static final int REQUEST_CAMERA = 101;
+    private static final int PIC_CROP = 102;
+    SharedPreferences sharedpreferencesPersonalData;
     private ImageView imageId;
     private Spinner spinnerIdCard;
     private TextInputLayout idTIL;
@@ -68,16 +64,10 @@ public class IdentificationCardFragment extends Fragment {
     private boolean idErr, spinnerIdCardErr;
     private Realm mRealm;
     private RealmAsyncTask realmAsyncTask;
-    private static final int SELECT_FILE = 100;
-    private static final int REQUEST_CAMERA = 101;
-    private static final int PIC_CROP = 102;
     private Uri mPhotoURI;
     private String encodedImage = "";
     private OnFragmentInteractionListener mListener;
     private SharedPreferences sharedpreferencesOwnerID;
-
-
-    SharedPreferences sharedpreferencesPersonalData;
 
 
     public IdentificationCardFragment() {
@@ -176,22 +166,15 @@ public class IdentificationCardFragment extends Fragment {
 
                     String idData = idET.getText().toString();
 
-                    SharedPreferences.Editor editor = sharedpreferencesOwnerID.edit();
-
-                    editor.putString(idTextKey, idData);
-                    editor.putString(idTypeKey, idText);
-                    editor.putString(idImageKey, encodedImage);
-                    editor.commit();
-                    Toast.makeText(getContext(), "Thanks", Toast.LENGTH_LONG).show();
 
                     realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
 
-                            PersonMDL personMDL = realm.where(PersonMDL.class).findAllSorted("createdDate").last();
-                            personMDL.setIdentificationNumber(idText);
-                            personMDL.setIdentificationType(idType);
-                            personMDL.setIdentificationPicture(encodedImage);
+                            OwnerMDL ownerMDL = realm.where(OwnerMDL.class).findAllSorted("createdDate").last();
+                            ownerMDL.setIdentificationNumber(idText);
+                            ownerMDL.setIdentificationType(idType);
+                            ownerMDL.setIdentificationPicture(encodedImage);
                         }
                     }, new Realm.Transaction.OnSuccess() {
                         @Override
@@ -215,7 +198,7 @@ public class IdentificationCardFragment extends Fragment {
 //                        public void execute(Realm realm) {
 //
 //                            String id = UUID.randomUUID().toString();
-//                            PersonMDL personMDL = realm.createObject(PersonMDL.class, id);
+//                            OwnerMDL personMDL = realm.createObject(OwnerMDL.class, id);
 //
 //                            personMDL.setImagedata(encodedImage);
 //
@@ -263,12 +246,6 @@ public class IdentificationCardFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 
     private void galleryIntent() {
@@ -342,11 +319,9 @@ public class IdentificationCardFragment extends Fragment {
         idTIL = (TextInputLayout) view.findViewById(R.id.idTIL);
         fab = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonIdPick);
         idET.addTextChangedListener(new IdentificationCardFragment.MyTextWatcher(idET));
-        sharedpreferencesOwnerID = this.getActivity().getSharedPreferences(IdDataPreferences, Context.MODE_PRIVATE);
 
 
     }
-
 
     private void onCroppedFinished(Bitmap bitmap) {
 
@@ -364,6 +339,28 @@ public class IdentificationCardFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
+    }
+
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
     private class MyTextWatcher implements TextWatcher {
@@ -396,22 +393,5 @@ public class IdentificationCardFragment extends Fragment {
 
             }
         }
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
-            realmAsyncTask.cancel();
-
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mRealm.close();
-
     }
 }

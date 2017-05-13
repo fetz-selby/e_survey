@@ -3,7 +3,6 @@ package com.steve.housing.views.fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,7 +28,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.steve.housing.R;
-import com.steve.housing.models.PersonMDL;
+import com.steve.housing.models.OwnerMDL;
 import com.steve.housing.utils.GenUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -43,18 +42,13 @@ import java.util.UUID;
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
 
-import static com.steve.housing.utils.Constants.PdataPreferences;
-import static com.steve.housing.utils.Constants.disabilityKey;
-import static com.steve.housing.utils.Constants.firstNameKey;
-import static com.steve.housing.utils.Constants.lastNameKey;
-import static com.steve.housing.utils.Constants.maritalStatusKey;
-import static com.steve.housing.utils.Constants.otherNameKey;
-import static com.steve.housing.utils.Constants.profileImageKey;
-
 
 public class PersonalDetailsFormFragment extends Fragment {
 
     private static final String TAG = PersonalDetailsFormFragment.class.getSimpleName();
+    private static final int SELECT_FILE = 100;
+    private static final int REQUEST_CAMERA = 101;
+    private static final int PIC_CROP = 102;
     private ImageView imageProfile;
     private Spinner spinnerMaritalStatus;
     private Spinner spinnerTypeOfDisabilities;
@@ -65,13 +59,9 @@ public class PersonalDetailsFormFragment extends Fragment {
     private FloatingActionButton fab;
     private boolean firstnameErr, lastnameErr, othernameErr, maritalErr, disabilityErr;
     private Realm mRealm;
-    private static final int SELECT_FILE = 100;
-    private static final int REQUEST_CAMERA = 101;
-    private static final int PIC_CROP = 102;
     private Uri mPhotoURI;
     private String data;
     private String encodedImage = "";
-    SharedPreferences sharedpreferencesPersonalData;
     private RealmAsyncTask realmAsyncTask;
 
 
@@ -197,15 +187,6 @@ public class PersonalDetailsFormFragment extends Fragment {
                     final Date date = new Date();
 
 
-                    SharedPreferences.Editor editor = sharedpreferencesPersonalData.edit();
-
-                    editor.putString(firstNameKey, firstNameData);
-                    editor.putString(lastNameKey, lastNameData);
-                    editor.putString(otherNameKey, otherNameData);
-                    editor.putString(maritalStatusKey, maritalStatus);
-                    editor.putString(disabilityKey, disability);
-                    editor.putString(profileImageKey, encodedImage);
-                    editor.commit();
                     Toast.makeText(getContext(), "Thanks", Toast.LENGTH_LONG).show();
 
                     //Toast.makeText(getContext(), "No Error", Toast.LENGTH_LONG).show();
@@ -216,7 +197,7 @@ public class PersonalDetailsFormFragment extends Fragment {
 //                        public void execute(Realm realm) {
 //
 //                            String id = UUID.randomUUID().toString();
-//                            PersonMDL personMDL = realm.createObject(PersonMDL.class, id);
+//                            OwnerMDL personMDL = realm.createObject(OwnerMDL.class, id);
 //                            personMDL.setFirstname(firstnameET.getText().toString().trim());
 //                            personMDL.setLastname(lastnameET.getText().toString().trim());
 //                            personMDL.setOthername(othernameET.getText().toString().trim());
@@ -234,15 +215,15 @@ public class PersonalDetailsFormFragment extends Fragment {
                                                                         public void execute(Realm realm) {
 
                                                                             String id = UUID.randomUUID().toString();
-                                                                            PersonMDL personMDL = realm.createObject(PersonMDL.class, id);
+                                                                            OwnerMDL ownerMDL = realm.createObject(OwnerMDL.class, id);
                                                                             // personal data
-                                                                            personMDL.setFirstname(firstnameET.getText().toString().trim());
-                                                                            personMDL.setLastname(lastnameET.getText().toString().trim());
-                                                                            personMDL.setOthername(othernameET.getText().toString().trim());
-                                                                            personMDL.setMaritalStatus(maritalStatus);
-                                                                            personMDL.setDisability(disability);
-                                                                            personMDL.setOwnerPhoto(encodedImage);
-                                                                            personMDL.setCreatedDate(dateFormat.format(date));
+                                                                            ownerMDL.setFirstname(firstnameET.getText().toString().trim());
+                                                                            ownerMDL.setLastname(lastnameET.getText().toString().trim());
+                                                                            ownerMDL.setOthername(othernameET.getText().toString().trim());
+                                                                            ownerMDL.setMaritalStatus(maritalStatus);
+                                                                            ownerMDL.setDisability(disability);
+                                                                            ownerMDL.setOwnerPhoto(encodedImage);
+                                                                            ownerMDL.setCreatedDate(dateFormat.format(date));
                                                                         }
                                                                     }, new Realm.Transaction.OnSuccess() {
                                                                         @Override
@@ -384,8 +365,38 @@ public class PersonalDetailsFormFragment extends Fragment {
         firstnameET.addTextChangedListener(new MyTextWatcher(firstnameET));
         lastnameET.addTextChangedListener(new MyTextWatcher(lastnameET));
         othernameET.addTextChangedListener(new MyTextWatcher(othernameET));
-        sharedpreferencesPersonalData = this.getActivity().getSharedPreferences(PdataPreferences, Context.MODE_PRIVATE);
 
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+//        try {
+//            onPersonalDetailsDataSetListener = (OnPersonalDetailsDataSetListener) context;
+//        }catch (Exception e ){}
+
+
+    }
+
+//    public interface OnPersonalDetailsDataSetListener {
+//        public void setName(String name);
+//
+//    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
 
     }
 
@@ -425,36 +436,5 @@ public class PersonalDetailsFormFragment extends Fragment {
 
             }
         }
-    }
-
-//    public interface OnPersonalDetailsDataSetListener {
-//        public void setName(String name);
-//
-//    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        try {
-//            onPersonalDetailsDataSetListener = (OnPersonalDetailsDataSetListener) context;
-//        }catch (Exception e ){}
-
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
-            realmAsyncTask.cancel();
-
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mRealm.close();
-
     }
 }
