@@ -21,16 +21,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.steve.housing.R;
+import com.steve.housing.models.DistrictMDL;
 import com.steve.housing.models.GpsCoordinatesMDL;
 import com.steve.housing.models.LocationMDL;
 import com.steve.housing.models.PropertyMDL;
+import com.steve.housing.models.RegionMDL;
 import com.steve.housing.utils.GenUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -39,6 +45,7 @@ import fr.quentinklein.slt.LocationTracker;
 import fr.quentinklein.slt.TrackerSettings;
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
+import io.realm.RealmResults;
 
 
 public class PropertyFormExtraDetailsFormFragment extends Fragment implements LocationListener {
@@ -46,13 +53,16 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
     public static final int PERMISSION_ACCESS_COARSE_LOCATION = 99;
     float value;
     FloatingActionButton floatingActionButonPropertyExtra;
+    ArrayList<String> districtsData;
+    DistrictMDL districtMDL;
     private ProgressDialog dialog;
     private LocationManager mlocManager = null;
     private Context ctx;
     private ProgressBar gpsLoading = null;
     private Realm mRealm;
     private RealmAsyncTask realmAsyncTask;
-    private EditText editTextNumberOfUnits, editTextDistrict, editTextAddress, editTextCoordinates, editTextLandmark;
+    private EditText editTextNumberOfUnits, editTextAddress, editTextCoordinates, editTextLandmark;
+    private Spinner spinnerDistrict;
     private String numberofUnits, district, address;
     private float longitude, latitute;
     private FloatingActionButton floatingActionButtonCoordinates;
@@ -86,7 +96,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_property_form_extra_details_form, container, false);
         editTextAddress = (EditText) view.findViewById(R.id.editTextPropertyAddress);
-        editTextDistrict = (EditText) view.findViewById(R.id.editTextPropertyDistrict);
+        spinnerDistrict = (Spinner) view.findViewById(R.id.spinnerPropertyDistrict);
         editTextNumberOfUnits = (EditText) view.findViewById(R.id.editTextNumberOfUnits);
         editTextCoordinates = (EditText) view.findViewById(R.id.editTextPropertyCoordinates);
 //        editTextLandmark = (EditText) view.findViewById(R.id.editTextPropertyLandmark) ;
@@ -98,12 +108,30 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
 //        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         dialog = new ProgressDialog(getActivity());
 
+        districtsData = retrieveDistricts();
+
+        ArrayAdapter adapterDistrict = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, districtsData);
+        spinnerDistrict.setAdapter(adapterDistrict);
+        spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), "" + mRealm.where(DistrictMDL.class).equalTo("district", districtsData.get(position)).findFirst(), Toast.LENGTH_LONG).show();
+                districtMDL = mRealm.where(DistrictMDL.class).equalTo("district", districtsData.get(position)).findFirst();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         floatingActionButtonCoordinates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "loading", Toast.LENGTH_LONG).show();
-                getLocation();
+//                getLocation();
                 LocationTracker tracker = new LocationTracker(getContext(), new TrackerSettings()
                         .setUseGPS(true)
                         .setUseNetwork(true)
@@ -112,33 +140,6 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
                     public void onLocationFound(Location location) {
                         Toast.makeText(getContext(), "" + location.getLatitude() + "" + location.getLongitude(), Toast.LENGTH_LONG).show();
                         editTextCoordinates.setText("" + location.getLatitude() + "" + location.getLongitude());
-
-                        Geocoder geocoder;
-                        List<Address> addresses;
-                        geocoder = new Geocoder(getActivity(), Locale.getDefault());
-
-                        String strFullAddress = "N/A";
-
-                        try {
-                            addresses = geocoder.getFromLocation(location.getLongitude(), location.getLatitude(), 1);
-                            if (!addresses.isEmpty()) {
-                                String address = addresses.get(0).getAddressLine(0);
-                                String city = addresses.get(0).getLocality();
-                                String state = addresses.get(0).getAdminArea();
-                                String country = addresses.get(0).getCountryName();
-                                String postalCode = addresses.get(0).getPostalCode();
-                                String knownName = addresses.get(0).getFeatureName();
-
-                                strFullAddress = address +
-                                        ", " + city +
-                                        ",  " + state +
-                                        ", " + country;
-                                Toast.makeText(getContext(), strFullAddress, Toast.LENGTH_LONG).show();
-                            }
-
-                        } catch (java.io.IOException e) {
-                            Log.e("setGPSData", e.getMessage());
-                        }
 
                     }
 
@@ -180,7 +181,7 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
             public void onClick(final View v) {
                 numberofUnits = editTextNumberOfUnits.getText().toString();
 
-                district = editTextDistrict.getText().toString();
+//                /district = spinnerDistrict.getText().toString();
                 address = editTextAddress.getText().toString();
                 realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
                     @Override
@@ -191,13 +192,15 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
                         String id = UUID.randomUUID().toString();
                         String location_id = UUID.randomUUID().toString();
                         GpsCoordinatesMDL gpsCoordinatesMDL = realm.createObject(GpsCoordinatesMDL.class, id);
-                        LocationMDL locationMDL  = realm.createObject(LocationMDL.class, location_id);
+                        LocationMDL locationMDL = realm.createObject(LocationMDL.class, location_id);
                         propertyMDL.setFamilyUnit((numberofUnits.isEmpty()) ? "N/A" : numberofUnits);
 //                        propertyMDL.setDistrict((district.isEmpty()) ? "N/A" : district);
 //                        propertyMDL.setAgentContactCity((address.isEmpty()) ? "N/A" : address);
                         gpsCoordinatesMDL.setLongitude((longitude == 0) ? 0 : value);
                         gpsCoordinatesMDL.setLongitude((latitute == 0) ? 0 : value);
+                        locationMDL.setDistrictMDL(districtMDL);
 //                        locationMDL.setDistrictMDL();
+                        propertyMDL.setAddress(address);
                         locationMDL.setGps(gpsCoordinatesMDL);
                         propertyMDL.setLocationMDL(locationMDL);
 
@@ -439,6 +442,18 @@ public class PropertyFormExtraDetailsFormFragment extends Fragment implements Lo
 
         Log.d("setGPSData", "Latitude: " + coors[0]);
         Log.d("setGPSData", "Longitude: " + coors[1]);
+    }
+
+    public ArrayList<String> retrieveDistricts() {
+        ArrayList<String> regions = new ArrayList<>();
+
+        RealmResults<DistrictMDL> realmResults = mRealm.where(DistrictMDL.class).findAll();
+
+
+        for (DistrictMDL districtMDL : realmResults) {
+            regions.add(districtMDL.getDistrict());
+        }
+        return regions;
     }
 
     /**

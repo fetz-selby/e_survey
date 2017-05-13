@@ -17,13 +17,12 @@
         android:hint="@string/number_of_family_units_within_building_hint"
         android:inputType="number" />
 
-    <EditText
-        android:id="@+id/editTextPropertyDistrict"
+    <Spinner
+        android:id="@+id/spinnerPropertyDistrict"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="@string/district_hint"
         android:layout_below="@+id/editTextNumberOfUnits"
         android:layout_centerHorizontal="true" />
@@ -35,9 +34,9 @@
         android:ems="10"
         android:hint="@string/postal_address_int"
         android:inputType="textPostalAddress"
-        android:layout_above="@+id/editTextPropertyCoordinates"
-        android:layout_alignStart="@+id/editTextPropertyDistrict"
-        android:layout_marginBottom="14dp" />
+        android:layout_below="@+id/spinnerPropertyDistrict"
+        android:layout_alignStart="@+id/spinnerPropertyDistrict"
+        android:layout_marginTop="39dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButtonPropertyCoordinates"

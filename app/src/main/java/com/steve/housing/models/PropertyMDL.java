@@ -98,8 +98,17 @@ public class PropertyMDL extends RealmObject {
     private String partnershipName;
     private float partnershipPercentage;
     private String partnershipType;
+
+    public RealmList<OwnerMDL> getOwnerList() {
+        return ownerList;
+    }
+
+    public void setOwnerList(RealmList<OwnerMDL> ownerList) {
+        this.ownerList = ownerList;
+    }
+
     @SerializedName("owners")
-    private RealmList<OwnerMDL> ownerList;
+    public RealmList<OwnerMDL> ownerList;
     @SerializedName("propertyManager")
     private PropertyManagerMDL propertyManagerMDL;
 
@@ -252,13 +261,7 @@ public class PropertyMDL extends RealmObject {
         this.partnershipType = partnershipType;
     }
 
-    public RealmList<OwnerMDL> getOwnerList() {
-        return ownerList;
-    }
 
-    public void setOwnerList(RealmList<OwnerMDL> ownerList) {
-        this.ownerList = ownerList;
-    }
 
 
     public boolean isLandTrust() {

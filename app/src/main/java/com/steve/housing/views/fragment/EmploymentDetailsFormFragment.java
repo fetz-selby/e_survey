@@ -21,11 +21,15 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.steve.housing.R;
+import com.steve.housing.models.DistrictMDL;
 import com.steve.housing.models.OwnerMDL;
 import com.steve.housing.utils.GenUtils;
 
+import java.util.ArrayList;
+
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -301,5 +305,17 @@ public class EmploymentDetailsFormFragment extends Fragment {
 
             }
         }
+    }
+
+    public ArrayList<String> retrieveDistricts() {
+        ArrayList<String> regions = new ArrayList<>();
+
+        RealmResults<DistrictMDL> realmResults = mRealm.where(DistrictMDL.class).findAll();
+
+
+        for (DistrictMDL districtMDL : realmResults) {
+            regions.add(districtMDL.getDistrict());
+        }
+        return regions;
     }
 }

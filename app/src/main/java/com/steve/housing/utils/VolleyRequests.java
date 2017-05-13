@@ -46,7 +46,7 @@ public class VolleyRequests {
 
     public static final String TAG = VolleyRequests.class.getName();
     private Context context;
-    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
+    private static final int MY_SOCKET_TIMEOUT_MS = 50000;
 
 
     public VolleyRequests(Context ctx) {
@@ -62,6 +62,39 @@ public class VolleyRequests {
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callBack.onSuccess(response);
+                        callBack.onFinish();
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+                        callBack.onError(error);
+
+                    }
+                });
+        jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        // Access the RequestQueue through your singleton class.
+        MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
+
+    }
+
+    public void JsonPostObjRequest(String url, final VolleyJsonCallBack callBack) {
+
+        callBack.onStart();
+        Log.d(TAG,"Date Url: "+url);
+
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -142,6 +175,10 @@ public class VolleyRequests {
                 return headers;
             }
         };
+        jsonObjRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(context).addToRequestQueue(jsonObjRequest);
     }
 

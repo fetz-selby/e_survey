@@ -64,10 +64,10 @@ public class SplashScreenActivityFragment extends Fragment {
         if (checkDistricts().isEmpty() || checkRegions().isEmpty()) {
             getRegions();
             getDistricts();
-            Intent intent = new Intent(getActivity(), RealmSpinnerTrialActivity.class);
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
         } else {
-            Intent intent = new Intent(getActivity(), RealmSpinnerTrialActivity.class);
+            Intent intent = new Intent(getActivity(),HomeActivity.class);
             startActivity(intent);
         }
 

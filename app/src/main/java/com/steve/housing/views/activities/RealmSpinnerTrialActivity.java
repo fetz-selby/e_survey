@@ -50,7 +50,7 @@ public class RealmSpinnerTrialActivity extends AppCompatActivity {
 
 
         autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewDistricts);
-        districtsData = retrieveDistricts();
+        districtsData = retrieveOwners();
         ArrayAdapter adapterDistricts = new ArrayAdapter(this, android.R.layout.simple_list_item_1, districtsData);
         autoCompleteTextView.setAdapter(adapterDistricts);
         autoCompleteTextView.setThreshold(1);
@@ -63,7 +63,7 @@ public class RealmSpinnerTrialActivity extends AppCompatActivity {
         spinnerOwners.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(RealmSpinnerTrialActivity.this, "" + realm.where(RegionMDL.class).equalTo("region", regionsData.get(position)).findFirst(), Toast.LENGTH_LONG).show();
+                Toast.makeText(RealmSpinnerTrialActivity.this, "" + realm.where(OwnerMDL.class).equalTo("id", ownersData.get(position)).findFirst(), Toast.LENGTH_LONG).show();
                 OwnerMDL ownerMDL = realm.where(OwnerMDL.class).equalTo("id", ownersData.get(position)).findFirst();
 
             }
@@ -129,18 +129,6 @@ public class RealmSpinnerTrialActivity extends AppCompatActivity {
 
         for (OwnerMDL ownerMDL : realmResults) {
             regions.add(ownerMDL.getId());
-        }
-        return regions;
-    }
-
-    public ArrayList<String> retrieveDistricts() {
-        ArrayList<String> regions = new ArrayList<>();
-
-        RealmResults<DistrictMDL> realmResults = realm.where(DistrictMDL.class).findAll();
-
-
-        for (DistrictMDL districtMDL : realmResults) {
-            regions.add(districtMDL.getDistrict());
         }
         return regions;
     }
