@@ -12,13 +12,13 @@
     
     </style>      
     <div class="container">
-     <div class="row" id="map_container">
+     <div class="row" id="login_container">
         <div class="col-md-12">
           <login-element on-success="_onLoginSuccess"></login-element>
         </div>
       </div>
 
-      <div class="row" id="step_container" class="step2-container-style" style="display:none;">
+      <div class="row" id="app_container" class="step2-container-style" style="display:none;">
         <welcome-page-element id="step2"></welcome-page-element>
       </div>
        
@@ -36,8 +36,8 @@
        
       },
       _onLoginSuccess : function(){
-        $('#map_container').attr('style', 'display:none;');
-        $('#step_container').attr('style', 'display:block;');
+        $('#login_container').attr('style', 'display:none;');
+        $('#app_container').attr('style', 'display:block;');
       }
     
     });
