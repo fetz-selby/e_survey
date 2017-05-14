@@ -159,7 +159,11 @@ public class VolleyRequests {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        callBack.onSuccess(response);
+                        try {
+                            callBack.onSuccess(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         callBack.onFinish();
 
                     }
@@ -202,7 +206,7 @@ public class VolleyRequests {
 
     public interface VolleyPostCallBack {
 
-        void onSuccess(JSONObject result);
+        void onSuccess(JSONObject result) throws JSONException;
 
         void onError(VolleyError error);
 

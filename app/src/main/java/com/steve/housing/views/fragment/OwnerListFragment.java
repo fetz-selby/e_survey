@@ -52,7 +52,7 @@ public class OwnerListFragment extends Fragment {
 
 //        CategoryAdapter adapter = new CategoryAdapter(getActivity(),realm.where(PropertyMDL.class).findAllAsync(),true);
 //        ryvItems.setAdapter(adapter);
-        adapter = new OwnerListAdapter(realm.where(OwnerMDL.class).findAllAsync(),true);
+        adapter = new OwnerListAdapter(getContext(),realm.where(OwnerMDL.class).findAllAsync(),true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);

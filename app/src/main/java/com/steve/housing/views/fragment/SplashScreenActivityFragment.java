@@ -66,9 +66,11 @@ public class SplashScreenActivityFragment extends Fragment {
             getDistricts();
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
+            getActivity().finish();
         } else {
             Intent intent = new Intent(getActivity(),HomeActivity.class);
             startActivity(intent);
+            getActivity().finish();
         }
 
 
@@ -179,6 +181,22 @@ public class SplashScreenActivityFragment extends Fragment {
     private void initField(View view) {
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBarLoadData);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+
     }
 
 

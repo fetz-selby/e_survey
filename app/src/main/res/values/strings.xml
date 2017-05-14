@@ -115,4 +115,6 @@
     <string name="title_activity_owner_list">Owners</string>
     <string name="title_activity_property_details">PropertyDetailsActivity</string>
     <string name="title_activity_realm_spinner_trial">RealmSpinnerTrialActivity</string>
+    <string name="sync_text">Synced</string>
+    <string name="synced_txt">Synced</string>
 </resources>

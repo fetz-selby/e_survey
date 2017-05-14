@@ -1,5 +1,6 @@
 package com.steve.housing.views.adapters;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,8 +20,8 @@ import io.realm.RealmRecyclerViewAdapter;
  */
 
 public class OwnerListAdapter extends RealmRecyclerViewAdapter<OwnerMDL, OwnerListAdapter.OwnerListViewHolder> {
-    public OwnerListAdapter(@Nullable OrderedRealmCollection<OwnerMDL> data, boolean autoUpdate) {
-        super(data, autoUpdate);
+    public OwnerListAdapter(Context context , @Nullable OrderedRealmCollection<OwnerMDL> data, boolean autoUpdate) {
+        super(context,data, autoUpdate);
     }
 
     @Override

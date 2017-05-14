@@ -69,6 +69,8 @@ import io.realm.annotations.PrimaryKey;
 //        owners 			: [{ type: Schema.Types.ObjectId, ref: 'People' }],
 
 public class PropertyMDL extends RealmObject {
+    @SerializedName("owners")
+    public RealmList<OwnerMDL> ownerList;
     @PrimaryKey
     private String id;
     private String pins;
@@ -79,8 +81,6 @@ public class PropertyMDL extends RealmObject {
     private boolean registered;
     private String titleNumber;
     private String identureNumber;
-
-
     //        location		: {
 //        gps 		: { lat: Number, lng: Number },
 //        region 		: { type: Schema.Types.ObjectId, ref: 'Region' },
@@ -90,14 +90,26 @@ public class PropertyMDL extends RealmObject {
 //        },
     @SerializedName("location")
     private LocationMDL locationMDL;
-
-
     private String address;
     private String familyUnit;
     private String electricitySource;
     private String partnershipName;
     private float partnershipPercentage;
     private String partnershipType;
+    private UserMDL createdBy;
+    @SerializedName("propertyManager")
+    private PropertyManagerMDL propertyManagerMDL;
+    @SerializedName("agent")
+    private AgentPropertyMDL agentPropertyMDL;
+    @SerializedName("emergency")
+    private EmergencyContactMDL emergencyContactMDL;
+    private boolean landTrust;
+    private RealmList<TrustyModel> trusties;
+    private String createdDate;
+
+    public void setCreatedBy(UserMDL createdBy) {
+        this.createdBy = createdBy;
+    }
 
     public RealmList<OwnerMDL> getOwnerList() {
         return ownerList;
@@ -107,37 +119,12 @@ public class PropertyMDL extends RealmObject {
         this.ownerList = ownerList;
     }
 
-    @SerializedName("owners")
-    public RealmList<OwnerMDL> ownerList;
-    @SerializedName("propertyManager")
-    private PropertyManagerMDL propertyManagerMDL;
-
-
-    @SerializedName("agent")
-    private AgentPropertyMDL agentPropertyMDL;
-    @SerializedName("emergency")
-    private EmergencyContactMDL emergencyContactMDL;
-
-
-    private boolean landTrust;
-    private RealmList<TrustyModel> trusties;
-    private String createdBy;
-    private String createdDate;
-
     public String getCreatedDate() {
         return createdDate;
     }
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
     }
 
     public String getId() {
@@ -260,8 +247,6 @@ public class PropertyMDL extends RealmObject {
     public void setPartnershipType(String partnershipType) {
         this.partnershipType = partnershipType;
     }
-
-
 
 
     public boolean isLandTrust() {

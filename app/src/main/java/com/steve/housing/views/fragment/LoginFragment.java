@@ -20,27 +20,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.steve.housing.R;
+import com.steve.housing.models.UserMDL;
 import com.steve.housing.utils.Constants;
 import com.steve.housing.utils.GenUtils;
 import com.steve.housing.utils.VolleyRequests;
+import com.steve.housing.views.activities.HomeActivity;
 import com.steve.housing.views.activities.ViewPagerActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import io.realm.Realm;
-
-import static com.steve.housing.utils.Constants.REGION_URL;
+import io.realm.RealmAsyncTask;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -59,6 +71,7 @@ public class LoginFragment extends Fragment {
     private Button loginBtn;
     private boolean usernameError, passwordError;
     private ProgressBar mProgressBar;
+    private RealmAsyncTask realmAsyncTask;
 
     public LoginFragment() {
     }
@@ -113,7 +126,22 @@ public class LoginFragment extends Fragment {
                                     Map<String, String> params = new HashMap<String, String>();
                                     params.put("email", usernameET.getText().toString().trim());
                                     params.put("password", passwordET.getText().toString().trim());
+
                                     setUserlogin();
+
+                                    Gson gson = new GsonBuilder().create();
+
+//                                    JsonParser parser = new JsonParser();
+//                                    JsonObject obj = parser.parse(String.valueOf(result)).getAsJsonObject();
+
+//                                    Employee emp1 = gson.fromJson(fileData, Employee.class);
+                                    UserMDL userMDL = gson.fromJson(result.toString(), UserMDL.class);
+                                    // Open a transaction to store items into the realm
+                                    // Use copyToRealm() to convert the objects into proper RealmObjects managed by Realm.
+                                    mRealm.beginTransaction();
+                                    mRealm.copyToRealmOrUpdate(userMDL);
+                                    mRealm.commitTransaction();
+
                                 } else {
                                     msg("Username or password do not exist, try again");
                                 }
@@ -126,8 +154,24 @@ public class LoginFragment extends Fragment {
                         @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void onError(VolleyError error) {
-                            msg(error.getMessage());
+
                             Log.e("Shit", error.toString());
+                            String message = null;
+                            if (error instanceof NetworkError) {
+                                message = "Cannot connect to Internet...Please check your connection!";
+                            } else if (error instanceof ServerError) {
+                                message = "The server could not be found. Please try again after some time!!";
+                            } else if (error instanceof AuthFailureError) {
+                                message = "Cannot connect to Internet...Please check your connection!";
+                            } else if (error instanceof ParseError) {
+                                message = "Parsing error! Please try again after some time!!";
+                            } else if (error instanceof NoConnectionError) {
+                                message = "Cannot connect to Internet...Please check your connection!";
+                            } else if (error instanceof TimeoutError) {
+                                message = "Connection TimeOut! Please check your internet connection.";
+
+                            }
+                            msg(message);
                             mProgressBar.setVisibility(View.INVISIBLE);
                         }
 
@@ -141,8 +185,6 @@ public class LoginFragment extends Fragment {
                             mProgressBar.setVisibility(View.INVISIBLE);
                         }
                     });
-
-
 
 
                 }
@@ -162,6 +204,52 @@ public class LoginFragment extends Fragment {
 
         usernameET.addTextChangedListener(new LoginFragment.MyTextWatcher(usernameET));
         passwordET.addTextChangedListener(new LoginFragment.MyTextWatcher(passwordET));
+
+    }
+
+    public void setUserlogin() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(Constants.prefsLogin, true);
+        editor.apply();
+
+        Intent intent = new Intent(getActivity(), HomeActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+
+    }
+
+    private void msg(String content) {
+
+        try {
+            new MaterialDialog.Builder(getContext())
+                    .title("Sign In")
+                    .content(content)
+                    .positiveText("OK")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            // TODO
+
+                        }
+                    }).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (realmAsyncTask != null && !realmAsyncTask.isCancelled()) {
+            realmAsyncTask.cancel();
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
 
     }
 
@@ -195,37 +283,6 @@ public class LoginFragment extends Fragment {
                     break;
                 default:
             }
-        }
-    }
-
-    public void setUserlogin() {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean(Constants.prefsLogin, true);
-        editor.apply();
-
-        Intent intent = new Intent(getActivity(), ViewPagerActivity.class);
-        startActivity(intent);
-        getActivity().finish();
-
-    }
-
-
-    private void msg(String content) {
-
-        try {
-            new MaterialDialog.Builder(getContext())
-                    .title("Sign In")
-                    .content(content)
-                    .positiveText("OK")
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            // TODO
-
-                        }
-                    }).show();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

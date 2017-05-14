@@ -57,7 +57,7 @@ public class PropertyListActivity extends AppCompatActivity {
 
     private void setUpRecyclerView() {
 
-        final RealmResults<PropertyMDL> results = realm.where(PropertyMDL.class).findAll();
+        final RealmResults<PropertyMDL> results = realm.where(PropertyMDL.class).findAllSorted("createdDate");
         final List<PropertyMDL> categoryList = results;
 
 //        CategoryAdapter adapter = new CategoryAdapter(getActivity(),realm.where(PropertyMDL.class).findAllAsync(),true);

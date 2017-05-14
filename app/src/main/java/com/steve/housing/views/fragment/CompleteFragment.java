@@ -43,6 +43,7 @@ public class CompleteFragment extends Fragment {
     OwnerMDL ownerMDL;
     private OnFragmentInteractionListener mListener;
     private Spinner spinnerOwnerList;
+    private ProgressBar progressBar;
     private Realm mRealm;
     private RealmAsyncTask realmAsyncTask;
     private String id;
@@ -82,6 +83,7 @@ public class CompleteFragment extends Fragment {
         mRealm = Realm.getDefaultInstance();
         spinnerOwnerList = (Spinner) view.findViewById(R.id.spinnerOwnersList);
         buttonSubmit = (Button) view.findViewById(R.id.buttonSubmitData);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBarSyncToServer);
         ownersData = retrieveOwners();
 
         ArrayAdapter adapterOwner = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, ownersData);
@@ -158,43 +160,53 @@ public class CompleteFragment extends Fragment {
 
                     Log.d(TAG, jsonArray.toString() + " Size :" + jsonArray.length());
 
-
-                    Map<String, String> params = new HashMap<>();
-
-                    params.put("pins", propertyMDL.getPins());
-                    params.put("propertyType", propertyMDL.getPropertyType());
-                    params.put("classication", propertyMDL.getClassification());
-                    params.put("address", propertyMDL.getAddress());
-                    params.put("owners", jsonArray.toString());
-
-                    Log.d(TAG, "Params" + params.toString());
-
-                    mVolleyRequest.postData(Constants.DISTRICT_URL, params, new VolleyRequests.VolleyPostCallBack() {
-
-                        @Override
-                        public void onSuccess(JSONObject result) {
-                            Toast.makeText(getContext(), result.toString(), Toast.LENGTH_LONG).show();
-                            Log.d(TAG, "Results" + result.toString());
-
-                        }
-
-                        @Override
-                        public void onError(VolleyError error) {
-                            Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
-                            Log.d(TAG, error.toString().toString());
-
-                        }
-
-                        @Override
-                        public void onStart() {
-                            Toast.makeText(getContext(), "starting", Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onFinish() {
-
-                        }
-                    });
+//
+//                    Map<String, String> params = new HashMap<>();
+//
+//                    params.put("pins", propertyMDL.getPins());
+//                    params.put("propertyType", propertyMDL.getPropertyType());
+//                    params.put("classication", propertyMDL.getClassification());
+//                    params.put("address", propertyMDL.getAddress());
+//                    params.put("owners", jsonArray.toString());
+//                    params.put("electricitySource",propertyMDL.getElectricitySource());
+//
+//
+//
+//                    Log.d(TAG, "Params" + params.toString());
+//
+//                    mVolleyRequest.postData(Constants.PROPERTIES_URL, params, new VolleyRequests.VolleyPostCallBack() {
+//
+//                        @Override
+//                        public void onSuccess(JSONObject result) throws JSONException {
+//                            Toast.makeText(getContext(), result.toString(), Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getContext(), result.get("message").toString(), Toast.LENGTH_LONG).show();
+//                            result.getJSONObject("property").get("_id");
+//                            Log.d(TAG, "Results" + result.toString());
+//                            progressBar.setVisibility(View.INVISIBLE);
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(VolleyError error) {
+//                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+//                            Log.d(TAG, error.toString().toString());
+//                            progressBar.setVisibility(View.INVISIBLE);
+//
+//                        }
+//
+//                        @Override
+//                        public void onStart() {
+//                            Toast.makeText(getContext(), "starting", Toast.LENGTH_LONG).show();
+//                            progressBar.setVisibility(View.VISIBLE);
+//
+//                        }
+//
+//                        @Override
+//                        public void onFinish() {progressBar.setVisibility(View.INVISIBLE);
+//
+//
+//                        }
+//                    });
 
                 }
 
