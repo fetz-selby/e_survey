@@ -38,6 +38,16 @@ public class UserMDL extends RealmObject {
     @SerializedName("district")
     private DistrictMDL districtMDL;
 
+    public String getWebId() {
+        return webId;
+    }
+
+    public void setWebId(String webId) {
+        this.webId = webId;
+    }
+
+    private String webId;
+
 
     private String createdDate;
 

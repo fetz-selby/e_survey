@@ -36,7 +36,7 @@
         android:inputType="textPostalAddress"
         android:layout_below="@+id/spinnerPropertyDistrict"
         android:layout_alignStart="@+id/spinnerPropertyDistrict"
-        android:layout_marginTop="39dp" />
+        android:layout_marginTop="25dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButtonPropertyCoordinates"
@@ -51,14 +51,14 @@
 
     <EditText
         android:id="@+id/editTextPropertyCoordinates"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextPropertyAddress"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:ems="10"
-        android:inputType="text"
         android:hint="@string/coordinates_hint"
-        android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/editTextPropertyAddress"
-        android:layout_alignStart="@+id/editTextPropertyAddress" />
+        android:inputType="text" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButtonGetPropertyExtraDetails"
