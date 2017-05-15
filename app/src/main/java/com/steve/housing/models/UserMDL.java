@@ -29,14 +29,14 @@ public class UserMDL extends RealmObject {
     private String id;
     @SerializedName("firstname")
     private String firstName;
-    @SerializedName("lastname")
+    @SerializedName("surname")
     private String lastName;
     @SerializedName("email")
     private String email;
     @SerializedName("phone")
     private String phone;
     @SerializedName("district")
-    private DistrictMDL districtMDL;
+    private String districtMDL;
 
     public String getWebId() {
         return webId;
@@ -101,11 +101,11 @@ public class UserMDL extends RealmObject {
         this.phone = phone;
     }
 
-    public DistrictMDL getDistrictMDL() {
+    public String getDistrictMDL() {
         return districtMDL;
     }
 
-    public void setDistrictMDL(DistrictMDL districtMDL) {
+    public void setDistrictMDL(String districtMDL) {
         this.districtMDL = districtMDL;
     }
 }

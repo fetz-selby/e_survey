@@ -43,7 +43,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
@@ -120,42 +119,27 @@ public class LoginFragment extends Fragment {
                                     Map<String, String> params = new HashMap<String, String>();
                                     params.put("email", usernameET.getText().toString().trim());
                                     params.put("password", passwordET.getText().toString().trim());
+                                    final UserMDL userMDL = new UserMDL();
+
+                                    if (mRealm.where(UserMDL.class).findFirst().getId() != result.getJSONObject("agent").get("id").toString()) {
 
 
-//                                    Employee emp1 = gson.fromJson(fileData, Employee.class);
-//                                    UserMDL userMDL = gson.fromJson(obj.getAsJsonObject(), UserMDL.class);
+                                        try {
 
-                                    // Open a transaction to store items into the realm
-                                    // Use copyToRealm() to convert the objects into proper RealmObjects managed by Realm.
-//                                    mRealm.beginTransaction();
-////                                     userMDL.setFirstName(result.);
-////                                    UserMDL userMDL  = new UserMDL() ;
-////                                    userMDL.crear
-////
-////                                    userMDL.setFirstName(result.getJSONObject("agent").get("firstname").toString());
-////                                    userMDL.setId(result.getJSONObject("agent").get("id").toString());
-////                                    userMDL.setLastName(result.getJSONObject("agent").get("lastname").toString());
-////                                    userMDL.setEmail(result.getJSONObject("agent").get("email").toString());
-//
-//                                    mRealm.commitTransaction();
-
-
+                                            userMDL.setId(result.getJSONObject("agent").get("id").toString());
+                                            userMDL.setFirstName(result.getJSONObject("agent").get("firstname").toString());
+                                            userMDL.setLastName(result.getJSONObject("agent").get("surname").toString());
+                                            userMDL.setEmail(result.getJSONObject("agent").get("email").toString());
+                                            userMDL.setDistrictMDL(result.getJSONObject("agent").get("district").toString());
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    //
                                     realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
                                         @Override
                                         public void execute(Realm realm) {
-                                            String id = UUID.randomUUID().toString();
-
-                                            UserMDL userMDL = realm.createObject(UserMDL.class,id);
-                                            // personal data
-                                            try {
-
-                                                userMDL.setFirstName(result.getJSONObject("agent").get("firstname").toString());
-//                                                userMDL.setwebId(result.getJSONObject("agent").get("id").toString());
-                                                userMDL.setLastName(result.getJSONObject("agent").get("lastname").toString());
-                                                userMDL.setEmail(result.getJSONObject("agent").get("email").toString());
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
+                                            realm.copyToRealmOrUpdate(userMDL);
 
                                         }
                                     }, new Realm.Transaction.OnSuccess() {
@@ -172,6 +156,42 @@ public class LoginFragment extends Fragment {
 
                                         }
                                     });
+                                    setUserlogin();
+
+
+//
+//                                    realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+//                                        @Override
+//                                        public void execute(Realm realm) {
+//                                            String id = UUID.randomUUID().toString();
+//
+//                                            UserMDL userMDL = realm.createObject(UserMDL.class,id);
+//                                            // personal data
+//                                            try {
+//
+//                                                userMDL.setFirstName(result.getJSONObject("agent").get("firstname").toString());
+////                                                userMDL.setwebId(result.getJSONObject("agent").get("id").toString());
+//                                                userMDL.setLastName(result.getJSONObject("agent").get("lastname").toString());
+//                                                userMDL.setEmail(result.getJSONObject("agent").get("email").toString());
+//                                            } catch (JSONException e) {
+//                                                e.printStackTrace();
+//                                            }
+//
+//                                        }
+//                                    }, new Realm.Transaction.OnSuccess() {
+//                                        @Override
+//                                        public void onSuccess() {
+//                                            Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_SHORT).show();
+//
+//                                        }
+//                                    }, new Realm.Transaction.OnError() {
+//                                        @Override
+//                                        public void onError(Throwable error) {
+//                                            Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+//                                            Log.d("REal error", error.getMessage());
+//
+//                                        }
+//                                    });
 
 
                                 } else {

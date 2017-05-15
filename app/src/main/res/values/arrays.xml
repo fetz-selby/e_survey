@@ -7,7 +7,7 @@
     <string-array name="items_citizenship">
         <item>By Birth</item>
         <item>By Naturalization</item>
-        <item>Dual citizenship</item>
+        <item>Dual Citizenship</item>
     </string-array>
 
     <string-array name="items_id_type">

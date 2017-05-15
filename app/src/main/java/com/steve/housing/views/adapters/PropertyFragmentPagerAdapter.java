@@ -17,7 +17,7 @@ import com.steve.housing.views.fragment.PropertyManagerDetailsFormFragment;
 
 public class PropertyFragmentPagerAdapter extends SmartFragmentStatePagerAdapter {
 
-    private String tabTitles[] = new String[]{"Property Status", "Property Identitfication","Property IDs", "Property Manager","Emergency Contact","Agent Contact","Complete"};
+    private String tabTitles[] = new String[]{"Owner","Property Status", "Property Identitfication","Property IDs", "Property Manager","Emergency Contact","Agent Contact"};
 
     public PropertyFragmentPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -27,19 +27,20 @@ public class PropertyFragmentPagerAdapter extends SmartFragmentStatePagerAdapter
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new PropertyFormDetailsFragment();
+                return new CompleteFragment();
             case 1:
-                return new PropertyFormExtraDetailsFormFragment();
+                return new PropertyFormDetailsFragment();
             case 2:
-                return new PropertyIDsFormFragment();
+                return new PropertyFormExtraDetailsFormFragment();
             case 3:
-                return  new PropertyManagerDetailsFormFragment();
+                return new PropertyIDsFormFragment();
             case 4:
-                return  new  EmergencyDetailsFormFragment();
+                return  new PropertyManagerDetailsFormFragment();
             case 5:
-                return  new AgentPropertyDetailsFormFragment();
+                return  new  EmergencyDetailsFormFragment();
             case 6:
-                return  new CompleteFragment();
+                return  new AgentPropertyDetailsFormFragment();
+
 
         }
         return null;

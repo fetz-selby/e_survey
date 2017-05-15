@@ -39,7 +39,7 @@ public class LanguageDetailsFormFragment extends Fragment {
 
     public static final String ARG_PAGE = "ARG_PAGE";
     EditText editTextLanguageSpoken, editTextLanguageWritten, editTextLanguageSpokenWrtitten;
-    TextInputLayout textInputLayoutLanguageSpoken, textInputLayoutLanguageWritten, textInputLayoutLanguageSpokenWritten;
+    TextInputLayout textInputLayoutLanguageSpoken, textInputLayoutLanguageWritten;
     FloatingActionButton floatingActionButtonAddLanguage;
     SharedPreferences sharedpreferencesOwnerLanguageData;
     private OnFragmentInteractionListener mListener;
@@ -101,14 +101,12 @@ public class LanguageDetailsFormFragment extends Fragment {
             public void onClick(View v) {
                 languageSpokenError = GenUtils.isEmpty(editTextLanguageSpoken, textInputLayoutLanguageSpoken, "Language spoken required");
                 languageWrittenError = GenUtils.isEmpty(editTextLanguageWritten, textInputLayoutLanguageWritten, "Language written required");
-                languageSpokenWrittenError = GenUtils.isEmpty(editTextLanguageSpokenWrtitten, textInputLayoutLanguageSpokenWritten, "Language spoken and written required");
 
-                if (!(languageSpokenError && languageWrittenError && languageSpokenWrittenError)) {
+                if (!(languageSpokenError && languageWrittenError)) {
                     Toast.makeText(getContext(), "Error check Fields", Toast.LENGTH_LONG).show();
                 } else {
                     final String languageSpokenData = editTextLanguageSpoken.getText().toString();
                     final String languageWrittenData = editTextLanguageWritten.getText().toString();
-                    final String languageSpokenWrittenData = editTextLanguageSpokenWrtitten.getText().toString();
 
 
                     realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
@@ -118,7 +116,6 @@ public class LanguageDetailsFormFragment extends Fragment {
                             OwnerMDL ownerMDL = realm.where(OwnerMDL.class).findAllSorted("createdDate").last();
                             ownerMDL.setLanguageSpoken(languageSpokenData);
                             ownerMDL.setLanguageWritten(languageWrittenData);
-                            ownerMDL.setGetLanguageSpokenWritten(languageSpokenWrittenData);
 
                         }
                     }, new Realm.Transaction.OnSuccess() {
@@ -168,10 +165,8 @@ public class LanguageDetailsFormFragment extends Fragment {
     public void initFields(View view) {
         editTextLanguageSpoken = (EditText) view.findViewById(R.id.editTextLanguageSpoken);
         editTextLanguageWritten = (EditText) view.findViewById(R.id.editTextWriten);
-        editTextLanguageSpokenWrtitten = (EditText) view.findViewById(R.id.editTextSpokenWritten);
         floatingActionButtonAddLanguage = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonGetLanguages);
         textInputLayoutLanguageSpoken = (TextInputLayout) view.findViewById(R.id.textInputLayoutLanguageSpoken);
-        textInputLayoutLanguageSpokenWritten = (TextInputLayout) view.findViewById(R.id.textInputLayoutSpokenWritten);
         textInputLayoutLanguageWritten = (TextInputLayout) view.findViewById(R.id.textInputLayoutWritten);
 
     }
@@ -192,33 +187,6 @@ public class LanguageDetailsFormFragment extends Fragment {
 
     }
 
-//    private void addMoreLanguage(final LinearLayout linearLayoutForm, ImageButton imageButton) {
-//        imageButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                final RelativeLayout newView = (RelativeLayout) getActivity().getLayoutInflater()
-//                        .inflate(R.layout.row_detail, null);
-//                newView.setLayoutParams(new LinearLayout.
-//                        LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-//                        , ViewGroup.LayoutParams.WRAP_CONTENT));
-//                spinnerSecondaryLanguage = (Spinner) newView.findViewById(R.id.spinnerLanguage);
-//
-//                // Apply the adapter to the spinner
-//                spinnerSecondaryLanguage.setAdapter(adapter);
-//
-//                ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
-//                btnRemove.setOnClickListener(new View.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(View v) {
-//                        linearLayoutForm.removeView(newView);
-//                    }
-//                });
-//                linearLayoutForm.addView(newView);
-//            }
-//        });
-//    }
 
 
     /**
@@ -264,9 +232,7 @@ public class LanguageDetailsFormFragment extends Fragment {
                 case R.id.editTextWriten:
                     GenUtils.isEmpty(editTextLanguageWritten, textInputLayoutLanguageWritten, "Language written required");
                     break;
-                case R.id.editTextSpokenWritten:
-                    GenUtils.isEmpty(editTextLanguageSpokenWrtitten, textInputLayoutLanguageSpokenWritten, "Language written and written required");
-                    break;
+
 
                 default:
 

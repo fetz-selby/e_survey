@@ -20,8 +20,6 @@ import com.steve.housing.models.RegionMDL;
 import com.steve.housing.utils.Constants;
 import com.steve.housing.utils.VolleyRequests;
 import com.steve.housing.views.activities.HomeActivity;
-import com.steve.housing.views.activities.LoginActivity;
-import com.steve.housing.views.activities.RealmSpinnerTrialActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +66,7 @@ public class SplashScreenActivityFragment extends Fragment {
             startActivity(intent);
             getActivity().finish();
         } else {
-            Intent intent = new Intent(getActivity(),HomeActivity.class);
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
             getActivity().finish();
         }
