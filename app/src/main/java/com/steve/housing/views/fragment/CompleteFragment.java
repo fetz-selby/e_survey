@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
@@ -91,7 +92,8 @@ public class CompleteFragment extends Fragment {
         spinnerOwnerList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "" + mRealm.where(OwnerMDL.class).equalTo("id", ownersData.get(position)).findFirst(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "" + mRealm.where(OwnerMDL.class).equalTo("id", ownersData.get(position)).findFirst().getFirstname() +
+                                             " " + mRealm.where(OwnerMDL.class).equalTo("id", ownersData.get(position)).findFirst().getLastname()   , Toast.LENGTH_LONG).show();
 
                 realmKey = ownersData.get(position);
 
@@ -113,8 +115,11 @@ public class CompleteFragment extends Fragment {
                     @Override
                     public void execute(Realm realm) {
 
-                        PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
 
+                        // personal data
+
+                        String id = UUID.randomUUID().toString();
+                        PropertyMDL propertyMDL = realm.createObject(PropertyMDL.class, id);
                         ownerMDL = realm.where(OwnerMDL.class).equalTo("id", realmKey).findFirst();
 
                         propertyMDL.ownerList.add(ownerMDL);
@@ -126,7 +131,7 @@ public class CompleteFragment extends Fragment {
                 }, new Realm.Transaction.OnSuccess() {
                     @Override
                     public void onSuccess() {
-                        Toast.makeText(getContext(), "details updated", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Property Created", Toast.LENGTH_LONG).show();
 
 
                     }

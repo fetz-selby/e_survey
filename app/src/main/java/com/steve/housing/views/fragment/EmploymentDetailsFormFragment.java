@@ -1,6 +1,7 @@
 package com.steve.housing.views.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.steve.housing.R;
 import com.steve.housing.models.DistrictMDL;
 import com.steve.housing.models.OwnerMDL;
 import com.steve.housing.utils.GenUtils;
+import com.steve.housing.views.activities.HomeActivity;
 
 import java.util.ArrayList;
 
@@ -199,17 +201,17 @@ public class EmploymentDetailsFormFragment extends Fragment {
                     }, new Realm.Transaction.OnError() {
                         @Override
                         public void onError(Throwable error) {
-                            Toast.makeText(getContext(), "Contact update failed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), " update failed", Toast.LENGTH_LONG).show();
 
                         }
                     });
                     new MaterialDialog.Builder(getContext())
-                            .title("RESULT")
-                            .content(mRealm.where(OwnerMDL.class).findAll().toString())
+                            .title("Done")
+                            .content("Form completed")
                             .positiveText("OK")
-                            .negativeText("DISMISS")
                             .show();
-                    Toast.makeText(getContext(), mRealm.where(OwnerMDL.class).findAll().toString(), Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getActivity(), HomeActivity.class));
+//                    Toast.makeText(getContext(), mRealm.where(OwnerMDL.class).findAll().toString(), Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.steve.housing.R;
 import com.steve.housing.models.PropertyMDL;
+import com.steve.housing.utils.RecyclerViewEmptySupport;
 import com.steve.housing.views.adapters.PropertyListAdapter;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import io.realm.RealmResults;
 
 public class PropertyListActivity extends AppCompatActivity {
     private Realm realm;
-    private RecyclerView recyclerView;
+    private RecyclerViewEmptySupport recyclerView;
     private Menu menu;
     private PropertyListAdapter adapter;
     private RealmResults<PropertyMDL> propertyList;
@@ -51,7 +52,8 @@ public class PropertyListActivity extends AppCompatActivity {
         });
 
         realm = Realm.getDefaultInstance();
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewProperty);
+        recyclerView = (RecyclerViewEmptySupport) findViewById(R.id.recyclerViewProperty);
+        recyclerView.setEmptyView(findViewById(R.id.list_empty));
         setUpRecyclerView();
     }
 
@@ -64,6 +66,7 @@ public class PropertyListActivity extends AppCompatActivity {
 //        ryvItems.setAdapter(adapter);
         adapter = new  PropertyListAdapter(this, realm.where(PropertyMDL.class).findAllAsync(),true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));

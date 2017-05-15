@@ -204,9 +204,11 @@ public class PropertyFormDetailsFragment extends Fragment {
                 realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        String id = UUID.randomUUID().toString();
-                        PropertyMDL propertyMDL = realm.createObject(PropertyMDL.class, id);
+//                        String id = UUID.randomUUID().toString();
+//                        PropertyMDL propertyMDL = realm.createObject(PropertyMDL.class, id);
                         // personal data
+
+                        PropertyMDL propertyMDL = realm.where(PropertyMDL.class).findAllSorted("createdDate").last();
                         propertyMDL.setClassification(classification);
                         propertyMDL.setElectricitySource(electricitySource);
                         propertyMDL.setOwnershipType(ownershipStatus);

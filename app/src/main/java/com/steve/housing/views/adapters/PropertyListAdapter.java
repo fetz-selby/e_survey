@@ -119,7 +119,7 @@ public class PropertyListAdapter extends RealmRecyclerViewAdapter<PropertyMDL, P
 
                         @Override
                         public void onSuccess(JSONObject result) throws JSONException {
-                            Toast.makeText(context, result.toString(), Toast.LENGTH_LONG).show();
+//                            Toast.makeText(context, result.toString(), Toast.LENGTH_LONG).show();
                             Toast.makeText(context, result.get("message").toString(), Toast.LENGTH_LONG).show();
                             result.getJSONObject("property").get("_id");
                             Log.d(TAG, "Results" + result.toString());
