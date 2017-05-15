@@ -34,6 +34,16 @@
         app:layout_constraintLeft_toLeftOf="@+id/buttonOwnerList"
         app:layout_constraintRight_toRightOf="@+id/buttonOwnerList" />
 
+    <Button
+        android:id="@+id/buttonListProperties"
+        android:layout_width="200dp"
+        android:layout_height="55dp"
+        android:text="View Properties"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPropertyList"
+        app:layout_constraintLeft_toLeftOf="@+id/buttonPropertyList"
+        app:layout_constraintRight_toRightOf="@+id/buttonPropertyList"
+        app:layout_constraintHorizontal_bias="0.0" />
 
 
 </android.support.constraint.ConstraintLayout>

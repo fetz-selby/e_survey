@@ -42,6 +42,12 @@ public class HomeActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         RealmResults<UserMDL> userMDLs = realm.where(UserMDL.class).findAll();
         Log.d("Track", userMDLs.toString());
+        setDrawer(toolbar);
+//
+
+    }
+
+    private void setDrawer(Toolbar toolbar) {
         UserMDL userMDL = realm.where(UserMDL.class).findFirst();
         DistrictMDL districtMDL = realm.where(DistrictMDL.class).equalTo("id",userMDL.getDistrictMDL()).findFirst();
         String fullName = userMDL.getFirstName() + " " + userMDL.getLastName();
@@ -58,13 +64,6 @@ public class HomeActivity extends AppCompatActivity {
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(getResources().getDrawable(R.drawable.splash))
-
-//                .addProfiles(
-//                        new ProfileDrawerItem().withName("mklmlmlm")
-//                                .withEmail("dfsdfs@gmail.com")
-//                                .withIcon(getResources().getDrawable(R.drawable.profile))
-//                                .withTextColor(getResources().getColor(R.color.md_blue_200))
-//                )
                 .addProfiles(
                         new ProfileDrawerItem().withName(fullName)
                                 .withEmail(district)
@@ -124,8 +123,6 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 })
                 .build();
-//
-
     }
 
 //    @Override
